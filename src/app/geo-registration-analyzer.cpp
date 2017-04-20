@@ -16,16 +16,20 @@
 
 int main( int argc, char* argv[] )
 {
-    //  Build System Manager
-    System_Manager system_manager;
-
-    // Initialize
-    system_manager.Initialize( argc, argv);
-
+    
     //   Create the Qt Application
     QApplication app(argc, argv);
+    
+    // Load the Configuration
+
+    // Initialize System-Manager
+
+    // Initialize the Message Service
 
 
-    // Exit Application
+    // Create the Main Widget
+
+
+    // Start Application
     return app.exec();
 }
