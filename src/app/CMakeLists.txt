@@ -35,14 +35,18 @@ list( APPEND GEO_REGISTRATION_LIBRARIES
 set( GEO_REGISTRATION_SOURCES
      geo-registration-analyzer.cpp
      core/MessageService.cpp
+     core/System_Configuration.cpp
      core/System_Manager.cpp
+     gui/Main_Window.cpp
  )
 
 
 set( GEO_REGISTRATION_HEADERS
-    core/BlockingQueue.hpp
-    core/MessageService.hpp
-    core/System_Manager.hpp
+     core/BlockingQueue.hpp
+     core/MessageService.hpp
+     core/System_Configuration.hpp
+     core/System_Manager.hpp
+     gui/Main_Window.hpp
 )
 
 #------------------------------#
@@ -53,4 +57,6 @@ add_executable( geo-registration-analyzer
                 ${GEO_REGISTRATION_HEADERS} )
 
 target_link_libraries( geo-registration-analyzer
-                       ${GEO_REGISTRATION_LIBRARIES} )
+                       ${GEO_REGISTRATION_LIBRARIES}
+                       pthread )
+

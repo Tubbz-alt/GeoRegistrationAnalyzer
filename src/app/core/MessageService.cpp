@@ -65,8 +65,6 @@ void MessageService::Initialize()
 /****************************************/
 void MessageService::Finalize()
 {
-    // Log Entry
-    LOG("Start of Method");
 
     // Set status and close thread
     m_listen_state = false;
@@ -79,8 +77,6 @@ void MessageService::Finalize()
     // Note that we are no longer initialized
     m_is_initialized = false;
 
-    // Log Exit
-    LOG("End of Method");
 }
 
 /*******************************************/
