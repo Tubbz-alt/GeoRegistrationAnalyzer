@@ -7,7 +7,11 @@
 #define SYSTEM_MANAGER_HPP
 
 // C++ Libraries
+#include <memory>
 #include <string>
+
+// Project Libraries
+#include "System_Configuration.hpp"
 
 
 /**
@@ -16,12 +20,9 @@
 class System_Manager
 {
     public:
-
-        /**
-         * @brief Constructor
-        */
-        System_Manager();
-
+        
+        /// Pointer Type
+        typedef std::shared_ptr<System_Manager> ptr_t;
 
         /**
          * @brief Destructor
@@ -32,19 +33,48 @@ class System_Manager
         /**
          * @brief Initialize System Manager
         */
-        void Initialize( int argc, char* argv[] );
+        static void Initialize( System_Configuration::ptr_t system_configuration );
 
 
         /**
          * @brief Finalize System Manager
         */
-        void Finalize();
+        static void Finalize();
+        
 
+        /**
+         * @brief Get Instance.
+         */
+        static System_Manager::ptr_t Get_Instance();
 
     private:
+        
+        /**
+         * @brief Constructor
+        */
+        System_Manager( System_Configuration::ptr_t system_configuration);
+
+        /**
+         * @brief Deleted Copy Constructor
+         */
+        System_Manager( const System_Manager& rhs ) = delete;
+
+        /**
+         * @brief Get Reference.
+         */
+        static ptr_t& Get_Reference();
+
+        /**
+         * @brief Deleted Assignment operator
+         */
+        void operator = (const System_Manager& rhs ) = delete;
+
 
         /// Class Name
         std::string m_class_name;
+
+        /// System Configuration
+        System_Configuration::ptr_t m_system_configuration;
 
 }; // End of System_Manager Class
 

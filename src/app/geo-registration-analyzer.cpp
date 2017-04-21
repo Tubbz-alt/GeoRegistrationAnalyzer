@@ -26,6 +26,8 @@ int main( int argc, char* argv[] )
     auto system_configuration = std::make_shared<System_Configuration>(argc, argv);
 
     // Initialize System-Manager
+    System_Manager::Initialize( system_configuration );
+    auto system_manager = System_Manager::Get_Instance();
 
     // Initialize the Message Service
 

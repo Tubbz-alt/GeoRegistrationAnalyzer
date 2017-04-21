@@ -8,6 +8,11 @@
 #  Name Project
 project(geo-registration-analyzer)
 
+
+#  Use C++11
+set (CMAKE_CXX_STANDARD 11)
+
+
 #---------------------------#
 #-      Configure Qt5      -#
 #---------------------------#
