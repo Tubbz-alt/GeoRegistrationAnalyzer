@@ -34,11 +34,14 @@ list( APPEND GEO_REGISTRATION_LIBRARIES
 #-------------------------------#
 set( GEO_REGISTRATION_SOURCES
      geo-registration-analyzer.cpp
+     core/MessageService.cpp
      core/System_Manager.cpp
  )
 
 
 set( GEO_REGISTRATION_HEADERS
+    core/BlockingQueue.hpp
+    core/MessageService.hpp
     core/System_Manager.hpp
 )
 
