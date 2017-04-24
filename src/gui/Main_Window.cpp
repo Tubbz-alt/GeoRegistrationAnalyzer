@@ -15,6 +15,16 @@ Main_Window::Main_Window( System_Configuration::ptr_t sys_config,
    m_class_name("Main_Window"),
    m_sys_config(sys_config)
 {
+
+        // Initialize the GUI
+        Initialize_GUI();
 }
 
 
+/****************************************/
+/*          Inititalize the GUI         */
+/****************************************/
+void Main_Window::Initialize_GUI()
+{
+    
+}

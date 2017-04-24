@@ -8,6 +8,8 @@
 
 // Qt Libraries
 #include <QMainWindow>
+#include <QStackedWidget>
+
 
 // Project Libraries
 #include "../core/System_Configuration.hpp"
@@ -20,7 +22,7 @@ class Main_Window : public QMainWindow
     Q_OBJECT
 
     public:
-        
+
         /**
          * @brief Constructor
          */
@@ -28,13 +30,24 @@ class Main_Window : public QMainWindow
                      QWidget*                     parent = nullptr );
 
 
+    protected:
+
+        /**
+         * @brief Initialize GUI
+        */
+        void Initialize_GUI();
+
+
     private:
-        
+
         /// Class Name
         std::string m_class_name;
 
         /// System Configuration
         System_Configuration::ptr_t m_sys_config;
+
+        /// Main Widget Stack
+        QStackedWidget* m_stack_widget;
 
 
 }; // End of Main_Window Class
