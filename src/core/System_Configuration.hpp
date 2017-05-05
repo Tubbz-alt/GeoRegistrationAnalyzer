@@ -33,6 +33,28 @@ class System_Configuration
          */
         void Finalize();
 
+    protected:
+
+        /**
+         * @brief Parse the Command-Line
+         *
+         * @param[in] argv
+         * @param[in] argc
+         */
+        void Parse_Command_Line( int argc, char* argv[] );
+
+
+        /**
+         * @brief Parse the Configuration File
+         */
+        void Parse_Configuration_File();
+
+
+        /**
+         * @brief Generate the Configuration File
+         */
+        void Generate_Configuration_File();
+
 
     private:
 

@@ -29,10 +29,10 @@ find_package(Qt5WebEngineWidgets REQUIRED)
 find_package(Qt5WebSockets REQUIRED )
 
 list( APPEND GEO_REGISTRATION_LIBRARIES
-      Qt5::WebEngine
-      Qt5::WebEngineWidgets
-      Qt5::WebSockets
-      Qt5::Widgets)
+        Qt5::WebEngine
+        Qt5::WebEngineWidgets
+        Qt5::WebSockets
+        Qt5::Widgets)
 
 #-------------------------------#
 #-      Define our Sources     -#
@@ -48,6 +48,9 @@ set( GEO_REGISTRATION_SOURCES
         gui/MatchingBasePanel.cpp
         gui/ReferenceImageryPanel.cpp
         gui/TestImageryPanel.cpp
+        gui/GeoWidget/GeoViewerBase.cpp
+        gui/GeoWidget/GeoViewerGDAL.cpp
+        gui/GeoWidget/GeoViewerGoogle.cpp
         gui/Toolbar/ToolbarWidget.cpp
  )
 
@@ -63,6 +66,9 @@ set( GEO_REGISTRATION_HEADERS
         gui/MatchingBasePanel.hpp
         gui/ReferenceImageryPanel.hpp
         gui/TestImageryPanel.hpp
+        gui/GeoWidget/GeoViewerBase.hpp
+        gui/GeoWidget/GeoViewerGDAL.hpp
+        gui/GeoWidget/GeoViewerGoogle.hpp
         gui/Toolbar/ToolbarWidget.hpp
 )
 

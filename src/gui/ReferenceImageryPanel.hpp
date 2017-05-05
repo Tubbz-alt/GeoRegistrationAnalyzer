@@ -42,6 +42,9 @@ class ReferenceImageryPanel : public QWidget
         ///  System Configuration
         System_Configuration::ptr_t m_sys_config;
 
+        /// Imagery Widget
+
+
         /// Toolbar
 
 

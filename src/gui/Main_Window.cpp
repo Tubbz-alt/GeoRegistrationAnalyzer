@@ -5,6 +5,9 @@
  */
 #include "Main_Window.hpp"
 
+// C++ Libraries
+#include <iostream>
+
 
 /**********************************/
 /*          Constructor           */
@@ -37,4 +40,15 @@ void Main_Window::Initialize_GUI()
                                                      this));
 
     setCentralWidget( m_stack_widget );
+}
+
+
+/*************************************/
+/*          Close the GUI            */
+/*************************************/
+void Main_Window::closeEvent(QCloseEvent *event)
+{
+    // Clean up the System Configuration
+    m_sys_config->Finalize();
+
 }

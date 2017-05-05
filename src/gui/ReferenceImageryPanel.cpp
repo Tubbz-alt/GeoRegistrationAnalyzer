@@ -26,6 +26,6 @@ ReferenceImageryPanel::ReferenceImageryPanel( System_Configuration::ptr_t system
 /****************************************/
 void ReferenceImageryPanel::Initialize_GUI()
 {
-
+    // Check system configuration for default source data
 
 }

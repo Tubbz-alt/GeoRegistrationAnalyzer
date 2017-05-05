@@ -40,6 +40,13 @@ class Main_Window : public QMainWindow
         */
         void Initialize_GUI();
 
+        /**
+         * @brief Close the GUI
+         *
+         * @param event
+         */
+        void closeEvent(QCloseEvent *event);
+
 
     private:
 

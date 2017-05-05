@@ -13,3 +13,6 @@ project(GeoRegistrationAnalyzer)
 
 #  Add Project Dependencies
 add_subdirectory(src)
+
+#  Add Test Dependencies
+add_subdirectory(test)
