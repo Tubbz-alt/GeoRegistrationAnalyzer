@@ -26,5 +26,15 @@ Main_Window::Main_Window( System_Configuration::ptr_t sys_config,
 /****************************************/
 void Main_Window::Initialize_GUI()
 {
-    
+    // Create the stack Widgets
+    m_stack_widget = new QStackedWidget(this);
+
+    // Add each sub-widget
+    m_stack_widget->addWidget( new MatchingBasePanel(m_sys_config,
+                                                     this));
+
+    m_stack_widget->addWidget( new AnalysisBasePanel(m_sys_config,
+                                                     this));
+
+    setCentralWidget( m_stack_widget );
 }

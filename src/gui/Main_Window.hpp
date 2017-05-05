@@ -13,6 +13,9 @@
 
 // Project Libraries
 #include "../core/System_Configuration.hpp"
+#include "AnalysisBasePanel.hpp"
+#include "MatchingBasePanel.hpp"
+
 
 /**
  * @class Main_Window
@@ -48,7 +51,6 @@ class Main_Window : public QMainWindow
 
         /// Main Widget Stack
         QStackedWidget* m_stack_widget;
-
 
 }; // End of Main_Window Class
 

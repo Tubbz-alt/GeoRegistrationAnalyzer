@@ -38,22 +38,32 @@ list( APPEND GEO_REGISTRATION_LIBRARIES
 #-      Define our Sources     -#
 #-------------------------------#
 set( GEO_REGISTRATION_SOURCES
-     geo-registration-analyzer.cpp
-     core/Enumerations.cpp
-     core/MessageService.cpp
-     core/System_Configuration.cpp
-     core/System_Manager.cpp
-     gui/Main_Window.cpp
+        geo-registration-analyzer.cpp
+        core/Enumerations.cpp
+        core/MessageService.cpp
+        core/System_Configuration.cpp
+        core/System_Manager.cpp
+        gui/Main_Window.cpp
+        gui/AnalysisBasePanel.cpp
+        gui/MatchingBasePanel.cpp
+        gui/ReferenceImageryPanel.cpp
+        gui/TestImageryPanel.cpp
+        gui/Toolbar/ToolbarWidget.cpp
  )
 
 
 set( GEO_REGISTRATION_HEADERS
-     core/BlockingQueue.hpp
-     core/Enumerations.hpp
-     core/MessageService.hpp
-     core/System_Configuration.hpp
-     core/System_Manager.hpp
-     gui/Main_Window.hpp
+        core/BlockingQueue.hpp
+        core/Enumerations.hpp
+        core/MessageService.hpp
+        core/System_Configuration.hpp
+        core/System_Manager.hpp
+        gui/Main_Window.hpp
+        gui/AnalysisBasePanel.hpp
+        gui/MatchingBasePanel.hpp
+        gui/ReferenceImageryPanel.hpp
+        gui/TestImageryPanel.hpp
+        gui/Toolbar/ToolbarWidget.hpp
 )
 
 #------------------------------#
