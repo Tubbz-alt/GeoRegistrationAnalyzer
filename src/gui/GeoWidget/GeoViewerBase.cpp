@@ -17,3 +17,4 @@ GeoViewerBase::GeoViewerBase( System_Configuration::ptr_t sys_config,
 {
 
 }
+

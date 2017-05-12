@@ -11,6 +11,7 @@
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
+#include "GeoViewerBase.hpp"
 
 
 /**
@@ -32,13 +33,28 @@ class GeoWidget : public QWidget
 
     protected:
 
+        /**
+         * @brief Initialize GUI
+         */
+        void Initialize_GUI();
+
+
         /// System Configuration
         System_Configuration::ptr_t m_sys_config;
 
     private:
 
+        /**
+         * @brief Update Configuration
+         */
+        void Update_Configuration();
+
+
         /// Class Name
         std::string m_class_name;
+
+        /// GeoWidget Viewer
+        GeoViewerBase* m_geo_viewer;
 
 }; // End of GeoWidget Class
 
