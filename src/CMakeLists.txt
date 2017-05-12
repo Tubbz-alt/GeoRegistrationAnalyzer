@@ -48,8 +48,10 @@ list( APPEND GEO_REGISTRATION_LIBRARIES
 #-------------------------------#
 set( GEO_REGISTRATION_SOURCES
         geo-registration-analyzer.cpp
+        core/Config_Param.cpp
         core/Enumerations.cpp
         core/MessageService.cpp
+        core/System_Config_Utils.cpp
         core/System_Configuration.cpp
         core/System_Manager.cpp
         gui/Main_Window.cpp
@@ -61,13 +63,16 @@ set( GEO_REGISTRATION_SOURCES
         gui/GeoWidget/GeoViewerGDAL.cpp
         gui/GeoWidget/GeoViewerGoogle.cpp
         gui/Toolbar/ToolbarWidget.cpp
+        utility/String_Utilities.cpp
  )
 
 
 set( GEO_REGISTRATION_HEADERS
         core/BlockingQueue.hpp
+        core/Config_Param.hpp
         core/Enumerations.hpp
         core/MessageService.hpp
+        core/System_Config_Utils.hpp
         core/System_Configuration.hpp
         core/System_Manager.hpp
         gui/Main_Window.hpp
@@ -79,6 +84,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/GeoWidget/GeoViewerGDAL.hpp
         gui/GeoWidget/GeoViewerGoogle.hpp
         gui/Toolbar/ToolbarWidget.hpp
+        utility/String_Utilities.hpp
 )
 
 #------------------------------#

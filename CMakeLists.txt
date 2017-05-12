@@ -14,5 +14,8 @@ project(GeoRegistrationAnalyzer)
 #  Add Project Dependencies
 add_subdirectory(src)
 
+#  Add ThirdParty Dependencies
+add_subdirectory(thirdparty)
+
 #  Add Test Dependencies
 add_subdirectory(test)

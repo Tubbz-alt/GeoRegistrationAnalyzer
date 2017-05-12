@@ -4,34 +4,42 @@
 #
 
 
-#  Add Google Test
-include(ExternalProject)
-ExternalProject_Add(googletest
-        GIT_REPOSITORY    https://github.com/google/googletest.git
-        GIT_TAG           master
-        SOURCE_DIR        "${CMAKE_BINARY_DIR}/googletest-src"
-        BINARY_DIR        "${CMAKE_BINARY_DIR}/googletest-build"
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND     ""
-        INSTALL_COMMAND   ""
-        TEST_COMMAND      ""
-        )
 
+#   Add GoogleTest Binaries
 include_directories("${CMAKE_BINARY_DIR}/googletest-src/googletest/include")
 include_directories("../src")
+
+#-----------------------------#
+#-      Configure Boost      -#
+#-----------------------------#
+find_package( Boost
+        COMPONENTS
+        filesystem
+        REQUIRED )
+include_directories(${Boost_INCLUDE_DIRS})
+
 
 
 #   Define our Source Files
 set( UNIT_TEST_SOURCES
+        core/TEST_Config_Param.cpp
         core/TEST_System_Configuration.cpp)
 
 set( PROJECT_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/core/Config_Param.hpp
+        ${CMAKE_SOURCE_DIR}/src/core/Config_Param.cpp
+        ${CMAKE_SOURCE_DIR}/src/core/System_Config_Utils.hpp
+        ${CMAKE_SOURCE_DIR}/src/core/System_Config_Utils.cpp
         ${CMAKE_SOURCE_DIR}/src/core/System_Configuration.hpp
-        ${CMAKE_SOURCE_DIR}/src/core/System_Configuration.cpp )
+        ${CMAKE_SOURCE_DIR}/src/core/System_Configuration.cpp
+        ${CMAKE_SOURCE_DIR}/src/utility/String_Utilities.hpp
+        ${CMAKE_SOURCE_DIR}/src/utility/String_Utilities.cpp)
 
 add_executable( geo-registration-tests
                     ${UNIT_TEST_SOURCES}
                     ${PROJECT_SOURCES} )
 
 target_link_libraries( geo-registration-tests
-                        ${CMAKE_BINARY_DIR}/test/googletest/googlemock/libgmock_main.a)
+                        ${CMAKE_BINARY_DIR}/googletest-build/googlemock/libgmock_main.a
+                        pthread
+                        ${Boost_LIBRARIES} )

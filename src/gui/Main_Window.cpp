@@ -18,9 +18,11 @@ Main_Window::Main_Window( System_Configuration::ptr_t sys_config,
    m_class_name("Main_Window"),
    m_sys_config(sys_config)
 {
+    // Update Configuration
+    Update_Configuration();
 
-        // Initialize the GUI
-        Initialize_GUI();
+    // Initialize the GUI
+    Initialize_GUI();
 }
 
 
@@ -50,5 +52,14 @@ void Main_Window::closeEvent(QCloseEvent *event)
 {
     // Clean up the System Configuration
     m_sys_config->Finalize();
+
+}
+
+
+/*************************************/
+/*        Update Configuration       */
+/*************************************/
+void Main_Window::Update_Configuration()
+{
 
 }

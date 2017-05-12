@@ -50,6 +50,12 @@ class Main_Window : public QMainWindow
 
     private:
 
+        /**
+         * @brief Update Configuration
+         */
+        void Update_Configuration();
+
+
         /// Class Name
         std::string m_class_name;
 

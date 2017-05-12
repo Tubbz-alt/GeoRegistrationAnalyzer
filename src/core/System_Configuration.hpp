@@ -7,8 +7,12 @@
 #define SYSTEM_CONFIGURATION_HPP
 
 // C++ Libraries
+#include <map>
 #include <memory>
 #include <string>
+
+// Project Libraries
+#include "Config_Param.hpp"
 
 
 /**
@@ -33,7 +37,47 @@ class System_Configuration
          */
         void Finalize();
 
+
+        /**
+         * @brief Get the Config Pathname
+         * @return Config File Pathname
+         */
+        inline std::string Get_Configuration_File_Pathname()const{
+            return m_config_pathname;
+        }
+
+
+        /**
+         * @brief Get Configuration Params
+         *
+         * @return Config Params
+         */
+        inline Config_Param Get_Config_Params()const{
+            return m_config_params;
+        };
+
+
+        /**
+         * @brief Add Configuration Option
+         */
+        void Add_Config_Param( const std::string& key_name,
+                               const std::string& value,
+                               const std::string& comment = "" );
+
+
+        /**
+         * @brief Query Configuration Option
+         */
+        std::string Query_Config_Param( const std::string& key_name,
+                                        bool&              value_found )const;
+
     protected:
+
+        /**
+         * @brief Set Default Values
+         */
+        void Set_Defaults();
+
 
         /**
          * @brief Parse the Command-Line
@@ -66,6 +110,9 @@ class System_Configuration
 
         /// Configuration File Path
         std::string m_config_pathname;
+
+        /// Configuration Parameters
+        Config_Param m_config_params;
 
 
 }; // End of System_Configuration Class

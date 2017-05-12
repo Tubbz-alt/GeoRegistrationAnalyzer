@@ -18,6 +18,8 @@ System_Manager::System_Manager( System_Configuration::ptr_t system_configuration
   : m_class_name("System_Manager"),
     m_system_configuration(system_configuration)
 {
+    // Update Configuration
+    Update_Configuration();
 
 }
 
@@ -88,3 +90,11 @@ void System_Manager::Finalize()
     }
 }
 
+
+/******************************************/
+/*          Update Configuration          */
+/******************************************/
+void System_Manager::Update_Configuration()
+{
+    // Set any required config parameters
+}

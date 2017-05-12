@@ -47,6 +47,13 @@ class System_Manager
          */
         static System_Manager::ptr_t Get_Instance();
 
+    protected:
+
+        /**
+         * @brief Update Configuration
+         */
+        void Update_Configuration();
+
     private:
         
         /**
