@@ -8,6 +8,10 @@
 // C++ Libraries
 #include <iostream>
 
+// Qt Libraries
+#include <QAction>
+#include <QMenuBar>
+
 
 /**********************************/
 /*          Constructor           */
@@ -42,6 +46,10 @@ void Main_Window::Initialize_GUI()
                                                      this));
 
     setCentralWidget( m_stack_widget );
+
+
+    // Build the Menu Bar
+    Build_Menu();
 }
 
 
@@ -61,5 +69,23 @@ void Main_Window::closeEvent(QCloseEvent *event)
 /*************************************/
 void Main_Window::Update_Configuration()
 {
+
+}
+
+
+/****************************/
+/*        Build Menu        */
+/****************************/
+void Main_Window::Build_Menu()
+{
+    //  Create a File Menu
+    QMenu* fileMenu = menuBar()->addMenu(tr("File"));
+
+    // Add File Menu Action
+    QAction* quitAction = new QAction(tr("&Quit"), this);
+    quitAction->setShortcuts(QKeySequence::Quit);
+    quitAction->setStatusTip("Quit Program");
+    connect( quitAction, SIGNAL(triggered()), this, SLOT(close()));
+    fileMenu->addAction(quitAction);
 
 }

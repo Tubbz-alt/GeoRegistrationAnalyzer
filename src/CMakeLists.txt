@@ -55,10 +55,10 @@ set( GEO_REGISTRATION_SOURCES
         core/System_Configuration.cpp
         core/System_Manager.cpp
         gui/Main_Window.cpp
-        gui/AnalysisBasePanel.cpp
-        gui/MatchingBasePanel.cpp
-        gui/ReferenceImageryPanel.cpp
-        gui/TestImageryPanel.cpp
+        gui/Analysis/AnalysisBasePanel.cpp
+        gui/Matching/MatchingBasePanel.cpp
+        gui/Matching/ReferenceImageryPanel.cpp
+        gui/Matching/TestImageryPanel.cpp
         gui/GeoWidget/GeoViewerBase.cpp
         gui/GeoWidget/GeoViewerGDAL.cpp
         gui/GeoWidget/GeoViewerGoogle.cpp
@@ -76,10 +76,10 @@ set( GEO_REGISTRATION_HEADERS
         core/System_Configuration.hpp
         core/System_Manager.hpp
         gui/Main_Window.hpp
-        gui/AnalysisBasePanel.hpp
-        gui/MatchingBasePanel.hpp
-        gui/ReferenceImageryPanel.hpp
-        gui/TestImageryPanel.hpp
+        gui/Analysis/AnalysisBasePanel.hpp
+        gui/Matching/MatchingBasePanel.hpp
+        gui/Matching/ReferenceImageryPanel.hpp
+        gui/Matching/TestImageryPanel.hpp
         gui/GeoWidget/GeoViewerBase.hpp
         gui/GeoWidget/GeoViewerGDAL.hpp
         gui/GeoWidget/GeoViewerGoogle.hpp

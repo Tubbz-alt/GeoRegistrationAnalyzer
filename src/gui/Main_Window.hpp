@@ -13,8 +13,8 @@
 
 // Project Libraries
 #include "../core/System_Configuration.hpp"
-#include "AnalysisBasePanel.hpp"
-#include "MatchingBasePanel.hpp"
+#include "Analysis/AnalysisBasePanel.hpp"
+#include "Matching/MatchingBasePanel.hpp"
 
 
 /**
@@ -54,6 +54,12 @@ class Main_Window : public QMainWindow
          * @brief Update Configuration
          */
         void Update_Configuration();
+
+
+        /**
+         * @brief Build Menu
+         */
+        void Build_Menu();
 
 
         /// Class Name

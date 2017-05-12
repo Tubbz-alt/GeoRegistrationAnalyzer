@@ -11,10 +11,11 @@
 #include <QWidget>
 
 // Project Libraries
-#include "../core/System_Configuration.hpp"
+#include "../../core/System_Configuration.hpp"
 #include "ReferenceImageryPanel.hpp"
 #include "TestImageryPanel.hpp"
-#include "Toolbar/ToolbarWidget.hpp"
+#include "../Toolbar/ToolbarWidget.hpp"
+
 
 /**
  * @class MatchingBasePanel
