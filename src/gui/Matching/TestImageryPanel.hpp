@@ -11,6 +11,7 @@
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
+#include "../GeoWidget/GeoWidget.hpp"
 
 
 /**
@@ -41,6 +42,9 @@ class TestImageryPanel : public QWidget
 
         // System Configuration
         System_Configuration::ptr_t m_sys_config;
+
+        // GeoViewer
+        GeoWidget* m_geo_widget;
 
 }; // End of TestImageryPanel Class
 

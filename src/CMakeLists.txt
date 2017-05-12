@@ -62,6 +62,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/GeoWidget/GeoViewerBase.cpp
         gui/GeoWidget/GeoViewerGDAL.cpp
         gui/GeoWidget/GeoViewerGoogle.cpp
+        gui/GeoWidget/GeoWidget.cpp
         gui/Toolbar/ToolbarWidget.cpp
         utility/String_Utilities.cpp
  )
@@ -83,6 +84,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/GeoWidget/GeoViewerBase.hpp
         gui/GeoWidget/GeoViewerGDAL.hpp
         gui/GeoWidget/GeoViewerGoogle.hpp
+        gui/GeoWidget/GeoWidget.hpp
         gui/Toolbar/ToolbarWidget.hpp
         utility/String_Utilities.hpp
 )
