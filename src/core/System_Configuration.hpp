@@ -61,6 +61,12 @@ class System_Configuration
         /// Class Name
         std::string m_class_name;
 
+        /// Application Name
+        std::string m_application_name;
+
+        /// Configuration File Path
+        std::string m_config_pathname;
+
 
 }; // End of System_Configuration Class
 

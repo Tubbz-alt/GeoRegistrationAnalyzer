@@ -13,6 +13,15 @@ project(geo-registration-analyzer)
 set (CMAKE_CXX_STANDARD 11)
 
 
+#-----------------------------#
+#-      Configure Boost      -#
+#-----------------------------#
+find_package( Boost
+                COMPONENTS
+                    filesystem
+              REQUIRED )
+include_directories(${Boost_INCLUDE_DIRS})
+
 #---------------------------#
 #-      Configure Qt5      -#
 #---------------------------#
@@ -81,4 +90,5 @@ add_executable( geo-registration-analyzer
 
 target_link_libraries( geo-registration-analyzer
                        ${GEO_REGISTRATION_LIBRARIES}
-                       pthread )
+                       pthread
+                       ${Boost_LIBRARIES} )
