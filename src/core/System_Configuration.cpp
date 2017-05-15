@@ -7,6 +7,7 @@
 
 // C++ Libraries
 #include <deque>
+#include <fstream>
 #include <iostream>
 
 // Boost Libraries

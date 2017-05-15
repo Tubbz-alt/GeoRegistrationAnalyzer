@@ -8,6 +8,8 @@
 
 
 // Qt Libraries
+#include <QtWebEngine/QtWebEngine>
+#include <QtWebEngineWidgets/QWebEngineView>
 #include <QWidget>
 
 // Project Libraries
@@ -21,23 +23,33 @@
 class GeoViewerGoogle : public GeoViewerBase
 {
 
-public:
+    public:
 
-    /**
-     * @brief Constructor for Google Maps API viewer class
-     *
-     * @param sys_config
-     * @param parent
-     */
-    GeoViewerGoogle( System_Configuration::ptr_t sys_config,
-                     QWidget*                    parent = nullptr );
+        /**
+         * @brief Constructor for Google Maps API viewer class
+         *
+         * @param sys_config
+         * @param parent
+         */
+        GeoViewerGoogle( System_Configuration::ptr_t sys_config,
+                         QWidget*                    parent = nullptr );
 
 
+    protected:
 
-private:
+        /**
+         * @brief Initialize Gui
+         */
+        void Initialize_GUI();
 
-    /// Class Name
-    std::string m_class_name;
+
+    private:
+
+        /// Class Name
+        std::string m_class_name;
+
+        /// Web View
+        QWebEngineView* m_web_view;
 
 };
 

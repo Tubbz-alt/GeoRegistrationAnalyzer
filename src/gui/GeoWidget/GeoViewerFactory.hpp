@@ -1,0 +1,30 @@
+/**
+ * @file    GeoViewerFactory.hpp
+ * @author  Marvin Smith
+ * @date    5/12/2017
+ */
+#ifndef GUI_GEOWIDGET_GEOVIEWER_FACTORY_HPP
+#define GUI_GEOWIDGET_GEOVIEWER_FACTORY_HPP
+
+// Project Libraries
+#include "../../core/System_Configuration.hpp"
+#include "GeoViewerBase.hpp"
+
+
+/**
+ * @class GeoViewerFactory
+ */
+class GeoViewerFactory
+{
+    public:
+
+        /**
+         * @brief Create Geoviewer Widget
+         *
+         */
+        static GeoViewerBase*  Create( System_Configuration::ptr_t sys_config,
+                                       const std::string&          window_name );
+};
+
+
+#endif

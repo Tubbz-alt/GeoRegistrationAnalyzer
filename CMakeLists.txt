@@ -8,6 +8,10 @@
 #  Set Required CMake Version
 cmake_minimum_required( VERSION 3.0 )
 
+#  Use C++11
+set (CMAKE_CXX_STANDARD 14)
+
+
 #  Name Project
 project(GeoRegistrationAnalyzer)
 

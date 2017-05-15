@@ -15,7 +15,8 @@
 /**
  * @enum StringDirection
  */
-enum class StringDirection : uint8_t{
+enum class StringDirection : uint8_t
+{
     LEFT  = 1,
     RIGHT = 2,
     BOTH  = 3,

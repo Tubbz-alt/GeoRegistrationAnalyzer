@@ -5,12 +5,16 @@
 #    Purpose:  Application-Level CMake Build Script.
 #
 
+
+#  Set Required CMake Version
+cmake_minimum_required( VERSION 3.0 )
+
 #  Name Project
 project(geo-registration-analyzer)
 
 
 #  Use C++11
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14)
 
 
 #-----------------------------#
@@ -60,6 +64,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/Matching/ReferenceImageryPanel.cpp
         gui/Matching/TestImageryPanel.cpp
         gui/GeoWidget/GeoViewerBase.cpp
+        gui/GeoWidget/GeoViewerFactory.cpp
         gui/GeoWidget/GeoViewerGDAL.cpp
         gui/GeoWidget/GeoViewerGoogle.cpp
         gui/GeoWidget/GeoWidget.cpp
@@ -82,6 +87,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/Matching/ReferenceImageryPanel.hpp
         gui/Matching/TestImageryPanel.hpp
         gui/GeoWidget/GeoViewerBase.hpp
+        gui/GeoWidget/GeoViewerFactory.hpp
         gui/GeoWidget/GeoViewerGDAL.hpp
         gui/GeoWidget/GeoViewerGoogle.hpp
         gui/GeoWidget/GeoWidget.hpp

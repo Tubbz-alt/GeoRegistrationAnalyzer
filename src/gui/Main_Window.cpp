@@ -79,13 +79,21 @@ void Main_Window::Update_Configuration()
 void Main_Window::Build_Menu()
 {
     //  Create a File Menu
-    QMenu* fileMenu = menuBar()->addMenu(tr("File"));
+    QMenu* fileMenu = new QMenu(tr("File"));
 
-    // Add File Menu Action
+    // Create the Quit Action
+
+    // Add Quit Action
     QAction* quitAction = new QAction(tr("&Quit"), this);
     quitAction->setShortcuts(QKeySequence::Quit);
     quitAction->setStatusTip("Quit Program");
     connect( quitAction, SIGNAL(triggered()), this, SLOT(close()));
     fileMenu->addAction(quitAction);
+
+
+    // Add file menu
+    menuBar()->addMenu(fileMenu);
+
+
 
 }

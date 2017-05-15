@@ -12,6 +12,7 @@
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
 #include "GeoViewerBase.hpp"
+#include "GeoViewerFactory.hpp"
 
 
 /**
@@ -54,7 +55,7 @@ class GeoWidget : public QWidget
         std::string m_class_name;
 
         /// GeoWidget Viewer
-        GeoViewerBase* m_geo_viewer;
+        std::map<std::string,GeoViewerBase*> m_geo_viewers;
 
 }; // End of GeoWidget Class
 
