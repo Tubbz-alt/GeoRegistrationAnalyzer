@@ -50,6 +50,13 @@ void Main_Window::Initialize_GUI()
 
     // Build the Menu Bar
     Build_Menu();
+
+    // CHeck if System Configuration File Exists
+    if( !m_sys_config->Config_File_Path_Exists() )
+    {
+        // Create Dialog to ask if user wants to create new config
+
+    }
 }
 
 

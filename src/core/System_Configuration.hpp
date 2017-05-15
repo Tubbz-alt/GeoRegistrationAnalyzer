@@ -71,6 +71,12 @@ class System_Configuration
         std::string Query_Config_Param( const std::string& key_name,
                                         bool&              value_found )const;
 
+
+        /**
+         * @brief Check if File Exists
+         */
+        bool Config_File_Path_Exists()const;
+
     protected:
 
         /**

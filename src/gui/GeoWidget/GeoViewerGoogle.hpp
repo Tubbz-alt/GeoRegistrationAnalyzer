@@ -45,6 +45,8 @@ class GeoViewerGoogle : public GeoViewerBase
 
     private:
 
+        void Update_Configuration();
+
         /// Class Name
         std::string m_class_name;
 

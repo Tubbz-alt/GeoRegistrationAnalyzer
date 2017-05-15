@@ -74,6 +74,14 @@ std::string System_Configuration::Query_Config_Param(const std::string& key_name
 }
 
 
+/*************************************************/
+/*          Check if Config Path Exists          */
+/*************************************************/
+bool System_Configuration::Config_File_Path_Exists() const
+{
+    return bf::exists(bf::path(m_config_pathname));
+}
+
 /********************************************/
 /*            Set Default Values            */
 /********************************************/
