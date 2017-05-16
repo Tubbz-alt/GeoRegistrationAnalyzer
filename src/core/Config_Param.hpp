@@ -78,6 +78,17 @@ class Config_Param
 
 
         /**
+         * @brief Query KV Pair
+         *
+         * @param[in] key_name
+         */
+        void Query_KV_Pair( const std::string& key_name,
+                            std::string&       value_name,
+                            const std::string& default_value = "",
+                            const bool&        write_if_not_found = false );
+
+
+        /**
          * @brief Add Key/Value Pair
          *
          * @param[in] key_name

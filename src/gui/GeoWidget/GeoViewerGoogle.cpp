@@ -26,6 +26,21 @@ GeoViewerGoogle::GeoViewerGoogle( System_Configuration::ptr_t sys_config,
 }
 
 
+/*******************************/
+/*         Set the URL         */
+/*******************************/
+void GeoViewerGoogle::Set_URL( const std::string& url )
+{
+    std::string turl = url;
+    for( size_t i=0; i<turl.size(); i++ ){
+        if( turl[i] == '\\' ){
+            turl[i] = '/';
+        }
+    }
+    m_web_view->setUrl(QUrl(turl.c_str()));
+}
+
+
 /****************************************/
 /*          Initialize the GUI          */
 /****************************************/
@@ -35,9 +50,19 @@ void GeoViewerGoogle::Initialize_GUI()
     QVBoxLayout* main_layout = new QVBoxLayout();
 
     // Create Web Engine
+    m_web_view = new QWebEngineView(this);
+    main_layout->addWidget( m_web_view );
+
 
     // Set layout
     setLayout(main_layout);
+
+    // Set the initial URL
+    bool found;
+    std::string base_url = m_sys_config->Query_Config_Param("system.core.base_html_path",
+                                                            found,
+                                                            "file://localhost/",
+                                                            true );
 
 }
 

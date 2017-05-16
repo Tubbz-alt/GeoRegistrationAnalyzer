@@ -35,6 +35,14 @@ class GeoViewerGoogle : public GeoViewerBase
                          QWidget*                    parent = nullptr );
 
 
+        /**
+         * @brief Set the Page URL
+         *
+         * @param[in] url
+         */
+        virtual void Set_URL( const std::string& url );
+
+
     protected:
 
         /**

@@ -51,6 +51,62 @@ std::map<std::string,Config_Param> Config_Param::Get_Sub_Configs()const
 }
 
 
+/*************************************************/
+/*          Query for a Key/Value Pair           */
+/*************************************************/
+void Config_Param::Query_KV_Pair(const std::string& key_name,
+                                 std::string&       value_name,
+                                 const std::string& default_value,
+                                 const bool&        write_if_not_found)
+{
+    // split the key
+    std::vector<std::string> keys = Parse_Key(key_name);
+
+    // Initialize output to the default
+    value_name = default_value;
+
+
+    // Check if valid subkeys
+    if( keys.size() > 1 )
+    {
+        // Check if sub-config exists
+        if( m_sub_configs.find(keys[0]) != m_sub_configs.end() )
+        {
+            m_sub_configs[keys[0]].Query_KV_Pair(key_name,
+                                                 value_name,
+                                                 default_value,
+                                                 write_if_not_found);
+        }
+
+        // Otherwise, check if we need to add
+        else if( write_if_not_found )
+        {
+            std::string subkey = Pop_Key_Front(key_name);
+            m_sub_configs[keys[0]] = Config_Param(keys[0]);
+            m_sub_configs[keys[0]].Add_KV_Pair( subkey, value_name, "");
+        }
+
+
+    }
+
+    // Otherwise if the base key
+    else if( keys.size() == 1 )
+    {
+        // Check if the key exists
+        if( m_kv_pairs.find(keys[0]) != m_kv_pairs.end() )
+        {
+            m_kv_pairs[keys[0]] = value_name;
+        }
+
+        // Otherwise, check if we need to add
+        else if( write_if_not_found )
+        {
+            m_kv_pairs[keys[0]] = default_value;
+        }
+
+    }
+}
+
 /**************************************/
 /*          Add Key/Value Pair        */
 /**************************************/

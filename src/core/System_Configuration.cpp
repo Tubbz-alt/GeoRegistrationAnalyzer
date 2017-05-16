@@ -68,9 +68,21 @@ void System_Configuration::Add_Config_Param( const std::string&  key_name,
 /*      Query a Configuration Parameter     */
 /********************************************/
 std::string System_Configuration::Query_Config_Param(const std::string& key_name,
-                                                     bool&              value_found) const
+                                                     bool&              value_found,
+                                                     const std::string& default_value,
+                                                     const bool&        write_if_not_found )
 {
+    bool output_found = true;
+    std::string output;
+
     // Split Keyname
+    m_config_params.Query_KV_Pair(key_name, output, default_value, write_if_not_found);
+
+    if( output == default_value )
+    {
+        output_found = false;
+    }
+    return output;
 }
 
 
