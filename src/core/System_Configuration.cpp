@@ -94,6 +94,38 @@ bool System_Configuration::Config_File_Path_Exists() const
     return bf::exists(bf::path(m_config_pathname));
 }
 
+/**********************************************/
+/*         Generate a Configuration File      */
+/**********************************************/
+void System_Configuration::Generate_Configuration_File()
+{
+    // Check if the configuration file exists
+    if( m_config_pathname != "" )
+    {
+        // Open the file
+        std::cout << "Writing to " << m_config_pathname << std::endl;
+        std::ofstream fout;
+        fout.open(m_config_pathname.c_str());
+
+        fout << "#  Configuration file created at " << std::endl;
+        fout << "#" << std::endl;
+        fout << std::endl;
+
+        // Pass to Config Params Object
+        m_config_params.Write_Stream(fout);
+
+        // Close the file
+        fout.close();
+    }
+
+    // Otherwise, log error
+    else
+    {
+        std::cerr << "Config Path Is Not Valid" << std::endl;
+    }
+}
+
+
 /********************************************/
 /*            Set Default Values            */
 /********************************************/
@@ -101,6 +133,12 @@ void System_Configuration::Set_Defaults()
 {
     // Set default configuration path
     m_config_params = Generate_Default_Parameters();
+
+    // Set the default config file
+    m_config_params.Query_KV_Pair("system.config_pathname",
+                                  m_config_pathname,
+                                  "",
+                                  false);
 }
 
 
@@ -235,11 +273,4 @@ void System_Configuration::Parse_Configuration_File()
 }
 
 
-/**********************************************/
-/*         Generate a Configuration File      */
-/**********************************************/
-void System_Configuration::Generate_Configuration_File()
-{
-
-}
 

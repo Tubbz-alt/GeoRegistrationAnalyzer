@@ -19,6 +19,8 @@ TEST( System_Configuration, No_Config_File_Test_01 )
     Config_Param config_params, config_params2;
     std::map<std::string,Config_Param> sub_configs, sub_configs2;
 
+    std::string default_config = std::string(getenv("HOME")) + "/.geo-registration-analyzer.cfg";
+
     // Create configuration
     int argc = 1;
     char** argv = new char*[3];
@@ -28,7 +30,7 @@ TEST( System_Configuration, No_Config_File_Test_01 )
     System_Configuration config( argc, argv);
 
     // Get the Configuration File Pathname
-    ASSERT_EQ( config.Get_Configuration_File_Pathname(), "");
+    ASSERT_EQ( config.Get_Configuration_File_Pathname(), default_config);
 
     // Get the config object
     config_params = config.Get_Config_Params();

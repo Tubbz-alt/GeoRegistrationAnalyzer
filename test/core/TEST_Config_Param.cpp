@@ -100,3 +100,27 @@ TEST( Config_Param, Add_KV_Pair )
     ASSERT_EQ( kv_pairs["application_name"], "Add_KV_Pair");
     ASSERT_EQ( comment_pairs["application_name"], "# Unit Test Title");
 }
+
+
+/************************************************/
+/*          Test the Add KV Pair Method         */
+/************************************************/
+TEST( Config_Param, Query_KV_Pair )
+{
+    // Create config
+    Config_Param config;
+    std::map<std::string,Config_Param> sub_configs;
+    std::map<std::string,std::string>  kv_pairs;
+    std::map<std::string,std::string>  comment_pairs;
+
+    // Add Test Values
+    config.Add_KV_Pair( "system.logging.level", "trace", "# Logging Level");
+    config.Add_KV_Pair( "application_name", "Add_KV_Pair", "# Unit Test Title");
+
+
+    // Check the query results
+    std::string result_01;
+    config.Query_KV_Pair( "system.logging.level",
+                          result_01 );
+    ASSERT_EQ( result_01, "trace");
+}

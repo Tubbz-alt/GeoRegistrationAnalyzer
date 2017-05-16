@@ -18,7 +18,8 @@
 /********************************/
 Config_Param::Config_Param()
   : m_class_name("Config_Param"),
-    m_key_name("base")
+    m_key_name(""),
+    m_parent_key("")
 {
 
 }
@@ -26,9 +27,11 @@ Config_Param::Config_Param()
 /********************************/
 /*          Constructor         */
 /********************************/
-Config_Param::Config_Param(const std::string&  key_name )
+Config_Param::Config_Param(const std::string&  key_name,
+                           const std::string&  parent_key)
   : m_class_name("Config_Param"),
-    m_key_name(key_name)
+    m_key_name(key_name),
+    m_parent_key(parent_key)
 {
 }
 
@@ -59,6 +62,7 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
                                  const std::string& default_value,
                                  const bool&        write_if_not_found)
 {
+
     // split the key
     std::vector<std::string> keys = Parse_Key(key_name);
 
@@ -72,7 +76,8 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
         // Check if sub-config exists
         if( m_sub_configs.find(keys[0]) != m_sub_configs.end() )
         {
-            m_sub_configs[keys[0]].Query_KV_Pair(key_name,
+            std::string subkey = Pop_Key_Front(key_name);
+            m_sub_configs[keys[0]].Query_KV_Pair(subkey,
                                                  value_name,
                                                  default_value,
                                                  write_if_not_found);
@@ -82,7 +87,7 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
         else if( write_if_not_found )
         {
             std::string subkey = Pop_Key_Front(key_name);
-            m_sub_configs[keys[0]] = Config_Param(keys[0]);
+            m_sub_configs[keys[0]] = Config_Param(keys[0], m_key_name);
             m_sub_configs[keys[0]].Add_KV_Pair( subkey, value_name, "");
         }
 
@@ -95,7 +100,7 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
         // Check if the key exists
         if( m_kv_pairs.find(keys[0]) != m_kv_pairs.end() )
         {
-            m_kv_pairs[keys[0]] = value_name;
+            value_name = m_kv_pairs[keys[0]];
         }
 
         // Otherwise, check if we need to add
@@ -127,7 +132,7 @@ void Config_Param::Add_KV_Pair( const std::string&  key_name,
         if( m_sub_configs.find(keys[0]) == m_sub_configs.end())
         {
             // Add new key
-            m_sub_configs[keys[0]] = Config_Param( keys[0] );
+            m_sub_configs[keys[0]] = Config_Param( keys[0], m_key_name );
         }
 
         // Append Subkey
@@ -230,3 +235,44 @@ std::string Config_Param::ToString( const int& indent )const
 
     return sin.str();
 }
+
+/************************************/
+/*          Write to Stream         */
+/************************************/
+void Config_Param::Write_Stream(std::ostream &fout) const
+{
+    // Iterate over key/value pairs
+    for( auto p : m_kv_pairs )
+    {
+        // Find key and value
+        std::string key = p.first;
+        std::string val = p.second;
+        std::string full_key;
+        if( m_parent_key != "" ){
+            full_key = m_parent_key + "." + m_key_name + "." + key;
+        }
+        else
+        {
+            full_key = m_key_name + "." + key;
+        }
+
+        // Find the comment
+        std::string com;
+        if( m_comment_pairs.find(key) != m_comment_pairs.end())
+        {
+            com = m_comment_pairs.find(key)->second;
+        }
+
+        // Write to stream
+        fout << com << std::endl;
+        fout << full_key << " = " << val << std::endl;
+        fout << std::endl;
+    }
+
+    // Iterate over sub-configs
+    for( auto p : m_sub_configs )
+    {
+        p.second.Write_Stream(fout);
+    }
+}
+

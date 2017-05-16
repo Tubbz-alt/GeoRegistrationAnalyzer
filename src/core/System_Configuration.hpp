@@ -79,6 +79,13 @@ class System_Configuration
          */
         bool Config_File_Path_Exists()const;
 
+
+        /**
+         * @brief Generate the Configuration File
+         */
+        void Generate_Configuration_File();
+
+
     protected:
 
         /**
@@ -100,12 +107,6 @@ class System_Configuration
          * @brief Parse the Configuration File
          */
         void Parse_Configuration_File();
-
-
-        /**
-         * @brief Generate the Configuration File
-         */
-        void Generate_Configuration_File();
 
 
     private:

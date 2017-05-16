@@ -58,7 +58,9 @@ set( GEO_REGISTRATION_SOURCES
         core/System_Config_Utils.cpp
         core/System_Configuration.cpp
         core/System_Manager.cpp
+        gui/ConfigurationSaveDialog.cpp
         gui/Main_Window.cpp
+        gui/PreferenceDialog.cpp
         gui/Analysis/AnalysisBasePanel.cpp
         gui/Matching/MatchingBasePanel.cpp
         gui/Matching/ReferenceImageryPanel.cpp
@@ -81,7 +83,9 @@ set( GEO_REGISTRATION_HEADERS
         core/System_Config_Utils.hpp
         core/System_Configuration.hpp
         core/System_Manager.hpp
+        gui/ConfigurationSaveDialog.hpp
         gui/Main_Window.hpp
+        gui/PreferenceDialog.hpp
         gui/Analysis/AnalysisBasePanel.hpp
         gui/Matching/MatchingBasePanel.hpp
         gui/Matching/ReferenceImageryPanel.hpp

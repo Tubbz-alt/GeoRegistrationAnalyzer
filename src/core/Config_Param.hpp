@@ -8,6 +8,8 @@
 
 
 // C++ Libraries
+#include <fstream>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <string>
@@ -33,7 +35,8 @@ class Config_Param
         /**
          * @brief Parameterized Constructor
          */
-        Config_Param( const std::string& key_name );
+        Config_Param( const std::string& key_name,
+                      const std::string& parent_key = "" );
 
 
         /**
@@ -126,6 +129,12 @@ class Config_Param
         std::string ToString( const int& indent = 4 )const;
 
 
+        /**
+         * @brief Write to Stream
+         */
+        void Write_Stream( std::ostream& fout )const;
+
+
     private:
 
         /// Class Name
@@ -133,6 +142,9 @@ class Config_Param
 
         /// Key Name
         std::string m_key_name;
+
+        /// Parent Key Name
+        std::string m_parent_key;
 
         /// Sub-Configs
         std::map<std::string,Config_Param> m_sub_configs;

@@ -10,7 +10,11 @@
 
 // Qt Libraries
 #include <QAction>
+#include <QDialog>
 #include <QMenuBar>
+
+// Project Libraries
+#include "ConfigurationSaveDialog.hpp"
 
 
 /**********************************/
@@ -55,7 +59,20 @@ void Main_Window::Initialize_GUI()
     if( !m_sys_config->Config_File_Path_Exists() )
     {
         // Create Dialog to ask if user wants to create new config
+        ConfigurationSaveDialog* temp_dialog = new ConfigurationSaveDialog(m_sys_config,
+                                                                           this);
 
+        // Show the Dialog
+        temp_dialog->exec();
+
+        // Check the dialog
+        if( temp_dialog->Save_Configuration() )
+        {
+            m_sys_config->Generate_Configuration_File();
+        }
+        else
+        {
+        }
     }
 }
 
