@@ -22,6 +22,7 @@ Config_Param Generate_Default_Parameters()
 
     // Determine Default Config Pathname
     std::string config_pathname;
+    std::string icon_path = std::string(getenv("GEO_REGISTRATION_BASE")) + "/icons";
     if( os_name == "WINDOWS" )
     {
 

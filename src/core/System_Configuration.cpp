@@ -54,6 +54,22 @@ void System_Configuration::Finalize()
 }
 
 
+/****************************************/
+/*          Get the Icon Path           */
+/****************************************/
+std::string System_Configuration::Get_Icon_Path()
+{
+    
+    // query
+    std::string output;
+    m_config_params.Query_KV_Pair("system.icon_path",
+                                  output,
+                                  "",
+                                  false );
+    return output;
+}
+
+
 /*******************************************/
 /*      Add a Configuration Parameter      */
 /*******************************************/

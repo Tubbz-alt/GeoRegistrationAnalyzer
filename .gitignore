@@ -1,3 +1,5 @@
 release
 debug
 .idea
+.DS_Store
+releases

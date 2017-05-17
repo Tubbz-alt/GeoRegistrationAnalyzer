@@ -48,6 +48,12 @@ class System_Configuration
 
 
         /**
+         * @brief Get the Icon Path
+         */
+         std::string Get_Icon_Path();
+
+
+        /**
          * @brief Get Configuration Params
          *
          * @return Config Params
