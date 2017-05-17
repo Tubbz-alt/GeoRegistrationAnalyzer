@@ -65,6 +65,12 @@ class Config_Param
 
 
         /**
+         * @brief Get the Configuration List
+         */
+        std::map<std::string,std::string> Get_Config_List()const;
+
+
+        /**
          * @brief Get KV Pairs
          */
         inline std::map<std::string,std::string> Get_KV_Pairs()const{

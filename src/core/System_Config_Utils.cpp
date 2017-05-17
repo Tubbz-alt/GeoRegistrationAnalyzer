@@ -23,6 +23,7 @@ Config_Param Generate_Default_Parameters()
     // Determine Default Config Pathname
     std::string config_pathname;
     std::string icon_path = std::string(getenv("GEO_REGISTRATION_BASE")) + "/icons";
+    std::string html_path = "file://" + std::string(getenv("GEO_REGISTRATION_BASE")) + "/html";
     if( os_name == "WINDOWS" )
     {
 
@@ -31,6 +32,10 @@ Config_Param Generate_Default_Parameters()
     {
         config_pathname = home_dir + "/.geo-registration-analyzer.cfg";
     }
+
+    // Add HTML and Icon Path
+    output.Add_KV_Pair("system.core.html_path", html_path, "#  HTML Path");
+    output.Add_KV_Pair("system.core.icon_path", icon_path, "#  Icon Path");
 
     // Add default configuration path
     output.Add_KV_Pair("system.config_pathname", config_pathname, "# Default Configuration File Pathname.");

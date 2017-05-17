@@ -68,6 +68,42 @@ std::map<std::string,Config_Param> Config_Param::Get_Sub_Configs()const
 }
 
 
+/*************************************************************/
+/*              Get the Configuration File List              */
+/*************************************************************/
+std::map<std::string,std::string> Config_Param::Get_Config_List()const
+{
+    // Output maps
+    std::map<std::string,std::string> sub_output;
+    std::map<std::string,std::string> output;
+
+    // Get the parent key
+    std::string parent_key = Get_Parent_Key();
+    std::string full_key;
+
+    // Iterate over kv pairs
+    for( auto it = m_kv_pairs.begin(); it != m_kv_pairs.end(); it++ )
+    {
+        if( parent_key != "" ){
+            full_key = parent_key + ".";
+        }
+        full_key += it->first;
+        output[full_key] = it->second;
+    }
+
+    // Iterate over sub-configs
+    for( auto it = m_sub_configs.begin(); it != m_sub_configs.end(); it++ )
+    {
+        sub_output = it->second.Get_Config_List();
+
+        // Merge the lists
+        output.insert( sub_output.begin(), sub_output.end());
+    }
+
+    // return full list
+    return output;
+}
+
 /*************************************************/
 /*          Query for a Key/Value Pair           */
 /*************************************************/

@@ -32,7 +32,7 @@ Build_Software()
 
 
     #  Run Make
-    make
+    make -j${NUM_THREADS}
     ORES="$?"
     if [ ! "$ORES" == '0' ]; then
         echo "Make failed.  Code: $ORES"
@@ -77,6 +77,8 @@ Install_Software()
 BUILD_TYPE='release'
 RUN_MAKE=0
 RUN_INSTALL=0
+THREAD_FLAG=0
+NUM_THREADS=1
 
 
 #  Iterate over command-line argument
@@ -110,8 +112,18 @@ for ARG in "$@"; do
             BUILD_TYPE='release'
             ;;
 
+        #  Set thread flag
+        '-j')
+            THREAD_FLAG=1
+            ;;
+
         *)
-            echo "error: Unsupported flag ($ARG)"
+            if [ "$THREAD_FLAG" = '1' ]; then
+                THREAD_FLAG=0
+                NUM_THREADS=$ARG
+            else
+                echo "error: Unsupported flag ($ARG)"
+            fi
             ;;
     esac
 done

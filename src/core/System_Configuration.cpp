@@ -73,6 +73,22 @@ std::string System_Configuration::Get_Icon_Path()
 }
 
 
+/****************************************/
+/*          Get the Icon Path           */
+/****************************************/
+std::string System_Configuration::Get_HTML_Path()
+{
+
+    // query
+    std::string output;
+    m_config_params.Query_KV_Pair("system.html_path",
+                                  output,
+                                  "",
+                                  false );
+    return output;
+}
+
+
 /*******************************************/
 /*      Add a Configuration Parameter      */
 /*******************************************/
@@ -151,6 +167,15 @@ void System_Configuration::Generate_Configuration_File()
 bool System_Configuration::Has_Changed() const
 {
     return m_config_params.Has_Changed();
+}
+
+
+/*****************************************************/
+/*          Get the Configuration File List          */
+/*****************************************************/
+std::map<std::string,std::string> System_Configuration::Get_Config_List() const
+{
+    return m_config_params.Get_Config_List();
 }
 
 /********************************************/

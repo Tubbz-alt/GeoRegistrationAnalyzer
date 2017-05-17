@@ -54,6 +54,13 @@ class System_Configuration
 
 
         /**
+         * @brief Get the HTML Path
+         *
+         */
+        std::string Get_HTML_Path();
+
+
+        /**
          * @brief Get Configuration Params
          *
          * @return Config Params
@@ -98,6 +105,13 @@ class System_Configuration
          */
         bool Has_Changed()const;
 
+
+        /**
+         * @brief Get the configuration list
+         * @return
+         */
+        std::map<std::string,std::string> Get_Config_List()const;
+
     protected:
 
         /**
@@ -131,7 +145,6 @@ class System_Configuration
 
         /// Configuration File Path
         std::string m_config_pathname;
-
 
         /// Configuration Parameters
         Config_Param m_config_params;

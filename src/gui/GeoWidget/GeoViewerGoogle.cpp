@@ -59,11 +59,13 @@ void GeoViewerGoogle::Initialize_GUI()
 
     // Set the initial URL
     bool found;
-    std::string base_url = m_sys_config->Query_Config_Param("system.core.base_html_path",
+    std::string base_url = m_sys_config->Query_Config_Param("system.core.html_path",
                                                             found,
                                                             "file://localhost/",
                                                             true );
 
+    std::string url = base_url + "/google_maps.html";
+    m_web_view->setUrl(QUrl(url.c_str()));
 }
 
 /*************************************************/

@@ -5,6 +5,9 @@
 */
 #include "ReferenceImageryPanel.hpp"
 
+// Qt Libraries
+#include <QVBoxLayout>
+
 
 /***************************************/
 /*             Constructor             */
@@ -26,6 +29,16 @@ ReferenceImageryPanel::ReferenceImageryPanel( System_Configuration::ptr_t system
 /****************************************/
 void ReferenceImageryPanel::Initialize_GUI()
 {
-    // Check system configuration for default source data
+    // Create the main layout
+    QVBoxLayout* main_layout = new QVBoxLayout();
 
+    // Create the geo widget
+    m_geo_widget = new GeoWidget(m_sys_config, this);
+    main_layout->addWidget(m_geo_widget);
+
+    // Set the main layout
+    setLayout(main_layout);
+
+    // Check system configuration for default source data
+    setWindowTitle("Reference Imagery");
 }
