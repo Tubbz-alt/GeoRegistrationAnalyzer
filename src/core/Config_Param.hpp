@@ -51,6 +51,12 @@ class Config_Param
 
 
         /**
+         * @brief Get the Parent Key
+         * @return
+         */
+        std::string Get_Parent_Key()const;
+
+        /**
          * @brief Get Sub Config
          *
          * @return Get Sub Config

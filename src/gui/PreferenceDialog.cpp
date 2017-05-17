@@ -5,6 +5,10 @@
  */
 #include "PreferenceDialog.hpp"
 
+// Qt Libraries
+#include <QHBoxLayout>
+
+
 
 /*******************************/
 /*          Constructor        */
@@ -28,10 +32,22 @@ PreferenceDialog::PreferenceDialog(System_Configuration::ptr_t sys_config,
 /***********************************/
 void PreferenceDialog::Initialize_GUI()
 {
-    // Title of Pref Dialog
-    m_sys_config->Add_Config_Param("system.gui.preference_dialog.title",
-                                   "Application Preferences",
-                                   "#  Title of Dialog");
+    // Create the Main Layout
+    m_main_layout = new QVBoxLayout();
+
+    // Build the Title Widget
+    Build_Title_Widget();
+
+    // Build the Config Widget
+
+    // Set the layout
+    setLayout(m_main_layout);
+
+    bool val_found;
+    std::string title_val = m_sys_config->Query_Config_Param("system.gui.preference_dialog.title",
+                                                             val_found );
+
+    setWindowTitle(title_val.c_str());
 }
 
 
@@ -40,5 +56,30 @@ void PreferenceDialog::Initialize_GUI()
 /*************************************/
 void PreferenceDialog::Update_Configuration()
 {
+    // Title of Pref Dialog
+    m_sys_config->Add_Config_Param("system.gui.preference_dialog.title",
+                                   "Application Preferences",
+                                   "#  Title of Dialog",
+                                    false );
+}
 
+
+/*******************************************/
+/*          Build the Title Widget         */
+/*******************************************/
+void PreferenceDialog::Build_Title_Widget()
+{
+    // Create Title Widget
+    QWidget* title_widget = new QWidget(this);
+
+    // Create layout
+    QHBoxLayout* title_layout = new QHBoxLayout();
+
+
+
+    // Set the layout
+    title_widget->setLayout(title_layout);
+
+    // Add to main layout
+    m_main_layout->addWidget(title_widget);
 }

@@ -41,6 +41,23 @@ Config_Param::Config_Param(const std::string&  key_name,
 }
 
 
+/*******************************/
+/*      Get the Parent Key     */
+/*******************************/
+std::string Config_Param::Get_Parent_Key()const
+{
+    std::string parent_key;
+
+    if( m_parent_key != "")
+    {
+        parent_key = m_parent_key + ".";
+    }
+    parent_key += m_key_name;
+    return parent_key;
+}
+
+
+
 /****************************************/
 /*          Get the Sub Config          */
 /****************************************/
@@ -84,7 +101,7 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
         else if( write_if_not_found )
         {
             std::string subkey = Pop_Key_Front(key_name);
-            m_sub_configs[keys[0]] = Config_Param(keys[0], m_key_name, m_change_tracking);
+            m_sub_configs[keys[0]] = Config_Param(keys[0], Get_Parent_Key(), m_change_tracking);
             m_sub_configs[keys[0]].Add_KV_Pair( subkey, value_name, "");
 
             // Detect if we are tracking changes.
@@ -143,7 +160,7 @@ void Config_Param::Add_KV_Pair( const std::string&  key_name,
 
             // Add new key
             m_sub_configs[keys[0]] = Config_Param(keys[0],
-                                                  m_key_name,
+                                                  Get_Parent_Key(),
                                                   m_change_tracking);
 
             if( m_change_tracking )

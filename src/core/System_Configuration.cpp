@@ -25,8 +25,7 @@ namespace bf = boost::filesystem;
 /*              Constructor             */
 /****************************************/
 System_Configuration::System_Configuration( int argc, char* argv[] )
- : m_class_name("System_Configuration"),
-   m_change_tracking(false)
+ : m_class_name("System_Configuration")
 {
     // Set Default Values
     Set_Defaults();
@@ -42,8 +41,6 @@ System_Configuration::System_Configuration( int argc, char* argv[] )
     {
     }
 
-    // Start Tracking Changes Now
-    m_change_tracking = true;
     m_config_params.Set_Change_Tracking(true);
 
 }
@@ -285,7 +282,7 @@ void System_Configuration::Parse_Configuration_File()
                 else
                 {
                     // Add the kv pair
-                    Add_Config_Param( comps[0], comps[1], comment_str );
+                    Add_Config_Param( comps[0], comps[1], comment_str, false);
 
                     // Clear any comments
                     comment_set = false;

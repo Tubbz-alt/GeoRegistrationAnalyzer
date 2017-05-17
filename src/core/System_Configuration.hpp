@@ -132,8 +132,6 @@ class System_Configuration
         /// Configuration File Path
         std::string m_config_pathname;
 
-        /// Change Tracking State
-        bool m_change_tracking;
 
         /// Configuration Parameters
         Config_Param m_config_params;

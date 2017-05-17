@@ -8,6 +8,7 @@
 
 // Qt Libraries
 #include <QDialog>
+#include <QVBoxLayout>
 
 // Project Libraries
 #include "../core/System_Configuration.hpp"
@@ -43,8 +44,17 @@ class PreferenceDialog : public QDialog
         void Update_Configuration();
 
 
+        /**
+         * @brief Set the Title Widget
+         */
+        void Build_Title_Widget();
+
+
         /// Class Name
         std::string m_class_name;
+
+        /// Main Layout
+        QVBoxLayout* m_main_layout;
 
         /// System Configuration
         System_Configuration::ptr_t  m_sys_config;
