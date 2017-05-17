@@ -13,6 +13,7 @@
 // Boost Libraries
 #include <boost/filesystem.hpp>
 
+
 // Project Libraries
 #include "System_Config_Utils.hpp"
 #include "../utility/String_Utilities.hpp"
@@ -24,7 +25,8 @@ namespace bf = boost::filesystem;
 /*              Constructor             */
 /****************************************/
 System_Configuration::System_Configuration( int argc, char* argv[] )
- : m_class_name("System_Configuration")
+ : m_class_name("System_Configuration"),
+   m_change_tracking(false)
 {
     // Set Default Values
     Set_Defaults();
@@ -39,6 +41,10 @@ System_Configuration::System_Configuration( int argc, char* argv[] )
     else
     {
     }
+
+    // Start Tracking Changes Now
+    m_change_tracking = true;
+    m_config_params.Set_Change_Tracking(true);
 
 }
 
@@ -75,9 +81,10 @@ std::string System_Configuration::Get_Icon_Path()
 /*******************************************/
 void System_Configuration::Add_Config_Param( const std::string&  key_name,
                                              const std::string&  value,
-                                             const std::string&  comment)
+                                             const std::string&  comment,
+                                             const bool&         override )
 {
-    m_config_params.Add_KV_Pair(key_name, value, comment);
+    m_config_params.Add_KV_Pair(key_name, value, comment, override);
 }
 
 /********************************************/
@@ -141,6 +148,13 @@ void System_Configuration::Generate_Configuration_File()
     }
 }
 
+/**********************************************/
+/*          Check for config changes          */
+/**********************************************/
+bool System_Configuration::Has_Changed() const
+{
+    return m_config_params.Has_Changed();
+}
 
 /********************************************/
 /*            Set Default Values            */

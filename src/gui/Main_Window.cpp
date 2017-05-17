@@ -10,8 +10,8 @@
 
 // Qt Libraries
 #include <QAction>
-#include <QDialog>
 #include <QMenuBar>
+#include <QMessageBox>
 
 // Project Libraries
 #include "ConfigurationSaveDialog.hpp"
@@ -51,6 +51,9 @@ void Main_Window::Initialize_GUI()
 
     setCentralWidget( m_stack_widget );
 
+    // Build the Preference Dialog
+    m_pref_dialog = new PreferenceDialog(m_sys_config, this);
+
 
     // Build the Menu Bar
     Build_Menu();
@@ -82,6 +85,32 @@ void Main_Window::Initialize_GUI()
 /*************************************/
 void Main_Window::closeEvent(QCloseEvent *event)
 {
+
+    // Check if changes to the config were generated
+    if( m_sys_config->Has_Changed() )
+    {
+        std::cout << "Changes Detected" << std::endl;
+        QMessageBox::Icon window_icon = QMessageBox::Icon::Question;
+        QString window_title = "System Configuration Changed";
+        QString window_text = "Changes were detected in the system config.\nWould you like to update the config file?";
+        QMessageBox::StandardButtons window_buttons = QMessageBox::StandardButton::Save | QMessageBox::StandardButton::Discard;
+
+        QMessageBox* box = new QMessageBox( window_icon,
+                                            window_title,
+                                            window_text,
+                                            window_buttons );
+
+        int ret = box->exec();
+        if( ret == QMessageBox::StandardButton::Save )
+        {
+            m_sys_config->Generate_Configuration_File();
+        }
+    }
+    else
+    {
+        std::cout << "No Changes Detected" << std::endl;
+    }
+
     // Clean up the System Configuration
     m_sys_config->Finalize();
 
@@ -105,7 +134,12 @@ void Main_Window::Build_Menu()
     //  Create a File Menu
     QMenu* fileMenu = new QMenu(tr("File"));
 
-    // Create the Quit Action
+    // Create the Preferences Action
+    QAction* prefAction = new QAction(tr("&Preferences"), this);
+    prefAction->setStatusTip("View/Modify Application Preferences");
+    connect(prefAction, SIGNAL(triggered()), m_pref_dialog, SLOT(show()));
+    fileMenu->addAction(prefAction);
+
 
     // Add Quit Action
     QAction* quitAction = new QAction(tr("&Quit"), this);
@@ -113,7 +147,6 @@ void Main_Window::Build_Menu()
     quitAction->setStatusTip("Quit Program");
     connect( quitAction, SIGNAL(triggered()), this, SLOT(close()));
     fileMenu->addAction(quitAction);
-
 
     // Add file menu
     menuBar()->addMenu(fileMenu);

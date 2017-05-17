@@ -13,6 +13,7 @@
 
 // Project Libraries
 #include "../core/System_Configuration.hpp"
+#include "PreferenceDialog.hpp"
 #include "Analysis/AnalysisBasePanel.hpp"
 #include "Matching/MatchingBasePanel.hpp"
 
@@ -70,6 +71,9 @@ class Main_Window : public QMainWindow
 
         /// Main Widget Stack
         QStackedWidget* m_stack_widget;
+
+        /// Preferences Dialog
+        PreferenceDialog* m_pref_dialog;
 
 }; // End of Main_Window Class
 

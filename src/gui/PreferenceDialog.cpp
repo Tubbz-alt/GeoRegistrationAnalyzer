@@ -28,7 +28,10 @@ PreferenceDialog::PreferenceDialog(System_Configuration::ptr_t sys_config,
 /***********************************/
 void PreferenceDialog::Initialize_GUI()
 {
-
+    // Title of Pref Dialog
+    m_sys_config->Add_Config_Param("system.gui.preference_dialog.title",
+                                   "Application Preferences",
+                                   "#  Title of Dialog");
 }
 
 

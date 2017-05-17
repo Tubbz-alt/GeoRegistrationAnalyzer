@@ -9,6 +9,7 @@
 #include <boost/algorithm/string.hpp>
 
 // C++ Libraries
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 
@@ -19,30 +20,26 @@
 Config_Param::Config_Param()
   : m_class_name("Config_Param"),
     m_key_name(""),
-    m_parent_key("")
+    m_parent_key(""),
+    m_change_tracking(false),
+    m_has_changed(false)
 {
-
 }
 
 /********************************/
 /*          Constructor         */
 /********************************/
 Config_Param::Config_Param(const std::string&  key_name,
-                           const std::string&  parent_key)
+                           const std::string&  parent_key,
+                           const bool&         change_tracking )
   : m_class_name("Config_Param"),
     m_key_name(key_name),
-    m_parent_key(parent_key)
+    m_parent_key(parent_key),
+    m_change_tracking(change_tracking),
+    m_has_changed(false)
 {
 }
 
-
-/***************************************/
-/*          Get the Value Name         */
-/***************************************/
-std::string Config_Param::Get_Value_Name() const
-{
-    // Check actual value name
-}
 
 /****************************************/
 /*          Get the Sub Config          */
@@ -87,8 +84,14 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
         else if( write_if_not_found )
         {
             std::string subkey = Pop_Key_Front(key_name);
-            m_sub_configs[keys[0]] = Config_Param(keys[0], m_key_name);
+            m_sub_configs[keys[0]] = Config_Param(keys[0], m_key_name, m_change_tracking);
             m_sub_configs[keys[0]].Add_KV_Pair( subkey, value_name, "");
+
+            // Detect if we are tracking changes.
+            if( m_change_tracking )
+            {
+                m_has_changed = true;
+            }
         }
 
 
@@ -107,6 +110,11 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
         else if( write_if_not_found )
         {
             m_kv_pairs[keys[0]] = default_value;
+
+            if( m_change_tracking )
+            {
+                m_has_changed = true;
+            }
         }
 
     }
@@ -117,35 +125,73 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
 /**************************************/
 void Config_Param::Add_KV_Pair( const std::string&  key_name,
                                 const std::string&  value_name,
-                                const std::string&  comment_name )
+                                const std::string&  comment_name,
+                                const bool&         override )
 {
     // Parse Key
     std::vector<std::string> keys = Parse_Key(key_name);
 
     // Check if valid subkeys
-    if( keys.size() > 1 )
+    if (keys.size() > 1)
     {
         // Pop the keyname
         std::string subkey = Pop_Key_Front(key_name);
 
         // Make sure the key exists, if not, add
-        if( m_sub_configs.find(keys[0]) == m_sub_configs.end())
+        if (m_sub_configs.find(keys[0]) == m_sub_configs.end())
         {
+
             // Add new key
-            m_sub_configs[keys[0]] = Config_Param( keys[0], m_key_name );
+            m_sub_configs[keys[0]] = Config_Param(keys[0],
+                                                  m_key_name,
+                                                  m_change_tracking);
+
+            if( m_change_tracking )
+            {
+                m_has_changed = true;
+            }
         }
 
         // Append Subkey
-        m_sub_configs[keys[0]].Add_KV_Pair( subkey, value_name, comment_name);
+        m_sub_configs[keys[0]].Add_KV_Pair(subkey,
+                                           value_name,
+                                           comment_name,
+                                           override);
     }
 
     // Check if one valid key
-    else if( keys.size() == 1 )
+    else if (keys.size() == 1)
     {
-        m_kv_pairs[keys[0]] = value_name;
-        m_comment_pairs[keys[0]] = comment_name;
+        // Check if key exists
+        if (m_kv_pairs.find(keys[0]) != m_kv_pairs.end())
+        {
+            if (override)
+            {
+                m_kv_pairs[keys[0]] = value_name;
+                m_comment_pairs[keys[0]] = comment_name;
+
+
+                if (m_change_tracking) {
+                    m_has_changed = true;
+                }
+            }
+
+        }
+
+        // If no matching key is found
+        else
+        {
+            m_kv_pairs[keys[0]] = value_name;
+            m_comment_pairs[keys[0]] = comment_name;
+
+            if( m_change_tracking )
+            {
+                m_has_changed = true;
+            }
+        }
     }
 }
+
 
 /************************************/
 /*          Parse the Key           */
@@ -211,13 +257,15 @@ std::string Config_Param::ToString( const int& indent )const
 
     // Print the Key Name
     sin << gap << "Key: " << m_key_name << std::endl;
+    sin << gap << " - Change Tracking: " << std::boolalpha << m_change_tracking << std::endl;
+    sin << gap << " - Has Changed: " << std::boolalpha << m_has_changed << std::endl;
 
     // Print Internal key/value pairs
     sin << gap << " - Internal Key/Value Pairs" << std::endl;
-    for( auto kv : m_kv_pairs )
+    for( auto it = m_kv_pairs.cbegin(); it != m_kv_pairs.end(); it++ )
     {
-        std::string key = kv.first;
-        std::string val = kv.second;
+        std::string key = it->first;
+        std::string val = it->second;
         std::string com = "";
         if( m_comment_pairs.find(key) != m_comment_pairs.end()){
             com = m_comment_pairs.find(key)->second;
@@ -228,9 +276,9 @@ std::string Config_Param::ToString( const int& indent )const
 
     // Print Sub-Configs
     sin << gap << " - Internal Sub-Configurations" << std::endl;
-    for( auto cf : m_sub_configs )
+    for( auto cf = m_sub_configs.begin(); cf != m_sub_configs.end(); cf++ )
     {
-        sin << cf.second.ToString(indent + 4);
+        sin << cf->second.ToString(indent + 4);
     }
 
     return sin.str();
@@ -270,9 +318,42 @@ void Config_Param::Write_Stream(std::ostream &fout) const
     }
 
     // Iterate over sub-configs
-    for( auto p : m_sub_configs )
+    for( auto p = m_sub_configs.begin(); p != m_sub_configs.end(); p++ )
     {
-        p.second.Write_Stream(fout);
+        p->second.Write_Stream(fout);
     }
 }
 
+
+/***************************************/
+/*    Set the Change Tracking Mode     */
+/***************************************/
+void Config_Param::Set_Change_Tracking( const bool& change_tracking )
+{
+    m_change_tracking = change_tracking;
+
+    for( auto it = m_sub_configs.begin(); it != m_sub_configs.end(); it++ )
+    {
+        it->second.Set_Change_Tracking(m_change_tracking);
+    }
+
+}
+
+/*************************************/
+/*      Check if we have changed     */
+/*************************************/
+bool Config_Param::Has_Changed()const {
+
+    bool output = m_has_changed;
+
+    // Otherwise, check children
+    for (auto p = m_sub_configs.begin(); p != m_sub_configs.end(); p++ )
+    {
+        if( !output )
+        {
+            output |= p->second.Has_Changed();
+        }
+    }
+
+    return output;
+}

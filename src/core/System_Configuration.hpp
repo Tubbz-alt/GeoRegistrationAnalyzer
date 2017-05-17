@@ -30,7 +30,7 @@ class System_Configuration
          * @brief Constructor
          */
         System_Configuration( int argc, char* argv[] );
-        
+
 
         /**
          * @brief Finalize
@@ -68,7 +68,8 @@ class System_Configuration
          */
         void Add_Config_Param( const std::string& key_name,
                                const std::string& value,
-                               const std::string& comment = "" );
+                               const std::string& comment = "" ,
+                               const bool&        override = false );
 
 
         /**
@@ -91,6 +92,11 @@ class System_Configuration
          */
         void Generate_Configuration_File();
 
+
+        /**
+         * @brief Check for system changes.
+         */
+        bool Has_Changed()const;
 
     protected:
 
@@ -125,6 +131,9 @@ class System_Configuration
 
         /// Configuration File Path
         std::string m_config_pathname;
+
+        /// Change Tracking State
+        bool m_change_tracking;
 
         /// Configuration Parameters
         Config_Param m_config_params;

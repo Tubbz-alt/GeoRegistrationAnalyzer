@@ -36,7 +36,8 @@ class Config_Param
          * @brief Parameterized Constructor
          */
         Config_Param( const std::string& key_name,
-                      const std::string& parent_key = "" );
+                      const std::string& parent_key = "",
+                      const bool&        change_tracking = false );
 
 
         /**
@@ -47,14 +48,6 @@ class Config_Param
         inline std::string Get_Key_Name()const{
             return m_key_name;
         }
-
-
-        /**
-         * @brief Get Value
-         *
-         * @return Value
-         */
-        std::string Get_Value_Name()const;
 
 
         /**
@@ -100,7 +93,8 @@ class Config_Param
          */
         void Add_KV_Pair( const std::string& key_name,
                           const std::string& value_name,
-                          const std::string& comment_name = "");
+                          const std::string& comment_name = "",
+                          const bool&        override = false);
 
 
         /**
@@ -135,6 +129,23 @@ class Config_Param
         void Write_Stream( std::ostream& fout )const;
 
 
+        /**
+         * @brief Set the Change Tracking Flag
+         *
+         */
+        void Set_Change_Tracking( const bool& enabled );
+
+        inline bool Is_Change_Tracking()const{
+            return m_change_tracking;
+        }
+
+
+        /**
+         * @brief Check if we have changed
+         */
+        bool Has_Changed()const;
+
+
     private:
 
         /// Class Name
@@ -145,6 +156,12 @@ class Config_Param
 
         /// Parent Key Name
         std::string m_parent_key;
+
+        /// Change Tracking
+        bool m_change_tracking;
+
+        /// Change Flag
+        bool m_has_changed;
 
         /// Sub-Configs
         std::map<std::string,Config_Param> m_sub_configs;

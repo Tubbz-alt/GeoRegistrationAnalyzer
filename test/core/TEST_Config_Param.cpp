@@ -89,7 +89,7 @@ TEST( Config_Param, Add_KV_Pair )
     comment_pairs = config.Get_Comment_Pairs();
 
     // Check base name
-    ASSERT_EQ( config.Get_Key_Name(), "base");
+    ASSERT_EQ( config.Get_Key_Name(), "");
 
     // Check length
     ASSERT_EQ( sub_configs.size(), 1 );
@@ -123,4 +123,42 @@ TEST( Config_Param, Query_KV_Pair )
     config.Query_KV_Pair( "system.logging.level",
                           result_01 );
     ASSERT_EQ( result_01, "trace");
+}
+
+
+/************************************************/
+/*       Test the Change Tracking Methods       */
+/************************************************/
+TEST( Config_Param, Change_Tracking_01 )
+{
+    // Create config
+    Config_Param config;
+
+    // Add Test Values
+    config.Add_KV_Pair( "system.logging.level", "trace", "# Logging Level");
+    config.Add_KV_Pair( "application_name", "Add_KV_Pair", "# Unit Test Title");
+
+    // Check the change tracking
+    ASSERT_FALSE( config.Has_Changed());
+
+    // Enable Change Tracking
+    config.Set_Change_Tracking(true);
+
+    std::cout << "Starting Sub-Config Grab" << std::endl;
+    std::map<std::string,Config_Param> sub_configs;
+    sub_configs = config.Get_Sub_Configs();
+
+    for( auto p = sub_configs.begin(); p != sub_configs.end(); p++ )
+    {
+        ASSERT_TRUE( p->second.Is_Change_Tracking() );
+    }
+
+    // Add pairs (No override)
+    config.Add_KV_Pair( "system.logging.level", "info", "random garbage", false );
+    ASSERT_FALSE(config.Has_Changed());
+
+    // Add new pair.  Should fail
+    config.Add_KV_Pair( "system.logging.level", "info", "random garbage", true );
+    ASSERT_TRUE(config.Has_Changed());
+
 }
