@@ -10,9 +10,8 @@
 #  Set Environment Variables
 export GEO_REGISTRATION_BASE=__GEO_REGISTRATION_BASE_PATH__
 
-#  Add to path
-export PATH=$PATH:$GEO_REGISTRATION_BASE/bin
 
 #  Run the application
-geo-registration-utility $@
+echo "Running Application"
+${GEO_REGISTRATION_BASE}/bin/geo-registration-analyzer $@
 

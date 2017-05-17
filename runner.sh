@@ -8,34 +8,119 @@
 #
 
 
+#-------------------------------#
+#-      Build the Software     -#
+#-------------------------------#
+Build_Software()
+{
+    #  Log Entry
+    echo '->  Building Software'
+
+    #  Create build dir
+    mkdir -p $BUILD_TYPE
+
+    #  Enter directory
+    pushd ${BUILD_TYPE}
+
+    #  Run CMake
+    cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
+    ORES="$?"
+    if [ ! "$ORES" == '0' ]; then
+        echo "CMake Failed to Build.  Code: $ORES"
+        exit 1
+    fi
+
+
+    #  Run Make
+    make
+    ORES="$?"
+    if [ ! "$ORES" == '0' ]; then
+        echo "Make failed.  Code: $ORES"
+        exit 1
+    fi
+
+    #  Exit Directory
+    popd
+
+    #  Run the release builder
+    ./scripts/release-builder.py --build-dir=${BUILD_TYPE}
+
+    #  Make run script executable
+    chmod +x ./releases/geo-registration-analyzer/scripts/geo-registration-analyzer.sh
+
+
+}
+
+
+#-------------------------------#
+#-     Install the Software    -#
+#-------------------------------#
+Install_Software()
+{
+    # Log Entry
+    echo '-> Installing Software'
+
+    #  Copy to /opt
+    sudo cp -r releases/geo-registration-analyzer /opt/
+
+    sudo ln -snf /opt/geo-registration-analyzer/scripts/geo-registration-analyzer.sh /usr/local/bin/geo-registration-analyzer
+
+
+}
+
 
 #--------------------------------#
 #-       Main Application       -#
 #--------------------------------#
+
+#  Baseline Flags
+BUILD_TYPE='release'
+RUN_MAKE=0
+RUN_INSTALL=0
+
 
 #  Iterate over command-line argument
 for ARG in "$@"; do
 
     case $ARG in
 
+        #  Build Software
         '-m'|'--make')
-            Build_Software
-            exit 0
+            RUN_MAKE=1
             ;;
 
+        #  Install Software
         '-i'|'--install')
-            Install_Software
-            exit 0
+            RUN_INSTALL=1
             ;;
 
+        #  Do Everything
         '-f'|'--full')
-            Build_Software
-            Install_Software
-            exit 0
+            RUN_MAKE=1
+            RUN_INSTALL=1
             ;;
+
+        #  Setup the debug mode
+        '-d'|'--debug')
+            BUILD_TYPE='debug'
+            ;;
+
+        #  Setup the release mode
+        '-r'|'--release')
+            BUILD_TYPE='release'
+            ;;
+
         *)
             echo "error: Unsupported flag ($ARG)"
             ;;
     esac
 done
 
+#   Run Make
+if [ "$RUN_MAKE" = '1' ]; then
+    Build_Software
+fi
+
+if [ "$RUN_INSTALL" = '1' ]; then
+    Install_Software
+fi
