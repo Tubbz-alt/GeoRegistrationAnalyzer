@@ -7,6 +7,9 @@
 #define GUI_MATCHING_REFERENCE_TOOLBAR_HPP
 
 // Qt Libraries
+#include <QGridLayout>
+#include <QLineEdit>
+#include <QToolButton>
 #include <QWidget>
 
 
@@ -43,12 +46,26 @@ class ReferenceToolbar : public QWidget
          */
         void Initialize_Configuration();
 
+        /**
+         * @brief Build the Source Widget
+         */
+        void Build_Source_Widget();
+
 
         /// Class Name
         std::string m_class_name;
 
         /// System Configuration
         System_Configuration::ptr_t m_sys_config;
+
+        /// Main Layout
+        QGridLayout* m_main_layout;
+
+        /// Datasource LineEdit
+        QLineEdit* m_datasource_edit;
+
+        /// Datasource Update Button
+        QToolButton* m_datasource_update_button;
 
 };
 
