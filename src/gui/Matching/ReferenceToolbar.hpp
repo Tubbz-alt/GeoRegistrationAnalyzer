@@ -1,40 +1,41 @@
 /**
- * @file    TestImageryPanel.hpp
+ * @file    ReferenceToolbar.hpp
  * @author  Marvin Smith
- * @date    4/24/2017
-*/
-#ifndef TEST_IMAGERY_PANEL_HPP
-#define TEST_IMAGERY_PANEL_HPP
+ * @date    5/18/2017
+ */
+#ifndef GUI_MATCHING_REFERENCE_TOOLBAR_HPP
+#define GUI_MATCHING_REFERENCE_TOOLBAR_HPP
 
 // Qt Libraries
 #include <QWidget>
 
+
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
-#include "../GeoWidget/GeoWidget.hpp"
 
 
 /**
- * @class TestImageryPanel
-*/
-class TestImageryPanel : public QWidget
+ * @class ReferenceToolbar
+ */
+class ReferenceToolbar : public QWidget
 {
     public:
 
         /**
          * @brief Constructor
-        */
-        TestImageryPanel( System_Configuration::ptr_t sys_config,
+         */
+        ReferenceToolbar( System_Configuration::ptr_t sys_config,
                           QWidget*                    parent = nullptr );
+
 
     protected:
 
         /**
-         * @brief Initialize the GUI
-        */
+         * @brief Initialize GUI
+         */
         void Initialize_GUI();
 
-        
+
     private:
 
         /**
@@ -42,15 +43,14 @@ class TestImageryPanel : public QWidget
          */
         void Initialize_Configuration();
 
-        // Class Name
+
+        /// Class Name
         std::string m_class_name;
 
-        // System Configuration
+        /// System Configuration
         System_Configuration::ptr_t m_sys_config;
 
-        // GeoViewer
-        GeoWidget* m_geo_widget;
+};
 
-}; // End of TestImageryPanel Class
 
 #endif

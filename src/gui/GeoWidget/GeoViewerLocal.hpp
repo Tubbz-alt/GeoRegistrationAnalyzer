@@ -8,6 +8,8 @@
 
 
 // Qt Libraries
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QWidget>
 
 // Project Libraries
@@ -21,23 +23,49 @@
 class GeoViewerLocal : public GeoViewerBase
 {
 
-public:
+    public:
 
-    /**
-     * @brief Constructor for Local API viewer class
-     *
-     * @param sys_config
-     * @param parent
-     */
-    GeoViewerLocal( System_Configuration::ptr_t sys_config,
-                    QWidget*                    parent = nullptr );
+        /**
+         * @brief Constructor for Local API viewer class
+         *
+         * @param sys_config
+         * @param parent
+         */
+        GeoViewerLocal( const std::string&          base_config_profile,
+                        System_Configuration::ptr_t sys_config,
+                        QWidget*                    parent = nullptr );
 
 
 
-private:
+    protected:
 
-    /// Class Name
-    std::string m_class_name;
+        /**
+         * @brief Initialize the GUI
+         */
+        void Initialize_GUI();
+
+
+    private:
+
+        /**
+         * @brief Update Configuration
+         */
+        void Update_Configuration();
+
+        /**
+         * @brief Initialize the Scene
+         */
+        void Initialize_Scene();
+
+
+        /// Class Name
+        std::string m_class_name;
+
+        /// Graphics Scene
+        QGraphicsScene m_scene;
+
+        /// Main View
+        QGraphicsView* m_view;
 
 };
 

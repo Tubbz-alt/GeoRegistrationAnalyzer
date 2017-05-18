@@ -12,9 +12,11 @@
 /*********************************/
 /*          Constructor          */
 /*********************************/
-GeoViewerGoogle::GeoViewerGoogle( System_Configuration::ptr_t sys_config,
-                                  QWidget *parent)
- : GeoViewerBase( sys_config,
+GeoViewerGoogle::GeoViewerGoogle( const std::string&          base_config_profile,
+                                  System_Configuration::ptr_t sys_config,
+                                  QWidget*                    parent)
+ : GeoViewerBase( base_config_profile,
+                  sys_config,
                   parent),
    m_class_name("GeoViewerGoogle")
 {

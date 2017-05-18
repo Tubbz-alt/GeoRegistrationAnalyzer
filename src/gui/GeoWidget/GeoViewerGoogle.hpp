@@ -31,7 +31,8 @@ class GeoViewerGoogle : public GeoViewerBase
          * @param sys_config
          * @param parent
          */
-        GeoViewerGoogle( System_Configuration::ptr_t sys_config,
+        GeoViewerGoogle( const std::string&          base_config_profile,
+                         System_Configuration::ptr_t sys_config,
                          QWidget*                    parent = nullptr );
 
 

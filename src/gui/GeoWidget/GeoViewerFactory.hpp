@@ -22,7 +22,8 @@ class GeoViewerFactory
          * @brief Create Geoviewer Widget
          *
          */
-        static GeoViewerBase*  Create( System_Configuration::ptr_t sys_config,
+        static GeoViewerBase*  Create( const std::string&          base_config_profile,
+                                       System_Configuration::ptr_t sys_config,
                                        const std::string&          window_name );
 };
 

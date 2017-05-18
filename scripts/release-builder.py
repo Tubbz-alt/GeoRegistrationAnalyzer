@@ -70,9 +70,15 @@ def Build_Release_Structure( options ):
     except:
         pass
 
+    try:
+        os.makedirs('releases/geo-registration-analyzer/images')
+    except:
+        pass
+
     #  Copy Icons and HTML Files
     Big_Copy( 'src/icons', 'releases/geo-registration-analyzer/icons/')
     Big_Copy( 'src/html', 'releases/geo-registration-analyzer/html/')
+    Big_Copy( 'src/icons', 'releases/geo-registration-analyzer/images/')
 
     #  Copy Executable
     shutil.copy(options.build_dir + '/src/geo-registration-analyzer',

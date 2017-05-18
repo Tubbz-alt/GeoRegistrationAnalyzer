@@ -64,6 +64,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/Analysis/AnalysisBasePanel.cpp
         gui/Matching/MatchingBasePanel.cpp
         gui/Matching/ReferenceImageryPanel.cpp
+        gui/Matching/ReferenceToolbar.cpp
         gui/Matching/TestImageryPanel.cpp
         gui/GeoWidget/GeoViewerBase.cpp
         gui/GeoWidget/GeoViewerFactory.cpp
@@ -89,6 +90,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/Analysis/AnalysisBasePanel.hpp
         gui/Matching/MatchingBasePanel.hpp
         gui/Matching/ReferenceImageryPanel.hpp
+        gui/Matching/ReferenceToolbar.hpp
         gui/Matching/TestImageryPanel.hpp
         gui/GeoWidget/GeoViewerBase.hpp
         gui/GeoWidget/GeoViewerFactory.hpp

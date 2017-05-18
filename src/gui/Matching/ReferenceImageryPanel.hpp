@@ -10,6 +10,7 @@
 #include <QWidget>
 
 // Project Libraries
+#include "ReferenceToolbar.hpp"
 #include "../../core/System_Configuration.hpp"
 #include "../GeoWidget/GeoWidget.hpp"
 
@@ -38,16 +39,23 @@ class ReferenceImageryPanel : public QWidget
 
     private:
 
+        /**
+         * @brief Initialize the Configuration
+         */
+        void Initialize_Configuration();
+
+
         /// Class Name
         std::string m_class_name;
 
         ///  System Configuration
         System_Configuration::ptr_t m_sys_config;
 
-
         /// GeoViewer
         GeoWidget* m_geo_widget;
 
+        /// Toolbar
+        ReferenceToolbar* m_toolbar;
 
 }; // End of ReferenceImageryPanel Class
 

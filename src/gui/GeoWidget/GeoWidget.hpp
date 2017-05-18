@@ -28,7 +28,8 @@ class GeoWidget : public QWidget
          * @param sys_config
          * @param parent
          */
-        GeoWidget( System_Configuration::ptr_t sys_config,
+        GeoWidget( const std::string&          base_config_profile,
+                   System_Configuration::ptr_t sys_config,
                    QWidget*                    parent = nullptr );
 
 
@@ -53,6 +54,9 @@ class GeoWidget : public QWidget
 
         /// Class Name
         std::string m_class_name;
+
+        /// Base Config Profile
+        std::string m_base_config_profile;
 
         /// GeoWidget Viewer
         std::map<std::string,GeoViewerBase*> m_geo_viewers;

@@ -28,11 +28,15 @@ class GeoViewerBase : public QWidget
          * @param sys_config
          * @param parent
          */
-        GeoViewerBase( System_Configuration::ptr_t sys_config,
+        GeoViewerBase( const std::string&          base_config_profile,
+                       System_Configuration::ptr_t sys_config,
                        QWidget*                    parent = nullptr );
 
 
     protected:
+
+        /// Configuration Base Key
+        std::string m_base_config_profile;
 
         /// System Configuration
         System_Configuration::ptr_t m_sys_config;
