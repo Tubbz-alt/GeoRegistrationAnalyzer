@@ -67,7 +67,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/Matching/TestImageryPanel.cpp
         gui/GeoWidget/GeoViewerBase.cpp
         gui/GeoWidget/GeoViewerFactory.cpp
-        gui/GeoWidget/GeoViewerGDAL.cpp
+        gui/GeoWidget/GeoViewerLocal.cpp
         gui/GeoWidget/GeoViewerGoogle.cpp
         gui/GeoWidget/GeoWidget.cpp
         gui/Toolbar/ToolbarWidget.cpp
@@ -92,7 +92,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/Matching/TestImageryPanel.hpp
         gui/GeoWidget/GeoViewerBase.hpp
         gui/GeoWidget/GeoViewerFactory.hpp
-        gui/GeoWidget/GeoViewerGDAL.hpp
+        gui/GeoWidget/GeoViewerLocal.hpp
         gui/GeoWidget/GeoViewerGoogle.hpp
         gui/GeoWidget/GeoWidget.hpp
         gui/Toolbar/ToolbarWidget.hpp
