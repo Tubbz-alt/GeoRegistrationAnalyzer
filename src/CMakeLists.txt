@@ -66,12 +66,14 @@ set( GEO_REGISTRATION_SOURCES
         gui/Matching/ReferenceImageryPanel.cpp
         gui/Matching/ReferenceToolbar.cpp
         gui/Matching/TestImageryPanel.cpp
+        gui/Matching/Toolbar/MatchingToolbarWidget.cpp
+        gui/Matching/Toolbar/PrimaryMatchingToolbarPane.cpp
+        gui/Matching/Toolbar/ProjectMatchingToolbarPane.cpp
         gui/GeoWidget/GeoViewerBase.cpp
         gui/GeoWidget/GeoViewerFactory.cpp
         gui/GeoWidget/GeoViewerLocal.cpp
         gui/GeoWidget/GeoViewerGoogle.cpp
         gui/GeoWidget/GeoWidget.cpp
-        gui/Toolbar/ToolbarWidget.cpp
         utility/String_Utilities.cpp
  )
 
@@ -92,12 +94,14 @@ set( GEO_REGISTRATION_HEADERS
         gui/Matching/ReferenceImageryPanel.hpp
         gui/Matching/ReferenceToolbar.hpp
         gui/Matching/TestImageryPanel.hpp
+        gui/Matching/Toolbar/MatchingToolbarWidget.hpp
+        gui/Matching/Toolbar/PrimaryMatchingToolbarPane.hpp
+        gui/Matching/Toolbar/ProjectMatchingToolbarPane.hpp
         gui/GeoWidget/GeoViewerBase.hpp
         gui/GeoWidget/GeoViewerFactory.hpp
         gui/GeoWidget/GeoViewerLocal.hpp
         gui/GeoWidget/GeoViewerGoogle.hpp
         gui/GeoWidget/GeoWidget.hpp
-        gui/Toolbar/ToolbarWidget.hpp
         utility/String_Utilities.hpp
 )
 

@@ -14,7 +14,7 @@
 #include "../../core/System_Configuration.hpp"
 #include "ReferenceImageryPanel.hpp"
 #include "TestImageryPanel.hpp"
-#include "../Toolbar/ToolbarWidget.hpp"
+#include "Toolbar/MatchingToolbarWidget.hpp"
 
 
 /**
@@ -22,6 +22,8 @@
 */
 class MatchingBasePanel : public QWidget
 {
+    Q_OBJECT
+
     public:
 
         /**
@@ -50,7 +52,7 @@ class MatchingBasePanel : public QWidget
         QSplitter* m_main_splitter;
 
         /// Toolbar Widget
-        ToolbarWidget* m_toolbar_widget;
+        MatchingToolbarWidget* m_toolbar_widget;
 
 }; // End of MatchingBasePanel Class
 

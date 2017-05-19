@@ -87,6 +87,14 @@ class System_Configuration
                                         const std::string& default_value = "",
                                         const bool&        write_if_not_found = false );
 
+        /**
+         * @brief Query Configuration Option
+         */
+        int Query_Config_Param_Int32( const std::string& key_name,
+                                      bool&              value_found,
+                                      const int&         default_value = 0,
+                                      const bool&        write_if_not_found = false );
+
 
         /**
          * @brief Check if File Exists

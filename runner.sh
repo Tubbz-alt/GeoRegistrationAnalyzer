@@ -9,6 +9,27 @@
 
 
 #-------------------------------#
+#-      Clean the Software     -#
+#-------------------------------#
+Clean_Software()
+{
+    #  Log Entry
+    echo '->  Cleaning the Project'
+
+    #  Check if the build directory exists
+    if [ -e "$BUILD_TYPE" ] && [ ! "$BUILD_TYPE" = "" ]; then
+        echo "    -> Deleting $BUILD_TYPE"
+        rm -rf $BUILD_TYPE
+    fi
+
+    #  Clear releases
+    if [ -e "./releases" ]; then
+        echo "    -> Deleting releases"
+        rm -rf releases
+    fi
+}
+
+#-------------------------------#
 #-      Build the Software     -#
 #-------------------------------#
 Build_Software()
@@ -77,6 +98,7 @@ Install_Software()
 BUILD_TYPE='release'
 RUN_MAKE=0
 RUN_INSTALL=0
+RUN_CLEAN=0
 THREAD_FLAG=0
 NUM_THREADS=1
 
@@ -85,6 +107,11 @@ NUM_THREADS=1
 for ARG in "$@"; do
 
     case $ARG in
+
+        #  Clean Project
+        '-c'|'--clean')
+            RUN_CLEAN=1
+            ;;
 
         #  Build Software
         '-m'|'--make')
@@ -127,6 +154,11 @@ for ARG in "$@"; do
             ;;
     esac
 done
+
+#  Run Clean
+if [ "$RUN_CLEAN" = '1' ]; then
+    Clean_Software
+fi
 
 #   Run Make
 if [ "$RUN_MAKE" = '1' ]; then

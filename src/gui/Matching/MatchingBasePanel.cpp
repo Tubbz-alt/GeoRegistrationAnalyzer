@@ -35,16 +35,14 @@ void MatchingBasePanel::Initialize_GUI()
 
     m_main_splitter->addWidget( new ReferenceImageryPanel( m_sys_config, m_main_splitter));
     m_main_splitter->addWidget( new TestImageryPanel( m_sys_config, m_main_splitter));
+    m_toolbar_widget = new MatchingToolbarWidget( m_sys_config,
+                                                  this );
+    m_main_splitter->addWidget(m_toolbar_widget);
+
 
     // Add to main Layout
     main_layout->addWidget( m_main_splitter );
 
-    // Create Toolbar
-    m_toolbar_widget = new ToolbarWidget( m_sys_config,
-                                          this );
-
-    // Add to Main Layout
-    main_layout->addWidget(m_toolbar_widget);
 
     // Set layout
     setLayout( main_layout );

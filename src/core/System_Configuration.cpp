@@ -65,7 +65,7 @@ std::string System_Configuration::Get_Icon_Path()
     
     // query
     std::string output;
-    m_config_params.Query_KV_Pair("system.icon_path",
+    m_config_params.Query_KV_Pair("system.core.icon_path",
                                   output,
                                   "",
                                   false );
@@ -81,7 +81,7 @@ std::string System_Configuration::Get_HTML_Path()
 
     // query
     std::string output;
-    m_config_params.Query_KV_Pair("system.html_path",
+    m_config_params.Query_KV_Pair("system.core.html_path",
                                   output,
                                   "",
                                   false );
@@ -121,6 +121,34 @@ std::string System_Configuration::Query_Config_Param(const std::string& key_name
     return output;
 }
 
+
+/********************************************/
+/*      Query a Configuration Parameter     */
+/********************************************/
+int System_Configuration::Query_Config_Param_Int32( const std::string& key_name,
+                                                    bool&              value_found,
+                                                    const int&         default_value,
+                                                    const bool&        write_if_not_found )
+{
+    bool output_found = true;
+    std::string output;
+    int int_output;
+
+    // Build the default value string
+    std::string default_value_str = std::to_string(default_value);
+
+    // Split Keyname
+    m_config_params.Query_KV_Pair(key_name, output, default_value_str, write_if_not_found);
+
+    if( output == default_value_str )
+    {
+        output_found = false;
+    }
+
+    // Convert to int
+    int_output = std::stoi(output);
+    return int_output;
+}
 
 /*************************************************/
 /*          Check if Config Path Exists          */
