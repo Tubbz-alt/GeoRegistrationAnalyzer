@@ -259,6 +259,19 @@ void System_Configuration::Parse_Command_Line(int argc, char **argv)
             }
         }
 
+        // Check for the project file flag
+        else if( arg == "-p" )
+        {
+            // make sure there is an argument left to parse
+            if( args.size() <= 0 )
+            {
+                std::cerr << "No Arguments Left to Process" << std::endl;
+            }
+            else
+            {
+            }
+        }
+
         // Otherwise, ignore (for now)
     }
 

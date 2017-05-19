@@ -54,6 +54,7 @@ void GeoViewerGoogle::Initialize_GUI()
     // Create Web Engine
     m_web_view = new QWebEngineView(this);
     main_layout->addWidget( m_web_view );
+    main_layout->setContentsMargins(0,0,0,0);
 
 
     // Set layout

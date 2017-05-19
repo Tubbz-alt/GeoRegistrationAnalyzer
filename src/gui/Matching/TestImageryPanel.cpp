@@ -36,12 +36,17 @@ void TestImageryPanel::Initialize_GUI()
 
     // Create the main layout
     QVBoxLayout* main_layout = new QVBoxLayout();
+    main_layout->setContentsMargins(2,2,2,2);
 
     // Create the geo widget
     m_geo_widget = new GeoWidget( base_conf,
                                   m_sys_config,
                                   this);
     main_layout->addWidget(m_geo_widget);
+
+    // Create the toolbar
+    m_toolbar = new TestToolbar(m_sys_config, this);
+    main_layout->addWidget(m_toolbar);
 
     // Set the main layout
     setLayout(main_layout);

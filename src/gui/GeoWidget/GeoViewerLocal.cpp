@@ -42,6 +42,7 @@ void GeoViewerLocal::Initialize_GUI()
     // Build View
     m_view = new QGraphicsView(&m_scene, this);
     main_layout->addWidget(m_view);
+    main_layout->setContentsMargins(0,0,0,0);
 
     // Set layout
     setLayout(main_layout);

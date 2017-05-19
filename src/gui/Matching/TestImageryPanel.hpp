@@ -10,6 +10,7 @@
 #include <QWidget>
 
 // Project Libraries
+#include "TestToolbar.hpp"
 #include "../../core/System_Configuration.hpp"
 #include "../GeoWidget/GeoWidget.hpp"
 
@@ -50,6 +51,9 @@ class TestImageryPanel : public QWidget
 
         // GeoViewer
         GeoWidget* m_geo_widget;
+
+        /// Test Toolbar
+        TestToolbar* m_toolbar;
 
 }; // End of TestImageryPanel Class
 

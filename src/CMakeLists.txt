@@ -66,6 +66,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/Matching/ReferenceImageryPanel.cpp
         gui/Matching/ReferenceToolbar.cpp
         gui/Matching/TestImageryPanel.cpp
+        gui/Matching/TestToolbar.cpp
         gui/Matching/Toolbar/MatchingToolbarWidget.cpp
         gui/Matching/Toolbar/PrimaryMatchingToolbarPane.cpp
         gui/Matching/Toolbar/ProjectMatchingToolbarPane.cpp
@@ -94,6 +95,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/Matching/ReferenceImageryPanel.hpp
         gui/Matching/ReferenceToolbar.hpp
         gui/Matching/TestImageryPanel.hpp
+        gui/Matching/TestToolbar.hpp
         gui/Matching/Toolbar/MatchingToolbarWidget.hpp
         gui/Matching/Toolbar/PrimaryMatchingToolbarPane.hpp
         gui/Matching/Toolbar/ProjectMatchingToolbarPane.hpp

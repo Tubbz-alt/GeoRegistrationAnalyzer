@@ -49,6 +49,7 @@ void GeoWidget::Initialize_GUI()
 
     // Create the layout
     QVBoxLayout* main_layout = new QVBoxLayout();
+    main_layout->setContentsMargins(0,0,0,0);
 
     // Create the viewers
     m_geo_viewers[provider] = GeoViewerFactory::Create( m_base_config_profile, m_sys_config, provider);

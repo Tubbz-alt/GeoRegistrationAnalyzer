@@ -38,6 +38,7 @@ void ReferenceImageryPanel::Initialize_GUI()
 
     // Create the main layout
     QVBoxLayout* main_layout = new QVBoxLayout();
+    main_layout->setContentsMargins(2,2,2,2);
 
     // Create the geo widget
     m_geo_widget = new GeoWidget(base_conf,
