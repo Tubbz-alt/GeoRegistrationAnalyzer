@@ -25,8 +25,10 @@ namespace bf = boost::filesystem;
 /*              Constructor             */
 /****************************************/
 System_Configuration::System_Configuration( int argc, char* argv[] )
- : m_class_name("System_Configuration")
+ : m_class_name("System_Configuration"),
+   m_project_pathname_provided(false)
 {
+
     // Set Default Values
     Set_Defaults();
 
@@ -40,6 +42,10 @@ System_Configuration::System_Configuration( int argc, char* argv[] )
     else
     {
     }
+
+    // Build Project Structure
+    Build_Project_Structure();
+
 
     m_config_params.Set_Change_Tracking(true);
 
@@ -222,6 +228,23 @@ void System_Configuration::Set_Defaults()
 }
 
 
+/**********************************************/
+/*         Build the Project Structure        */
+/**********************************************/
+void System_Configuration::Build_Project_Structure()
+{
+    // Check the base directory
+    bool value_found;
+    std::string project_path = Query_Config_Param("system.core.project_base", value_found);
+    if( !bf::exists(bf::path(project_path)))
+    {
+        std::cout << "Building: " << project_path << std::endl;
+        bf::create_directories(bf::path(project_path));
+        bf::create_directories(bf::path(project_path + "/projects"));
+    }
+}
+
+
 /********************************************/
 /*          Parse the Command-Line          */
 /********************************************/
@@ -269,6 +292,8 @@ void System_Configuration::Parse_Command_Line(int argc, char **argv)
             }
             else
             {
+                m_project_pathname_provided = true;
+                m_project_pathname = args.front();
             }
         }
 

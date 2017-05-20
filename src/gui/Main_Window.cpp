@@ -35,6 +35,17 @@ Main_Window::Main_Window( System_Configuration::ptr_t sys_config,
 
 
 /****************************************/
+/*       Load the Project Pathname      */
+/****************************************/
+void Main_Window::Load_Project(const std::string &project_pathname)
+{
+
+    // Load the project file for the project type
+
+}
+
+
+/****************************************/
 /*          Inititalize the GUI         */
 /****************************************/
 void Main_Window::Initialize_GUI()
@@ -53,6 +64,9 @@ void Main_Window::Initialize_GUI()
 
     // Build the Preference Dialog
     m_pref_dialog = new PreferenceDialog(m_sys_config, this);
+
+    // Build the Import Dialog
+    m_import_project_dialog = new ImportProjectDialog(m_sys_config, this);
 
 
     // Build the Menu Bar
@@ -117,6 +131,16 @@ void Main_Window::closeEvent(QCloseEvent *event)
 }
 
 
+/******************************/
+/*     Open a New Project     */
+/******************************/
+void Main_Window::Import_Project_Dialog()
+{
+    // Create the file dialog
+    m_import_project_dialog->show();
+}
+
+
 /*************************************/
 /*        Update Configuration       */
 /*************************************/
@@ -133,6 +157,7 @@ void Main_Window::Build_Menu()
 {
     //  Create a File Menu
     QMenu* fileMenu = new QMenu(tr("File"));
+    QMenu* projectMenu = new QMenu(tr("Project"));
 
     // Create the Preferences Action
     QAction* prefAction = new QAction(tr("&Preferences"), this);
@@ -148,9 +173,15 @@ void Main_Window::Build_Menu()
     connect( quitAction, SIGNAL(triggered()), this, SLOT(close()));
     fileMenu->addAction(quitAction);
 
+
+    // Create the Load Project Action
+    QAction* loadProjectAction = new QAction(tr("&Import Project"), this);
+    loadProjectAction->setStatusTip("Import Project");
+    connect( loadProjectAction, SIGNAL(triggered()), this, SLOT(Import_Project_Dialog()));
+    projectMenu->addAction(loadProjectAction);
+
     // Add file menu
     menuBar()->addMenu(fileMenu);
-
-
+    menuBar()->addMenu(projectMenu);
 
 }

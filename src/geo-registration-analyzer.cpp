@@ -33,7 +33,15 @@ int main( int argc, char* argv[] )
 
 
     // Create the Main Widget
-    Main_Window* main_window = new Main_Window( system_configuration );    
+    Main_Window* main_window = new Main_Window( system_configuration );
+
+    // Load any Pre-Loaded Project Files
+    if( system_configuration->Project_Path_Provided() )
+    {
+        main_window->Load_Project( system_configuration->Get_Project_Pathname() );
+    }
+
+    // Show the GUI
     main_window->show();
 
     // Start Application

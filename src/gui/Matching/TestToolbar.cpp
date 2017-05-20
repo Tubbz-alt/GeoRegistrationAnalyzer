@@ -50,12 +50,12 @@ void TestToolbar::Initialize_Configuration()
 {
     // Set Default Configuration Parameters
     m_sys_config->Add_Config_Param("system.matching.test.default.toolbutton.width",
-                                   "120",
+                                   "50",
                                    "#  Default Width of Test Panel Tool-Button",
                                    false);
 
     m_sys_config->Add_Config_Param("system.matching.test.default.toolbutton.height",
-                                   "120",
+                                   "50",
                                    "#  Default Height of Test Panel Tool-Button",
                                    false);
 

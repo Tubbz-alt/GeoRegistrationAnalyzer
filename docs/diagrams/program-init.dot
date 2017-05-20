@@ -1,0 +1,11 @@
+digraph G {
+
+    node [label="Start"]  start;
+    node [label="Parse\nCommand Line"] parse;
+    node [label="Initialize Qt"] qt_init;
+    node [label="Build\nMain Window"] main_win;
+    node [label="Show GUI"] qt_show;
+    node [label="End"] end;
+
+    start -> parse -> qt_init -> main_win -> qt_show -> end;
+}

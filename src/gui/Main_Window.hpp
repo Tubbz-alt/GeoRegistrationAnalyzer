@@ -13,6 +13,7 @@
 
 // Project Libraries
 #include "../core/System_Configuration.hpp"
+#include "ImportProjectDialog.hpp"
 #include "PreferenceDialog.hpp"
 #include "Analysis/AnalysisBasePanel.hpp"
 #include "Matching/MatchingBasePanel.hpp"
@@ -34,6 +35,12 @@ class Main_Window : public QMainWindow
                      QWidget*                     parent = nullptr );
 
 
+        /**
+         * @brief Load the Project
+         */
+        void Load_Project( const std::string& project_pathname );
+
+
     protected:
 
         /**
@@ -48,6 +55,13 @@ class Main_Window : public QMainWindow
          */
         void closeEvent(QCloseEvent *event);
 
+
+    protected slots:
+
+        /**
+         *  @brief Load the Project GUI
+         */
+        void Import_Project_Dialog();
 
     private:
 
@@ -74,6 +88,9 @@ class Main_Window : public QMainWindow
 
         /// Preferences Dialog
         PreferenceDialog* m_pref_dialog;
+
+        /// Import Project Dialog
+        ImportProjectDialog* m_import_project_dialog;
 
 }; // End of Main_Window Class
 

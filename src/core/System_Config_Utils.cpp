@@ -24,6 +24,7 @@ Config_Param Generate_Default_Parameters()
     std::string config_pathname;
     std::string icon_path = std::string(getenv("GEO_REGISTRATION_BASE")) + "/icons";
     std::string html_path = "file://" + std::string(getenv("GEO_REGISTRATION_BASE")) + "/html";
+    std::string project_base_Path = std::string(getenv("HOME")) + "/.geo-registration-analyzer";
     if( os_name == "WINDOWS" )
     {
 
@@ -34,6 +35,7 @@ Config_Param Generate_Default_Parameters()
     }
 
     // Add HTML and Icon Path
+    output.Add_KV_Pair("system.core.project_base", project_base_Path, "#  Base Project Directory");
     output.Add_KV_Pair("system.core.html_path", html_path, "#  HTML Path");
     output.Add_KV_Pair("system.core.icon_path", icon_path, "#  Icon Path");
 

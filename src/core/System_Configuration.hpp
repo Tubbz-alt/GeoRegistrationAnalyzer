@@ -120,12 +120,32 @@ class System_Configuration
          */
         std::map<std::string,std::string> Get_Config_List()const;
 
+
+        inline bool Project_Path_Provided()const{
+            return m_project_pathname_provided;
+        }
+
+
+        /**
+         * @brief Get the Project Path
+         * @return
+         */
+        inline std::string Get_Project_Pathname()const{
+            return m_project_pathname;
+        }
+
     protected:
 
         /**
          * @brief Set Default Values
          */
         void Set_Defaults();
+
+
+        /**
+         * @brief Build the Project Structure
+         */
+        void Build_Project_Structure();
 
 
         /**
@@ -156,6 +176,10 @@ class System_Configuration
 
         /// Configuration Parameters
         Config_Param m_config_params;
+
+        /// Project Path Notes
+        std::string m_project_pathname;
+        bool m_project_pathname_provided;
 
 
 }; // End of System_Configuration Class

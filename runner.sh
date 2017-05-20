@@ -90,6 +90,16 @@ Install_Software()
 }
 
 
+#-----------------------------------#
+#-     Build the Documentation     -#
+#-----------------------------------#
+Build_Documentation()
+{
+    #  Run Doxygen
+    doxygen docs/Doxyfile
+}
+
+
 #--------------------------------#
 #-       Main Application       -#
 #--------------------------------#
@@ -99,6 +109,7 @@ BUILD_TYPE='release'
 RUN_MAKE=0
 RUN_INSTALL=0
 RUN_CLEAN=0
+RUN_DOCS=0
 THREAD_FLAG=0
 NUM_THREADS=1
 
@@ -144,6 +155,11 @@ for ARG in "$@"; do
             THREAD_FLAG=1
             ;;
 
+        #  Build Documentation
+        '-D'|'--docs')
+            RUN_DOCS=1
+            ;;
+
         *)
             if [ "$THREAD_FLAG" = '1' ]; then
                 THREAD_FLAG=0
@@ -167,4 +183,8 @@ fi
 
 if [ "$RUN_INSTALL" = '1' ]; then
     Install_Software
+fi
+
+if [ "$RUN_DOCS" = '1' ]; then
+    Build_Documentation
 fi
