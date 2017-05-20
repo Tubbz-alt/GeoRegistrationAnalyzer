@@ -83,6 +83,13 @@ class System_Configuration
          * @brief Query Configuration Option
          */
         std::string Query_Config_Param( const std::string& key_name,
+                                        bool&              value_found ) const;
+
+
+        /**
+         * @brief Query Configuration Option
+         */
+        std::string Query_Config_Param( const std::string& key_name,
                                         bool&              value_found,
                                         const std::string& default_value = "",
                                         const bool&        write_if_not_found = false );

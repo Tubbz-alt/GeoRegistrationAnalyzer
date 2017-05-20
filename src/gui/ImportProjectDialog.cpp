@@ -6,10 +6,13 @@
 #include "ImportProjectDialog.hpp"
 
 // Qt Libraries
-#include <QFileSelector>
+#include <QFileDialog>
 #include <QLabel>
+#include <QMessageBox>
 #include <QToolButton>
 #include <QVBoxLayout>
+
+
 
 
 /************************************/
@@ -19,7 +22,8 @@ ImportProjectDialog::ImportProjectDialog( System_Configuration::ptr_t sys_config
                                           QWidget*                    parent)
   : QDialog(parent),
     m_class_name("ImportProjectDialog"),
-    m_sys_config(sys_config)
+    m_sys_config(sys_config),
+    m_project_loaded(false)
 {
     // Initialize Configuration
     Initialize_Configuration();
@@ -35,8 +39,50 @@ ImportProjectDialog::ImportProjectDialog( System_Configuration::ptr_t sys_config
 /*****************************************/
 void ImportProjectDialog::Import_Project_File()
 {
-    // Change the widget
-    m_stack_widget->setCurrentIndex(1);
+    // Create File Chooser
+    QString pathname = QFileDialog::getOpenFileName( this,
+                                                     tr("Open Project"),
+                                                     "~/",
+                                                     tr("Project Files (*.cfg)"));
+
+    // If the file exists, open it
+    if( QFile(pathname).exists() )
+    {
+        // Load the file
+        bool load_status;
+        m_project_info = Config_Param::Load_Key_Value_File(pathname.toStdString(), load_status );
+
+
+        if( load_status )
+        {
+            // Set the project panel
+            m_project_panel = ProjectViewerPanelFactory::Create(m_project_info,
+                                                                m_sys_config,
+                                                                this );
+
+            if( m_project_panel == nullptr )
+            {
+                std::cerr << "Unable to build panel." << std::endl;
+                std::exit(-1);
+            }
+
+            m_project_layout->replaceWidget(m_stub_panel, m_project_panel);
+
+
+            // Change the widget
+            m_stack_widget->setCurrentIndex(1);
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setText(("Error: Unable to process " + pathname.toStdString()).c_str());
+            msgBox.exec();
+        }
+    }
+
+    // Otherwise, popup
+
+
 }
 
 /*******************************/
@@ -164,8 +210,11 @@ void ImportProjectDialog::Build_Project_Viewer()
     QWidget* widget = new QWidget(this);
 
     // Build main layout
-    QVBoxLayout* layout = new QVBoxLayout();
+    m_project_layout = new QVBoxLayout();
 
+    /// Create base panel
+    m_stub_panel = new QWidget(this);
+    m_project_layout->addWidget(m_stub_panel);
 
     // Toolbar
     QWidget* toolbar_widget = new QWidget();
@@ -188,10 +237,10 @@ void ImportProjectDialog::Build_Project_Viewer()
 
 
     toolbar_widget->setLayout(toolbar_layout);
-    layout->addWidget(toolbar_widget);
+    m_project_layout->addWidget(toolbar_widget);
 
     // Select Layout
-    widget->setLayout(layout);
+    widget->setLayout(m_project_layout);
 
     // Add to stack layout
     m_stack_widget->addWidget(widget);

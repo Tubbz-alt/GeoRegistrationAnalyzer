@@ -97,6 +97,15 @@ class Config_Param
 
 
         /**
+         * @brief Query KV Pair
+         *
+         * @param[in] key_name
+         */
+        std::string Query_KV_Pair( const std::string& key_name,
+                                   bool&              value_found )const;
+
+
+        /**
          * @brief Add Key/Value Pair
          *
          * @param[in] key_name
@@ -156,6 +165,13 @@ class Config_Param
          * @brief Check if we have changed
          */
         bool Has_Changed()const;
+
+
+        /**
+         * @brief Load Key/Value File
+         */
+        static Config_Param Load_Key_Value_File( const std::string& pathname,
+                                                 bool&              status );
 
 
     private:

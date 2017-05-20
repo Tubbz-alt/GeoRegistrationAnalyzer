@@ -13,7 +13,9 @@
 
 
 // Project Libraries
+#include "../core/Config_Param.hpp"
 #include "../core/System_Configuration.hpp"
+#include "ProjectViewerPanelFactory.hpp"
 
 
 /**
@@ -80,8 +82,23 @@ class ImportProjectDialog : public QDialog
         /// Main Layout
         QVBoxLayout* m_main_layout;
 
-        /// Stacked Widget
+        /// Project Layout
+        QVBoxLayout* m_project_layout;
+
+            /// Stacked Widget
         QStackedWidget* m_stack_widget;
+
+        /// Project Info
+        Config_Param m_project_info;
+
+        /// Loaded Project
+        bool m_project_loaded;
+
+        /// Stub Project Panel
+        QWidget* m_stub_panel;
+
+        /// Project Widget
+        ProjectViewerPanelBase* m_project_panel;
 };
 
 

@@ -5,14 +5,22 @@
  */
 #include "Config_Param.hpp"
 
+
 // Boost Libraries
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+
 
 // C++ Libraries
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
 
+
+// Project Libraries
+#include "../utility/String_Utilities.hpp"
+
+namespace bf=boost::filesystem;
 
 /********************************/
 /*          Constructor         */
@@ -103,6 +111,48 @@ std::map<std::string,std::string> Config_Param::Get_Config_List()const
     // return full list
     return output;
 }
+
+
+/*************************************************/
+/*          Query for a Key/Value Pair           */
+/*************************************************/
+std::string  Config_Param::Query_KV_Pair(const std::string& key_name,
+                                         bool&              value_found )const
+{
+    // Default values
+    std::string output = "";
+    value_found = false;
+
+    // split the key
+    std::vector<std::string> keys = Parse_Key(key_name);
+
+
+    // Check if valid subkeys
+    if( keys.size() > 1 )
+    {
+        // Check if sub-config exists
+        if( m_sub_configs.find(keys[0]) != m_sub_configs.end() )
+        {
+            std::string subkey = Pop_Key_Front(key_name);
+            output = m_sub_configs.find(keys[0])->second.Query_KV_Pair(subkey,
+                                                                       value_found );
+        }
+    }
+
+    // Otherwise if the base key
+    else if( keys.size() == 1 )
+    {
+        // Check if the key exists
+        if( m_kv_pairs.find(keys[0]) != m_kv_pairs.end() )
+        {
+            output = m_kv_pairs.find(keys[0])->second;
+            value_found = true;
+        }
+    }
+
+    return output;
+}
+
 
 /*************************************************/
 /*          Query for a Key/Value Pair           */
@@ -408,5 +458,104 @@ bool Config_Param::Has_Changed()const {
         }
     }
 
+    return output;
+}
+
+
+/*******************************************/
+/*          Parse a Key/Value File         */
+/*******************************************/
+Config_Param Config_Param::Load_Key_Value_File(const std::string &pathname,
+                                               bool&              status )
+{
+    // Create output object
+    Config_Param output;
+    status = true;
+
+    // Check if the file exists
+    if( !bf::exists(bf::path(pathname)))
+    {
+        status = false;
+        std::cerr << "Config File (" << pathname << ") Does Not Exist." << std::endl;
+    }
+
+        // Otherwise, process
+    else
+    {
+        // Open the file
+        std::ifstream fin;
+        fin.open(pathname.c_str());
+
+        // Read the first line
+        std::string line, trimmed_line;
+        std::getline( fin, line);
+
+        // Misc Params
+        bool comment_set = false;
+        std::string comment_str;
+
+
+        while( fin.good() )
+        {
+            // Trim the string
+            trimmed_line = String_Trim(line);
+
+            // Skip if Empty
+            if( trimmed_line.size() <= 0 )
+            {
+            }
+
+                // Check if comment
+            else if( trimmed_line[0] == '#' )
+            {
+                // Check if a comment has already been created
+                if(comment_set)
+                {
+                    comment_str = trimmed_line;
+                }
+
+                    // Otherwise, set again
+                else
+                {
+                    comment_set = true;
+                    comment_str = trimmed_line;
+                }
+            }
+
+                // Otherwise, check for param
+            else
+            {
+                // Split based on equal operator
+                std::vector<std::string> comps = String_Split( trimmed_line,
+                                                               "=");
+
+                // Check if enough comps
+                if( comps.size() < 2 )
+                {
+                    std::cerr << "Warning: Line (" << trimmed_line << ") does not have enough components" << std::endl;
+                    status = false;
+                }
+                else
+                {
+                    // Add the kv pair
+                    output.Add_KV_Pair( comps[0], comps[1], comment_str, false);
+
+                    // Clear any comments
+                    comment_set = false;
+                    comment_str = "";
+                }
+
+            }
+
+            // Get next line
+            getline( fin, line);
+
+        } // End of while(fin.good)
+
+        // Close the file
+        fin.close();
+    }
+
+    // return the output
     return output;
 }

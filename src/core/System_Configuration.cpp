@@ -106,6 +106,17 @@ void System_Configuration::Add_Config_Param( const std::string&  key_name,
     m_config_params.Add_KV_Pair(key_name, value, comment, override);
 }
 
+
+/********************************************/
+/*      Query a Configuration Parameter     */
+/********************************************/
+std::string System_Configuration::Query_Config_Param(const std::string& key_name,
+                                                     bool&              value_found )const
+{
+    return m_config_params.Query_KV_Pair( key_name, value_found);
+}
+
+
 /********************************************/
 /*      Query a Configuration Parameter     */
 /********************************************/
@@ -387,6 +398,8 @@ void System_Configuration::Parse_Configuration_File()
 
         } // End of while(fin.good)
 
+        // Close the file
+        fin.close();
     }
 }
 

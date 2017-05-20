@@ -62,8 +62,11 @@ set( GEO_REGISTRATION_SOURCES
         gui/ImportProjectDialog.cpp
         gui/Main_Window.cpp
         gui/PreferenceDialog.cpp
+        gui/ProjectViewerPanelBase.cpp
+        gui/ProjectViewerPanelFactory.cpp
         gui/Analysis/AnalysisBasePanel.cpp
         gui/Matching/MatchingBasePanel.cpp
+        gui/Matching/ProjectViewerPanelMatching.cpp
         gui/Matching/ReferenceImageryPanel.cpp
         gui/Matching/ReferenceToolbar.cpp
         gui/Matching/TestImageryPanel.cpp
@@ -92,8 +95,11 @@ set( GEO_REGISTRATION_HEADERS
         gui/ImportProjectDialog.hpp
         gui/Main_Window.hpp
         gui/PreferenceDialog.hpp
+        gui/ProjectViewerPanelBase.hpp
+        gui/ProjectViewerPanelFactory.hpp
         gui/Analysis/AnalysisBasePanel.hpp
         gui/Matching/MatchingBasePanel.hpp
+        gui/Matching/ProjectViewerPanelMatching.hpp
         gui/Matching/ReferenceImageryPanel.hpp
         gui/Matching/ReferenceToolbar.hpp
         gui/Matching/TestImageryPanel.hpp
