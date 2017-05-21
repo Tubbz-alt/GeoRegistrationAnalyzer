@@ -16,9 +16,24 @@ MatchingBasePanel::MatchingBasePanel( System_Configuration::ptr_t  sys_config,
                                       QWidget*                     parent )
   : ProjectBasePanel( sys_config,
                       parent),
-    m_class_name("MatchingBasePanel")
+    m_class_name("MatchingBasePanel"),
+    m_worker(sys_config)
 {
+    // Initialize the GUI
     Initialize_GUI();
+
+    // Start the worker
+    m_worker.Initialize();
+}
+
+
+/*****************************/
+/*        Destructor         */
+/*****************************/
+MatchingBasePanel::~MatchingBasePanel()
+{
+    // Stop the worker
+    m_worker.Finalize();
 }
 
 
@@ -28,7 +43,7 @@ MatchingBasePanel::MatchingBasePanel( System_Configuration::ptr_t  sys_config,
 void MatchingBasePanel::Import_Project( const Config_Param& project_info )
 {
     // Notify the Matching Worker
-
+    m_worker.Import_Project( project_info );
 
 }
 

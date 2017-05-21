@@ -14,13 +14,15 @@
 #include <QWidget>
 
 // Project Libraries
+#include "../../../core/Config_Param.hpp"
 #include "../../../core/System_Configuration.hpp"
+#include "../../../core/Thread_Pool.hpp"
 
 
 /**
  * @class Matching_Worker
  */
-class Matching_Worker
+class Matching_Worker : public QObject
 {
     Q_OBJECT
 
@@ -34,6 +36,26 @@ class Matching_Worker
         Matching_Worker(System_Configuration::ptr_t sys_config );
 
 
+        /**
+         * @brief Initialize the Worker
+         */
+        void Initialize();
+
+
+        /**
+         * @brief Finalize the Matching-Worker
+         */
+        void Finalize();
+
+
+        /**
+         * @brief Import the project.
+         *
+         * @param project_info
+         */
+        void Import_Project( const Config_Param& project_info );
+
+
     protected:
 
 
@@ -44,6 +66,10 @@ class Matching_Worker
 
         /// Class Name
         std::string m_class_name;
+
+
+        /// Active Thread Pool
+        Thread_Pool::ptr_t m_thread_pool;
 };
 
 #endif

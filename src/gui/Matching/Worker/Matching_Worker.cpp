@@ -16,3 +16,33 @@ Matching_Worker::Matching_Worker(System_Configuration::ptr_t sys_config)
 
 }
 
+
+/*************************************************/
+/*         Initialize the Matching-Worker        */
+/*************************************************/
+void Matching_Worker::Initialize()
+{
+
+    // Build the thread pool
+    int pool_size = 2;
+    m_thread_pool = std::make_shared<Thread_Pool>(pool_size);
+
+}
+
+
+/*************************************************/
+/*          Finalize the Matching-Worker         */
+/*************************************************/
+void Matching_Worker::Finalize()
+{
+
+}
+
+
+/***************************************/
+/*         Import the Project          */
+/***************************************/
+void Matching_Worker::Import_Project()
+{
+
+}

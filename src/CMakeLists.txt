@@ -58,6 +58,7 @@ set( GEO_REGISTRATION_SOURCES
         core/System_Config_Utils.cpp
         core/System_Configuration.cpp
         core/System_Manager.cpp
+        core/Thread_Pool.cpp
         gui/ConfigurationSaveDialog.cpp
         gui/ImportProjectDialog.cpp
         gui/Main_Window.cpp
@@ -93,6 +94,7 @@ set( GEO_REGISTRATION_HEADERS
         core/System_Config_Utils.hpp
         core/System_Configuration.hpp
         core/System_Manager.hpp
+        core/Thread_Pool.hpp
         gui/ConfigurationSaveDialog.hpp
         gui/ImportProjectDialog.hpp
         gui/Main_Window.hpp

@@ -17,6 +17,7 @@
 #include "ReferenceImageryPanel.hpp"
 #include "TestImageryPanel.hpp"
 #include "Toolbar/MatchingToolbarWidget.hpp"
+#include "Worker/Matching_Worker.hpp"
 
 
 /**
@@ -33,6 +34,13 @@ class MatchingBasePanel : public ProjectBasePanel
         */
         MatchingBasePanel( System_Configuration::ptr_t sys_config,
                            QWidget*                    parent = nullptr );
+
+
+        /**
+         * @brief Destructor
+         */
+        virtual ~MatchingBasePanel();
+
 
         /**
         * @brief Import a new project
@@ -59,6 +67,9 @@ class MatchingBasePanel : public ProjectBasePanel
 
         /// Toolbar Widget
         MatchingToolbarWidget* m_toolbar_widget;
+
+        /// Matching Worker
+        Matching_Worker m_worker;
 
 }; // End of MatchingBasePanel Class
 
