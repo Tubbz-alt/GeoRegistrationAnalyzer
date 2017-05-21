@@ -6,6 +6,11 @@
 #ifndef GUI_MAIN_WINDOW_HPP
 #define GUI_MAIN_WINDOW_HPP
 
+// C++ Libraries
+#include <map>
+#include <string>
+
+
 // Qt Libraries
 #include <QMainWindow>
 #include <QStackedWidget>
@@ -91,6 +96,9 @@ class Main_Window : public QMainWindow
 
         /// Import Project Dialog
         ImportProjectDialog* m_import_project_dialog;
+
+        /// Project Panels
+        std::map<std::string,ProjectBasePanel*> m_project_panels;
 
 }; // End of Main_Window Class
 

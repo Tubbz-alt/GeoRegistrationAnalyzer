@@ -53,12 +53,13 @@ void Main_Window::Initialize_GUI()
     // Create the stack Widgets
     m_stack_widget = new QStackedWidget(this);
 
-    // Add each sub-widget
-    m_stack_widget->addWidget( new MatchingBasePanel(m_sys_config,
-                                                     this));
+    // Build project panels
+    m_project_panels["matching"] = new MatchingBasePanel(m_sys_config, this);
+    m_project_panels["analysis"] = new MatchingBasePanel(m_sys_config, this);
 
-    m_stack_widget->addWidget( new AnalysisBasePanel(m_sys_config,
-                                                     this));
+    // Add each sub-widget
+    m_stack_widget->addWidget( m_project_panels["matching"]);
+    m_stack_widget->addWidget( m_project_panels["analysis"]);
 
     setCentralWidget( m_stack_widget );
 
@@ -137,7 +138,33 @@ void Main_Window::closeEvent(QCloseEvent *event)
 void Main_Window::Import_Project_Dialog()
 {
     // Create the file dialog
-    m_import_project_dialog->show();
+    m_import_project_dialog->exec();
+
+    // Check if project loaded
+    if( m_import_project_dialog->Project_Loaded() )
+    {
+        // Grab the project information
+        Config_Param  project_info = m_import_project_dialog->Get_Project_Info();
+
+        // Find the project to load
+        bool match_found;
+        std::string project_type = project_info.Query_KV_Pair("project.type", match_found);
+
+        if( !match_found || m_project_panels.find(project_type) == m_project_panels.end() )
+        {
+            std::cerr << "Unable to find matching project" << std::endl;
+            std::exit(-1);
+        }
+        else
+        {
+            // Import the new project
+            m_project_panels[project_type]->Import_Project(project_info);
+        }
+    }
+    else
+    {
+        std::cout << "Canceled Import" << std::endl;
+    }
 }
 
 

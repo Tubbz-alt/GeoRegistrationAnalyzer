@@ -10,7 +10,6 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QToolButton>
-#include <QVBoxLayout>
 
 
 
@@ -83,6 +82,19 @@ void ImportProjectDialog::Import_Project_File()
     // Otherwise, popup
 
 
+}
+
+
+/************************************************/
+/*          Import the Project and Close        */
+/************************************************/
+void ImportProjectDialog::Import_Project()
+{
+    // Set the loaded flag
+    m_project_loaded = true;
+
+    // Close the widget
+    close();
 }
 
 /*******************************/
@@ -226,6 +238,7 @@ void ImportProjectDialog::Build_Project_Viewer()
     import_button->setFixedSize( button_width,
                                  button_height);
     toolbar_layout->addWidget(import_button);
+    connect(import_button, SIGNAL(clicked()), this, SLOT(Import_Project()));
 
     // Create Cancel Button
     QToolButton* cancel_button = new QToolButton();

@@ -11,9 +11,9 @@
 /********************************/
 AnalysisBasePanel::AnalysisBasePanel( System_Configuration::ptr_t  sys_config,
                                       QWidget*                     parent )
-  : QWidget(parent),
-    m_class_name("AnalysisBasePanel"),
-    m_sys_config(sys_config)
+  : ProjectBasePanel( sys_config,
+                      parent),
+    m_class_name("AnalysisBasePanel")
 {
 
 }

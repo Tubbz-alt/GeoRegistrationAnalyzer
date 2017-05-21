@@ -11,12 +11,13 @@
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
+#include "../ProjectBasePanel.hpp"
 
 
 /**
  * @class AnalysisBasePanel
 */
-class AnalysisBasePanel : public QWidget
+class AnalysisBasePanel : public ProjectBasePanel
 {
 
     public:
@@ -31,9 +32,6 @@ class AnalysisBasePanel : public QWidget
 
         /// Class Name
         std::string m_class_name;
-
-        /// System Configuration
-        System_Configuration::ptr_t  m_sys_config;
 
 }; // End of AnalysisBasePanel Class
 

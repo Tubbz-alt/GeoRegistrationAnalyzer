@@ -8,10 +8,12 @@
 
 // Qt Libraries
 #include <QSplitter>
+#include <QTableWidget>
 #include <QWidget>
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
+#include "../ProjectBasePanel.hpp"
 #include "ReferenceImageryPanel.hpp"
 #include "TestImageryPanel.hpp"
 #include "Toolbar/MatchingToolbarWidget.hpp"
@@ -20,7 +22,7 @@
 /**
  * @class MatchingBasePanel
 */
-class MatchingBasePanel : public QWidget
+class MatchingBasePanel : public ProjectBasePanel
 {
     Q_OBJECT
 
@@ -31,6 +33,13 @@ class MatchingBasePanel : public QWidget
         */
         MatchingBasePanel( System_Configuration::ptr_t sys_config,
                            QWidget*                    parent = nullptr );
+
+        /**
+        * @brief Import a new project
+        *
+        * @param project_info
+        */
+        virtual void Import_Project( const Config_Param& project_info );
 
 
     protected:
@@ -44,9 +53,6 @@ class MatchingBasePanel : public QWidget
 
         /// Class Name
         std::string m_class_name;
-
-        /// System Configuration
-        System_Configuration::ptr_t  m_sys_config;
 
         /// Main Widgets
         QSplitter* m_main_splitter;

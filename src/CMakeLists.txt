@@ -62,6 +62,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/ImportProjectDialog.cpp
         gui/Main_Window.cpp
         gui/PreferenceDialog.cpp
+        gui/ProjectBasePanel.cpp
         gui/ProjectViewerPanelBase.cpp
         gui/ProjectViewerPanelFactory.cpp
         gui/Analysis/AnalysisBasePanel.cpp
@@ -74,6 +75,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/Matching/Toolbar/MatchingToolbarWidget.cpp
         gui/Matching/Toolbar/PrimaryMatchingToolbarPane.cpp
         gui/Matching/Toolbar/ProjectMatchingToolbarPane.cpp
+        gui/Matching/Worker/Matching_Worker.cpp
         gui/GeoWidget/GeoViewerBase.cpp
         gui/GeoWidget/GeoViewerFactory.cpp
         gui/GeoWidget/GeoViewerLocal.cpp
@@ -95,6 +97,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/ImportProjectDialog.hpp
         gui/Main_Window.hpp
         gui/PreferenceDialog.hpp
+        gui/ProjectBasePanel.hpp
         gui/ProjectViewerPanelBase.hpp
         gui/ProjectViewerPanelFactory.hpp
         gui/Analysis/AnalysisBasePanel.hpp
@@ -107,6 +110,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/Matching/Toolbar/MatchingToolbarWidget.hpp
         gui/Matching/Toolbar/PrimaryMatchingToolbarPane.hpp
         gui/Matching/Toolbar/ProjectMatchingToolbarPane.hpp
+        gui/Matching/Worker/Matching_Worker.hpp
         gui/GeoWidget/GeoViewerBase.hpp
         gui/GeoWidget/GeoViewerFactory.hpp
         gui/GeoWidget/GeoViewerLocal.hpp

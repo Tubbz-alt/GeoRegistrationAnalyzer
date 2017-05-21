@@ -25,6 +25,7 @@ class ImportProjectDialog : public QDialog
 {
     Q_OBJECT
 
+
     public:
 
         /**
@@ -37,12 +38,33 @@ class ImportProjectDialog : public QDialog
                              QWidget*                     parent = nullptr );
 
 
+        /**
+         * @brief Check if Project Was Imported
+         */
+        inline bool Project_Loaded()const{
+            return m_project_loaded;
+        }
+
+        /**
+         * @brief Get the Project Info
+         */
+        inline Config_Param Get_Project_Info()const
+        {
+            return m_project_info;
+        }
+
+
     protected slots:
 
         /**
          * @brief Import Project File
          */
         void Import_Project_File();
+
+        /**
+         * @brief Save Project
+         */
+        void Import_Project();
 
 
     protected:
