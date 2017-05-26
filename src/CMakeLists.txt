@@ -77,6 +77,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/Matching/Toolbar/PrimaryMatchingToolbarPane.cpp
         gui/Matching/Toolbar/ProjectMatchingToolbarPane.cpp
         gui/Matching/Worker/Matching_Worker.cpp
+        gui/Matching/Worker/MatchingImportProjectJob.cpp
         gui/GeoWidget/GeoViewerBase.cpp
         gui/GeoWidget/GeoViewerFactory.cpp
         gui/GeoWidget/GeoViewerLocal.cpp
@@ -113,6 +114,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/Matching/Toolbar/PrimaryMatchingToolbarPane.hpp
         gui/Matching/Toolbar/ProjectMatchingToolbarPane.hpp
         gui/Matching/Worker/Matching_Worker.hpp
+        gui/Matching/Worker/MatchingImportProjectJob.hpp
         gui/GeoWidget/GeoViewerBase.hpp
         gui/GeoWidget/GeoViewerFactory.hpp
         gui/GeoWidget/GeoViewerLocal.hpp
