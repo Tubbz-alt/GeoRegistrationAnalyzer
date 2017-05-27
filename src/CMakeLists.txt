@@ -61,12 +61,15 @@ set( GEO_REGISTRATION_SOURCES
         core/Thread_Pool.cpp
         gui/ConfigurationSaveDialog.cpp
         gui/Main_Window.cpp
+        gui/NewProjectPanelBase.cpp
+        gui/NewProjectPanelFactory.cpp
         gui/PreferenceDialog.cpp
         gui/ProjectBasePanel.cpp
         gui/ProjectViewerPanelBase.cpp
         gui/ProjectViewerPanelFactory.cpp
         gui/analysis/AnalysisBasePanel.cpp
         gui/matching/MatchingBasePanel.cpp
+        gui/matching/NewProjectPanelMatching.cpp
         gui/matching/ProjectViewerPanelMatching.cpp
         gui/matching/ReferenceImageryPanel.cpp
         gui/matching/ReferenceToolbar.cpp
@@ -99,12 +102,15 @@ set( GEO_REGISTRATION_HEADERS
         core/Thread_Pool.hpp
         gui/ConfigurationSaveDialog.hpp
         gui/Main_Window.hpp
+        gui/NewProjectPanelBase.hpp
+        gui/NewProjectPanelFactory.hpp
         gui/PreferenceDialog.hpp
         gui/ProjectBasePanel.hpp
         gui/ProjectViewerPanelBase.hpp
         gui/ProjectViewerPanelFactory.hpp
         gui/analysis/AnalysisBasePanel.hpp
         gui/matching/MatchingBasePanel.hpp
+        gui/matching/NewProjectPanelMatching.hpp
         gui/matching/ProjectViewerPanelMatching.hpp
         gui/matching/ReferenceImageryPanel.hpp
         gui/matching/ReferenceToolbar.hpp
