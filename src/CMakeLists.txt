@@ -54,13 +54,12 @@ set( GEO_REGISTRATION_SOURCES
         geo-registration-analyzer.cpp
         core/Config_Param.cpp
         core/Enumerations.cpp
-        core/MessageService.cpp
+        comm/MessageService.cpp
         core/System_Config_Utils.cpp
         core/System_Configuration.cpp
         core/System_Manager.cpp
         core/Thread_Pool.cpp
         gui/ConfigurationSaveDialog.cpp
-        gui/ImportProjectDialog.cpp
         gui/Main_Window.cpp
         gui/PreferenceDialog.cpp
         gui/ProjectBasePanel.cpp
@@ -83,6 +82,8 @@ set( GEO_REGISTRATION_SOURCES
         gui/geo_widget/GeoViewerLocal.cpp
         gui/geo_widget/GeoViewerGoogle.cpp
         gui/geo_widget/GeoWidget.cpp
+        gui/project_dialogs/ImportProjectDialog.cpp
+        gui/project_dialogs/NewProjectDialog.cpp
         utility/String_Utilities.cpp
  )
 
@@ -91,13 +92,12 @@ set( GEO_REGISTRATION_HEADERS
         core/BlockingQueue.hpp
         core/Config_Param.hpp
         core/Enumerations.hpp
-        core/MessageService.hpp
+        comm/MessageService.hpp
         core/System_Config_Utils.hpp
         core/System_Configuration.hpp
         core/System_Manager.hpp
         core/Thread_Pool.hpp
         gui/ConfigurationSaveDialog.hpp
-        gui/ImportProjectDialog.hpp
         gui/Main_Window.hpp
         gui/PreferenceDialog.hpp
         gui/ProjectBasePanel.hpp
@@ -120,6 +120,8 @@ set( GEO_REGISTRATION_HEADERS
         gui/geo_widget/GeoViewerLocal.hpp
         gui/geo_widget/GeoViewerGoogle.hpp
         gui/geo_widget/GeoWidget.hpp
+        gui/project_dialogs/NewProjectDialog.hpp
+        gui/project_dialogs/ImportProjectDialog.hpp
         utility/String_Utilities.hpp
 )
 

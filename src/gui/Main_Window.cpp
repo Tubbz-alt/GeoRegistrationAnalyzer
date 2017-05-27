@@ -66,6 +66,9 @@ void Main_Window::Initialize_GUI()
     // Build the Preference Dialog
     m_pref_dialog = new PreferenceDialog(m_sys_config, this);
 
+    // Build the New Project Dialog
+    m_new_project_dialog = new NewProjectDialog(m_sys_config, this);
+
     // Build the Import Dialog
     m_import_project_dialog = new ImportProjectDialog(m_sys_config, this);
 
@@ -129,6 +132,43 @@ void Main_Window::closeEvent(QCloseEvent *event)
     // Clean up the System Configuration
     m_sys_config->Finalize();
 
+}
+
+
+
+/******************************/
+/*     Open a New Project     */
+/******************************/
+void Main_Window:: New_Project_Dialog()
+{
+    // Create the file dialog
+    m_new_project_dialog->exec();
+
+    // Check if project loaded
+    if( m_new_project_dialog->Project_Loaded() )
+    {
+        // Grab the project information
+        Config_Param  project_info = m_new_project_dialog->Get_Project_Info();
+
+        // Find the project to load
+        bool match_found;
+        std::string project_type = project_info.Query_KV_Pair("project.type", match_found);
+
+        if( !match_found || m_project_panels.find(project_type) == m_project_panels.end() )
+        {
+            std::cerr << "Unable to find matching project" << std::endl;
+            std::exit(-1);
+        }
+        else
+        {
+            // Import the new project
+            m_project_panels[project_type]->Import_Project(project_info);
+        }
+    }
+    else
+    {
+        std::cout << "Canceled Import" << std::endl;
+    }
 }
 
 
@@ -200,6 +240,12 @@ void Main_Window::Build_Menu()
     connect( quitAction, SIGNAL(triggered()), this, SLOT(close()));
     fileMenu->addAction(quitAction);
 
+
+    // Create the New Project Action
+    QAction* newProjectAction = new QAction(tr("&New Project"), this);
+    newProjectAction->setStatusTip("Create New Project");
+    connect(newProjectAction, SIGNAL(triggered()), this, SLOT(New_Project_Dialog()));
+    projectMenu->addAction(newProjectAction);
 
     // Create the Load Project Action
     QAction* loadProjectAction = new QAction(tr("&Import Project"), this);

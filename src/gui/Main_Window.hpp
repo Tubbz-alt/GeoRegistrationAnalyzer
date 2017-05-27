@@ -18,7 +18,8 @@
 
 // Project Libraries
 #include "../core/System_Configuration.hpp"
-#include "ImportProjectDialog.hpp"
+#include "project_dialogs/NewProjectDialog.hpp"
+#include "project_dialogs/ImportProjectDialog.hpp"
 #include "PreferenceDialog.hpp"
 #include "analysis/AnalysisBasePanel.hpp"
 #include "matching/MatchingBasePanel.hpp"
@@ -64,6 +65,12 @@ class Main_Window : public QMainWindow
     protected slots:
 
         /**
+         * @brief Create New Project
+         */
+        void New_Project_Dialog();
+
+
+        /**
          *  @brief Load the Project GUI
          */
         void Import_Project_Dialog();
@@ -93,6 +100,9 @@ class Main_Window : public QMainWindow
 
         /// Preferences Dialog
         PreferenceDialog* m_pref_dialog;
+
+        /// New Project Dialog
+        NewProjectDialog*    m_new_project_dialog;
 
         /// Import Project Dialog
         ImportProjectDialog* m_import_project_dialog;

@@ -1,10 +1,10 @@
 /**
- * @file    ImportProjectDialog.hpp
+ * @file    NewProjectDialog.hpp
  * @author  Marvin Smith
- * @date    5/20/2017
+ * @date    5/25/2017
  */
-#ifndef GUI_IMPORT_PROJECT_DIALOG_HPP
-#define GUI_IMPORT_PROJECT_DIALOG_HPP
+#ifndef GUI_NEW_PROJECT_DIALOG_HPP
+#define GUI_NEW_PROJECT_DIALOG_HPP
 
 // Qt Libraries
 #include <QDialog>
@@ -13,15 +13,15 @@
 
 
 // Project Libraries
-#include "../core/Config_Param.hpp"
-#include "../core/System_Configuration.hpp"
-#include "ProjectViewerPanelFactory.hpp"
+#include "core/Config_Param.hpp"
+#include "core/System_Configuration.hpp"
+#include "gui/ProjectViewerPanelFactory.hpp"
 
 
 /**
- * @class ImportProjectDialog
+ * @class NewProjectDialog
  */
-class ImportProjectDialog : public QDialog
+class NewProjectDialog : public QDialog
 {
     Q_OBJECT
 
@@ -29,13 +29,13 @@ class ImportProjectDialog : public QDialog
     public:
 
         /**
-         * @brief Import Project
+         * @brief Build New Project
          *
          * @param sys_config
          * @param parent
          */
-        ImportProjectDialog( System_Configuration::ptr_t  sys_config,
-                             QWidget*                     parent = nullptr );
+        NewProjectDialog( System_Configuration::ptr_t  sys_config,
+                          QWidget*                     parent = nullptr );
 
 
         /**
@@ -56,15 +56,6 @@ class ImportProjectDialog : public QDialog
 
     protected slots:
 
-        /**
-         * @brief Import Project File
-         */
-        void Import_Project_File();
-
-        /**
-         * @brief Save Project
-         */
-        void Import_Project();
 
 
     protected:
@@ -83,18 +74,6 @@ class ImportProjectDialog : public QDialog
         void Initialize_Configuration();
 
 
-        /**
-         * @brief BUild the File Chooser Widget
-         */
-        void Build_File_Chooser();
-
-
-        /**
-         * @brief Build the Project Viewer
-         */
-        void Build_Project_Viewer();
-
-
         /// Class Name
         std::string m_class_name;
 
@@ -104,10 +83,8 @@ class ImportProjectDialog : public QDialog
         /// Main Layout
         QVBoxLayout* m_main_layout;
 
-        /// Project Layout
-        QVBoxLayout* m_project_layout;
 
-            /// Stacked Widget
+        /// Stacked Widget
         QStackedWidget* m_stack_widget;
 
         /// Project Info
@@ -115,12 +92,6 @@ class ImportProjectDialog : public QDialog
 
         /// Loaded Project
         bool m_project_loaded;
-
-        /// Stub Project Panel
-        QWidget* m_stub_panel;
-
-        /// Project Widget
-        ProjectViewerPanelBase* m_project_panel;
 };
 
 
