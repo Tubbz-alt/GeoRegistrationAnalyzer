@@ -12,7 +12,7 @@
 // Project Libraries
 #include "TestToolbar.hpp"
 #include "../../core/System_Configuration.hpp"
-#include "../GeoWidget/GeoWidget.hpp"
+#include "../geo_widget/GeoWidget.hpp"
 
 
 /**

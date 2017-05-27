@@ -20,8 +20,8 @@
 #include "../core/System_Configuration.hpp"
 #include "ImportProjectDialog.hpp"
 #include "PreferenceDialog.hpp"
-#include "Analysis/AnalysisBasePanel.hpp"
-#include "Matching/MatchingBasePanel.hpp"
+#include "analysis/AnalysisBasePanel.hpp"
+#include "matching/MatchingBasePanel.hpp"
 
 
 /**

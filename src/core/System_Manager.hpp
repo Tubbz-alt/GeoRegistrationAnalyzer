@@ -71,6 +71,7 @@ class System_Manager
          */
         static ptr_t& Get_Reference();
 
+
         /**
          * @brief Deleted Assignment operator
          */

@@ -66,23 +66,23 @@ set( GEO_REGISTRATION_SOURCES
         gui/ProjectBasePanel.cpp
         gui/ProjectViewerPanelBase.cpp
         gui/ProjectViewerPanelFactory.cpp
-        gui/Analysis/AnalysisBasePanel.cpp
-        gui/Matching/MatchingBasePanel.cpp
-        gui/Matching/ProjectViewerPanelMatching.cpp
-        gui/Matching/ReferenceImageryPanel.cpp
-        gui/Matching/ReferenceToolbar.cpp
-        gui/Matching/TestImageryPanel.cpp
-        gui/Matching/TestToolbar.cpp
-        gui/Matching/Toolbar/MatchingToolbarWidget.cpp
-        gui/Matching/Toolbar/PrimaryMatchingToolbarPane.cpp
-        gui/Matching/Toolbar/ProjectMatchingToolbarPane.cpp
-        gui/Matching/Worker/Matching_Worker.cpp
-        gui/Matching/Worker/MatchingImportProjectJob.cpp
-        gui/GeoWidget/GeoViewerBase.cpp
-        gui/GeoWidget/GeoViewerFactory.cpp
-        gui/GeoWidget/GeoViewerLocal.cpp
-        gui/GeoWidget/GeoViewerGoogle.cpp
-        gui/GeoWidget/GeoWidget.cpp
+        gui/analysis/AnalysisBasePanel.cpp
+        gui/matching/MatchingBasePanel.cpp
+        gui/matching/ProjectViewerPanelMatching.cpp
+        gui/matching/ReferenceImageryPanel.cpp
+        gui/matching/ReferenceToolbar.cpp
+        gui/matching/TestImageryPanel.cpp
+        gui/matching/TestToolbar.cpp
+        gui/matching/Toolbar/MatchingToolbarWidget.cpp
+        gui/matching/Toolbar/PrimaryMatchingToolbarPane.cpp
+        gui/matching/Toolbar/ProjectMatchingToolbarPane.cpp
+        gui/matching/Worker/Matching_Worker.cpp
+        gui/matching/Worker/MatchingImportProjectJob.cpp
+        gui/geo_widget/GeoViewerBase.cpp
+        gui/geo_widget/GeoViewerFactory.cpp
+        gui/geo_widget/GeoViewerLocal.cpp
+        gui/geo_widget/GeoViewerGoogle.cpp
+        gui/geo_widget/GeoWidget.cpp
         utility/String_Utilities.cpp
  )
 
@@ -103,23 +103,23 @@ set( GEO_REGISTRATION_HEADERS
         gui/ProjectBasePanel.hpp
         gui/ProjectViewerPanelBase.hpp
         gui/ProjectViewerPanelFactory.hpp
-        gui/Analysis/AnalysisBasePanel.hpp
-        gui/Matching/MatchingBasePanel.hpp
-        gui/Matching/ProjectViewerPanelMatching.hpp
-        gui/Matching/ReferenceImageryPanel.hpp
-        gui/Matching/ReferenceToolbar.hpp
-        gui/Matching/TestImageryPanel.hpp
-        gui/Matching/TestToolbar.hpp
-        gui/Matching/Toolbar/MatchingToolbarWidget.hpp
-        gui/Matching/Toolbar/PrimaryMatchingToolbarPane.hpp
-        gui/Matching/Toolbar/ProjectMatchingToolbarPane.hpp
-        gui/Matching/Worker/Matching_Worker.hpp
-        gui/Matching/Worker/MatchingImportProjectJob.hpp
-        gui/GeoWidget/GeoViewerBase.hpp
-        gui/GeoWidget/GeoViewerFactory.hpp
-        gui/GeoWidget/GeoViewerLocal.hpp
-        gui/GeoWidget/GeoViewerGoogle.hpp
-        gui/GeoWidget/GeoWidget.hpp
+        gui/analysis/AnalysisBasePanel.hpp
+        gui/matching/MatchingBasePanel.hpp
+        gui/matching/ProjectViewerPanelMatching.hpp
+        gui/matching/ReferenceImageryPanel.hpp
+        gui/matching/ReferenceToolbar.hpp
+        gui/matching/TestImageryPanel.hpp
+        gui/matching/TestToolbar.hpp
+        gui/matching/Toolbar/MatchingToolbarWidget.hpp
+        gui/matching/Toolbar/PrimaryMatchingToolbarPane.hpp
+        gui/matching/Toolbar/ProjectMatchingToolbarPane.hpp
+        gui/matching/Worker/Matching_Worker.hpp
+        gui/matching/Worker/MatchingImportProjectJob.hpp
+        gui/geo_widget/GeoViewerBase.hpp
+        gui/geo_widget/GeoViewerFactory.hpp
+        gui/geo_widget/GeoViewerLocal.hpp
+        gui/geo_widget/GeoViewerGoogle.hpp
+        gui/geo_widget/GeoWidget.hpp
         utility/String_Utilities.hpp
 )
 
