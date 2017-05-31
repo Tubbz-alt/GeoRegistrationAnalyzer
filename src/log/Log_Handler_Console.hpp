@@ -3,8 +3,8 @@
  * @author  Marvin Smith
  * @date    4/20/2017
 */
-#ifndef LOG_HANDLER_CONSOLE
-#define LOG_HANDLER_CONSOLE
+#ifndef LOG_LOG_HANDLER_CONSOLE
+#define LOG_LOG_HANDLER_CONSOLE
 
 // C++ Libraries
 #include <memory>
@@ -20,17 +20,21 @@ class Log_Handler_Config_Console : public Log_Handler_Config_Base
 {
     public:
 
+        /// Pointer Type
+        typedef std::shared_ptr<Log_Handler_Config_Console> ptr_t;
+
+
         /**
          * @brief Constructor
         */
-        Log_Handler_Config_Console();
+        Log_Handler_Config_Console( const LogSeverity& severity );
 
     private:
 
         /// Class Name
         std::string m_class_name;
 
-}; // End of Log_Handler_Config_Base Class
+}; // End of Log_Handler_Config_Console Class
 
 
 /**

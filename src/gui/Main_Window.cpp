@@ -41,7 +41,22 @@ void Main_Window::Load_Project(const std::string &project_pathname)
 {
 
     // Load the project file for the project type
+    bool project_status;
+    Config_Param  project_info = Config_Param::Load_Key_Value_File(project_pathname, project_status);
 
+    // Find the project to load
+    std::string project_type = project_info.Query_KV_Pair("project.type", project_status);
+
+    if( !project_status || m_project_panels.find(project_type) == m_project_panels.end() )
+    {
+        std::cerr << "Unable to find matching project" << std::endl;
+        std::exit(-1);
+    }
+    else
+    {
+        // Import the new project
+        m_project_panels[project_type]->Import_Project(project_info);
+    }
 }
 
 

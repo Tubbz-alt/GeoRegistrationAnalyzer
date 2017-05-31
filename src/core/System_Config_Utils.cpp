@@ -43,8 +43,16 @@ Config_Param Generate_Default_Parameters()
     output.Add_KV_Pair("system.config_pathname", config_pathname, "# Default Configuration File Pathname.");
 
     //  Add Default Logging Options
-    output.Add_KV_Pair("system.logging.level",       "info", "#  Default Logging Level");
-    output.Add_KV_Pair("system.logging.file_enabled", "true", "#  Logging to File Enabled");
+    output.Add_KV_Pair("system.logging.file.level",   "info", "#  Default Logging Level");
+    output.Add_KV_Pair("system.logging.file.enabled", "true", "#  Logging to File Enabled");
+    output.Add_KV_Pair("system.logging.file.pathname", "~/.geo-registration-utility/output.log", "#  Path to Log File");
+
+    output.Add_KV_Pair("system.logging.console.level",   "debug", "#  Default Logging Level");
+    output.Add_KV_Pair("system.logging.console.enabled", "true",  "#  Logging Enabled Flag");
+
+    output.Add_KV_Pair("system.logging.qt.enabled",  "true",  "#  Logging Enabled Flag");
+    output.Add_KV_Pair("system.logging.qt.level",    "debug", "#  Logging Level");
+
 
     //  Add OS Options
     output.Add_KV_Pair("system.os.name",  os_name, "#  Name of Operating System");

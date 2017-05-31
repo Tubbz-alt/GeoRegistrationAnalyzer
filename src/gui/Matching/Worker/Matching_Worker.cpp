@@ -47,6 +47,7 @@ void Matching_Worker::Finalize()
 /***************************************/
 void Matching_Worker::Import_Project( const Config_Param& project_info )
 {
+
     // Create a load job
     Worker_Thread::ptr_t worker_thread = std::make_shared<MatchingImportProjectJob>( project_info,
                                                                                      m_sys_config );

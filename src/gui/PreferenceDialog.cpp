@@ -13,6 +13,8 @@
 #include <QHeaderView>
 #include <QTableWidgetItem>
 
+// Project Libraries
+#include "LogViewerPanel.hpp"
 
 /**
  * @brief Update the Configuration Table
@@ -161,9 +163,7 @@ void PreferenceDialog::Build_Configuration_Panel()
 void PreferenceDialog::Build_Logging_Panel()
 {
     // Create Widget
-    QWidget*  log_panel = new QWidget(m_main_widget);
-
-
+    QWidget*  log_panel = new LogViewerPanel(m_sys_config, this);
 
     // Add to tab panel
     m_main_widget->addTab( log_panel, "Logging");

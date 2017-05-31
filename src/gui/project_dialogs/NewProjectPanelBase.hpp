@@ -13,7 +13,7 @@
 #include <QWidget>
 
 // Project Libraries
-#include "../core/System_Configuration.hpp"
+#include "core/System_Configuration.hpp"
 
 
 /**

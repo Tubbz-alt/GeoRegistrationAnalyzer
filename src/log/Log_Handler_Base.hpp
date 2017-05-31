@@ -8,6 +8,11 @@
 
 // C++ Libraries
 #include <memory>
+#include <string>
+
+
+// Project Libraries
+#include "Log_Severity.hpp"
 
 
 /**
@@ -22,9 +27,22 @@ class Log_Handler_Config_Base
 
         /**
          * @brief Log Handler
+         *
+         * @param[in] severity
         */
-        Log_Handler_Config_Base();
+        Log_Handler_Config_Base( const LogSeverity& severity );
 
+
+        /**
+         * @brief COnvert to String
+         */
+        virtual std::string To_String( const int& indent = 0 )const;
+
+
+    protected:
+
+        /// Log Severity
+        LogSeverity m_severity;
 
     private:
 
@@ -39,6 +57,10 @@ class Log_Handler_Config_Base
 class Log_Handler_Base
 {
     public:
+
+        /// Pointer Type
+        typedef std::shared_ptr<Log_Handler_Base> ptr_t;
+
 
         /**
          * @brief Constructor

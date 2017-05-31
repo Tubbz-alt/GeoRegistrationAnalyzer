@@ -47,22 +47,21 @@ list( APPEND GEO_REGISTRATION_LIBRARIES
         Qt5::WebSockets
         Qt5::Widgets)
 
+
+#  Add Each Sub-Project
+add_subdirectory(core)
+add_subdirectory(log)
+add_subdirectory(utility)
+
 #-------------------------------#
 #-      Define our Sources     -#
 #-------------------------------#
 set( GEO_REGISTRATION_SOURCES
         geo-registration-analyzer.cpp
-        core/Config_Param.cpp
-        core/Enumerations.cpp
         comm/MessageService.cpp
-        core/System_Config_Utils.cpp
-        core/System_Configuration.cpp
-        core/System_Manager.cpp
-        core/Thread_Pool.cpp
         gui/ConfigurationSaveDialog.cpp
+        gui/LogViewerPanel.cpp
         gui/Main_Window.cpp
-        gui/NewProjectPanelBase.cpp
-        gui/NewProjectPanelFactory.cpp
         gui/PreferenceDialog.cpp
         gui/ProjectBasePanel.cpp
         gui/ProjectViewerPanelBase.cpp
@@ -87,23 +86,16 @@ set( GEO_REGISTRATION_SOURCES
         gui/geo_widget/GeoWidget.cpp
         gui/project_dialogs/ImportProjectDialog.cpp
         gui/project_dialogs/NewProjectDialog.cpp
-        utility/String_Utilities.cpp
+        gui/project_dialogs/NewProjectPanelBase.cpp
+        gui/project_dialogs/NewProjectPanelFactory.cpp
  )
 
 
 set( GEO_REGISTRATION_HEADERS
-        core/BlockingQueue.hpp
-        core/Config_Param.hpp
-        core/Enumerations.hpp
         comm/MessageService.hpp
-        core/System_Config_Utils.hpp
-        core/System_Configuration.hpp
-        core/System_Manager.hpp
-        core/Thread_Pool.hpp
         gui/ConfigurationSaveDialog.hpp
+        gui/LogViewerPanel.hpp
         gui/Main_Window.hpp
-        gui/NewProjectPanelBase.hpp
-        gui/NewProjectPanelFactory.hpp
         gui/PreferenceDialog.hpp
         gui/ProjectBasePanel.hpp
         gui/ProjectViewerPanelBase.hpp
@@ -128,7 +120,8 @@ set( GEO_REGISTRATION_HEADERS
         gui/geo_widget/GeoWidget.hpp
         gui/project_dialogs/NewProjectDialog.hpp
         gui/project_dialogs/ImportProjectDialog.hpp
-        utility/String_Utilities.hpp
+        gui/project_dialogs/NewProjectPanelBase.hpp
+        gui/project_dialogs/NewProjectPanelFactory.hpp
 )
 
 #------------------------------#
@@ -136,7 +129,10 @@ set( GEO_REGISTRATION_HEADERS
 #------------------------------#
 add_executable( geo-registration-analyzer
                 ${GEO_REGISTRATION_SOURCES}
-                ${GEO_REGISTRATION_HEADERS} )
+                ${GEO_REGISTRATION_HEADERS}
+                $<TARGET_OBJECTS:GEO_CORE_OBJ>
+                $<TARGET_OBJECTS:GEO_LOG_OBJ>
+                $<TARGET_OBJECTS:GEO_UTIL_OBJ>)
 
 target_link_libraries( geo-registration-analyzer
                        ${GEO_REGISTRATION_LIBRARIES}

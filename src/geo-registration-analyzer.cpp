@@ -13,7 +13,10 @@
 // Project Libraries
 #include "core/System_Configuration.hpp"
 #include "core/System_Manager.hpp"
+#include "core/assets/Asset_Manager.hpp"
+#include "log/System_Logger.hpp"
 #include "gui/Main_Window.hpp"
+#include "utility/Init_Utilities.hpp"
 
 
 int main( int argc, char* argv[] )
@@ -25,9 +28,19 @@ int main( int argc, char* argv[] )
     // Load the Configuration
     auto system_configuration = std::make_shared<System_Configuration>(argc, argv);
 
+
+    // Initialize the System Logger
+    Initialize_Logging( system_configuration );
+
+
+    // Initialize the Asset-Manager
+    Asset_Manager::Initialize( system_configuration );
+
+
     // Initialize System-Manager
     System_Manager::Initialize( system_configuration );
     auto system_manager = System_Manager::Get_Instance();
+
 
     // Initialize the Message Service
 

@@ -6,6 +6,11 @@
 #ifndef GUI_NEW_PROJECT_DIALOG_HPP
 #define GUI_NEW_PROJECT_DIALOG_HPP
 
+// C++ Libraries
+#include <map>
+#include <string>
+
+
 // Qt Libraries
 #include <QDialog>
 #include <QStackedWidget>
@@ -54,9 +59,26 @@ class NewProjectDialog : public QDialog
         }
 
 
+    public slots:
+
+
+        /**
+         * @brief Reset the Dialog
+         */
+        virtual void Reset();
+
+
+        /**
+         * @brief Close the Dialog
+         */
+        virtual void Close();
+
     protected slots:
 
-
+        /**
+         * @brief Create a Matching Project
+         */
+        void Create_Matching_Project();
 
     protected:
 
@@ -72,6 +94,12 @@ class NewProjectDialog : public QDialog
          * @brief Initialize the Configuration
          */
         void Initialize_Configuration();
+
+
+        /**
+         * @brief Build the Selector Panel
+         */
+        void Build_Selector_Panel();
 
 
         /// Class Name
@@ -92,6 +120,7 @@ class NewProjectDialog : public QDialog
 
         /// Loaded Project
         bool m_project_loaded;
+
 };
 
 

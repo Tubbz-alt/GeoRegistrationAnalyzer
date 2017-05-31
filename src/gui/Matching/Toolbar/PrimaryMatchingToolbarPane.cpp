@@ -61,7 +61,7 @@ void PrimaryMatchingToolbarPane::Initialize_Configuration()
                                    false);
 
     m_sys_config->Add_Config_Param("system.matching.toolbar.primary_panel.project_button.text",
-                                   "Project\nSettings",
+                                   "Project\\\nSettings",
                                    "#  Button Text",
                                    false );
 
@@ -123,7 +123,6 @@ void PrimaryMatchingToolbarPane::Build_Tool_Buttons()
     button_icon_path = m_sys_config->Query_Config_Param("system.matching.toolbar.primary_panel.project_button.icon", value_found);
     button_icon_path = icon_base_path + "/" + button_icon_path;
     std::string title_str = "system.matching.toolbar.primary_panel.project_button";
-    std::cout << "Width: " << def_button_width << ", Height: " << def_button_height << std::endl;
     m_button_list[title_str] = new QToolButton();
     m_button_list[title_str]->setText(button_title.c_str());
     m_button_list[title_str]->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextUnderIcon);
