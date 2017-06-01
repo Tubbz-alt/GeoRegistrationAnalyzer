@@ -12,6 +12,7 @@
 // Project Libraries
 #include "../../../core/assets/Asset_Image_Local.hpp"
 #include "../../../core/assets/Image_Asset_Builder.hpp"
+#include "../../../log/System_Logger.hpp"
 
 
 /*********************************/
@@ -50,6 +51,9 @@ int MatchingImportProjectJob::Execute()
 /********************************************/
 void MatchingImportProjectJob::Build_Image_Asset( const std::string& base_element )const
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
     // Grab the source type
     bool value_found, success;
     std::string source = m_sys_config->Query_Config_Param(base_element + ".source", value_found);

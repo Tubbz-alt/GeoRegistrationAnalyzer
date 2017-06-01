@@ -6,6 +6,10 @@
 #include "Log_Handler_Console.hpp"
 
 
+// C++ Libraries
+#include <iostream>
+
+
 /**********************************/
 /*          Constructor           */
 /**********************************/
@@ -26,4 +30,51 @@ Log_Handler_Console::Log_Handler_Console( Log_Handler_Config_Base::ptr_t config 
 {
     // Cast the config
     m_config = std::dynamic_pointer_cast<Log_Handler_Config_Console>(config);
+}
+
+/*****************************/
+/*       Log a Message       */
+/*****************************/
+void Log_Handler_Console::Log( const LogSeverity& severity,
+                               const time_t&      timestamp,
+                               const std::string& message )
+{
+    // FOrmat the timestamp
+    struct tm * timeinfo = localtime(&timestamp);
+    char buffer [80];
+
+    strftime (buffer,80,"%Y/%m/%d %H::%M::%S",timeinfo);
+    std::string time_str = std::string(buffer);
+
+    // Check severity level
+    if( severity >= m_config->Get_Log_Severity() )
+    {
+        std::cout << "TIME: " << time_str << " LEVEL: " << LogSeverityToString(severity) << "  MSG: " << message << std::endl;
+    }
+}
+
+
+/*****************************/
+/*       Log a Message       */
+/*****************************/
+void Log_Handler_Console::Log_Class( const LogSeverity& severity,
+                                     const time_t&      timestamp,
+                                     const std::string& class_name,
+                                     const std::string& func_name,
+                                     const int&         line_no,
+                                     const std::string& message )
+{
+    // FOrmat the timestamp
+    struct tm * timeinfo = localtime(&timestamp);
+    char buffer [80];
+
+    strftime (buffer,80,"%Y/%m/%d %H::%M::%S",timeinfo);
+    std::string time_str = std::string(buffer);
+
+    // Check severity level
+    if( severity >= m_config->Get_Log_Severity() )
+    {
+        std::cout << "TIME: " << time_str << " LEVEL: " << LogSeverityToString(severity);
+        std::cout << "  CLASS: " << class_name << " FUNC: " << func_name << " LINE: " << line_no << "  MSG: " << message << std::endl;
+    }
 }

@@ -16,6 +16,7 @@
 
 // Project Libraries
 #include "System_Config_Utils.hpp"
+#include "../log/System_Logger.hpp"
 #include "../utility/String_Utilities.hpp"
 
 
@@ -125,7 +126,7 @@ std::string System_Configuration::Query_Config_Param(const std::string& key_name
                                                      const std::string& default_value,
                                                      const bool&        write_if_not_found )
 {
-    bool output_found = true;
+    value_found = true;
     std::string output;
 
     // Split Keyname
@@ -133,7 +134,7 @@ std::string System_Configuration::Query_Config_Param(const std::string& key_name
 
     if( output == default_value )
     {
-        output_found = false;
+        value_found = false;
     }
     return output;
 }
@@ -249,7 +250,8 @@ void System_Configuration::Build_Project_Structure()
     std::string project_path = Query_Config_Param("system.core.project_base", value_found);
     if( !bf::exists(bf::path(project_path)))
     {
-        std::cout << "Building: " << project_path << std::endl;
+        std::string msg = "Building: " + project_path;
+        std::cout << msg << std::endl;
         bf::create_directories(bf::path(project_path));
         bf::create_directories(bf::path(project_path + "/projects"));
     }
@@ -384,7 +386,7 @@ void System_Configuration::Parse_Configuration_File()
                 else
                 {
                     // Add the kv pair
-                    Add_Config_Param( comps[0], comps[1], comment_str, false);
+                    Add_Config_Param( comps[0], comps[1], comment_str, true);
 
                     // Clear any comments
                     comment_set = false;

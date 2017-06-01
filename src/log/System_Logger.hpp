@@ -17,6 +17,27 @@
 #include "../core/System_Configuration.hpp"
 
 
+#define LOG_ERROR(   message ) System_Logger::Log( LogSeverity::ERROR,   message )
+#define LOG_WARNING( message ) System_Logger::Log( LogSeverity::WARNING, message )
+#define LOG_INFO(    message ) System_Logger::Log( LogSeverity::INFO,    message )
+#define LOG_DEBUG(   message ) System_Logger::Log( LogSeverity::DEBUG,   message )
+#define LOG_TRACE(   message ) System_Logger::Log( LogSeverity::TRACE,   message )
+
+
+#define LOG_CLASS_ERROR(   message ) System_Logger::Log( LogSeverity::ERROR,   m_class_name, __func__, __LINE__, message )
+#define LOG_CLASS_WARNING( message ) System_Logger::Log( LogSeverity::WARNING, m_class_name, __func__, __LINE__, message )
+#define LOG_CLASS_INFO(    message ) System_Logger::Log( LogSeverity::INFO,    m_class_name, __func__, __LINE__, message )
+#define LOG_CLASS_DEBUG(   message ) System_Logger::Log( LogSeverity::DEBUG,   m_class_name, __func__, __LINE__, message )
+#define LOG_CLASS_TRACE(   message ) System_Logger::Log( LogSeverity::TRACE,   m_class_name, __func__, __LINE__, message )
+
+
+/**
+ * @brief Log the Entry of a Class
+ */
+#define LOG_CLASS_ENTRY() System_Logger::Log( LogSeverity::TRACE, m_class_name, __func__, __LINE__, "Start of Method" )
+#define LOG_CLASS_EXIT()  System_Logger::Log( LogSeverity::TRACE, m_class_name, __func__, __LINE__, "End of Method" )
+
+
 /**
  * @class System_Logger
 */
@@ -48,6 +69,26 @@ class System_Logger
          */
         static bool Is_Initialized();
 
+
+        /**
+         * @brief Log a Message
+         */
+         static void Log( const LogSeverity& severity,
+                          const std::string& message );
+
+
+        /**
+         * @brief Log
+         * @param severity
+         * @param class_name
+         * @param line_no
+         * @param message
+         */
+        static void Log( const LogSeverity&  severity,
+                         const std::string&  class_name,
+                         const std::string&  func_name,
+                         const int&          line_no,
+                         const std::string&  message );
 
 
     private:

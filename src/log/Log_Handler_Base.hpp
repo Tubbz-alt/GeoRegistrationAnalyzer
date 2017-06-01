@@ -7,6 +7,7 @@
 #define LOG_HANDLER_BASE
 
 // C++ Libraries
+#include <ctime>
 #include <memory>
 #include <string>
 
@@ -31,6 +32,14 @@ class Log_Handler_Config_Base
          * @param[in] severity
         */
         Log_Handler_Config_Base( const LogSeverity& severity );
+
+
+        /**
+         * @brief Get the Severity
+         */
+        inline LogSeverity  Get_Log_Severity()const{
+            return m_severity;
+        }
 
 
         /**
@@ -67,6 +76,21 @@ class Log_Handler_Base
         */
         Log_Handler_Base( Log_Handler_Config_Base::ptr_t config );
 
+
+        /**
+         * @brief Log Message
+         */
+        virtual void Log( const LogSeverity& severity,
+                          const time_t&      timestamp,
+                          const std::string& message ) = 0;
+
+
+        virtual void Log_Class( const LogSeverity& severity,
+                                const time_t&      timestamp,
+                                const std::string& class_name,
+                                const std::string& func_name,
+                                const int&         line_no,
+                                const std::string& message ) = 0;
 
     private:
 

@@ -15,6 +15,7 @@
 
 // Project Libraries
 #include "ConfigurationSaveDialog.hpp"
+#include "../log/System_Logger.hpp"
 
 
 /**********************************/
@@ -39,6 +40,8 @@ Main_Window::Main_Window( System_Configuration::ptr_t sys_config,
 /****************************************/
 void Main_Window::Load_Project(const std::string &project_pathname)
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
 
     // Load the project file for the project type
     bool project_status;
@@ -57,6 +60,9 @@ void Main_Window::Load_Project(const std::string &project_pathname)
         // Import the new project
         m_project_panels[project_type]->Import_Project(project_info);
     }
+
+    // Log Exit
+    LOG_CLASS_EXIT();
 }
 
 

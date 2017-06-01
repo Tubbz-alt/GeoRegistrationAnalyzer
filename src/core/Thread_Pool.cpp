@@ -7,6 +7,7 @@
 
 
 // C++ Standard Libraries
+#include <iostream>
 #include <unistd.h>
 
 
@@ -204,38 +205,42 @@ void Thread_Pool::Execute_Thread()
     while( true )
     {
         
-        // Lock the mutex
-        m_mutex.lock();
-        
-        while( (m_pool_state != (int)ThreadPoolStatusType::POOL_STOPPED) && 
+        while( (m_pool_state != (int)ThreadPoolStatusType::POOL_STOPPED) &&
                m_queue.empty() )
         {
-            
+            std::cout << "AAA" << std::endl;
             // Wait
             std::unique_lock<std::mutex> lck(m_mutex);
             bool state = (m_pool_state != (int)ThreadPoolStatusType::POOL_STOPPED);
             m_condv.wait(lck, [&]{ return state;});
             
         }
+
+        // Lock the mutex
+        m_mutex.lock();
         
         // If we stopped, then exit
         if( m_queue.size() <= 0 && m_pool_state == (int)ThreadPoolStatusType::POOL_STOPPED )
         {
-        
+
+            std::cout << "BBB" << std::endl;
             // Unlock the mutex
             m_mutex.unlock();
 
             // Stop the thread
             return;
         }
-        
+
+        std::cout << "CCC" << std::endl;
         // pop the next task
         worker_thread = m_queue.front();
         m_queue.pop_front();
         
-        
+
+        std::cout << "DDD" << std::endl;
         // Unlock the mutex
         m_mutex.unlock();
+        std::cout << "EEE" << std::endl;
 
         // Execute the Task
         worker_thread->Set_Running_Flag(true);
@@ -248,6 +253,7 @@ void Thread_Pool::Execute_Thread()
         worker_thread.reset();
 
 
+        std::cout << "FFF" << std::endl;
         std::unique_lock<std::mutex> lck(m_number_assigned_workers_mutex);
 
         // Decrement the counter
@@ -258,6 +264,7 @@ void Thread_Pool::Execute_Thread()
             m_number_assigned_workers_cv.notify_all();
         }
     }
+    std::cout << "GGG" << std::endl;
     
 }
 
@@ -274,7 +281,9 @@ void Thread_Pool::Assign_Work( Worker_Thread::ptr_t new_thread )
     }
 
     // Lock the mutex
+    std::cout << "Waiting on Mutex" << std::endl;
     m_mutex.lock();
+    std::cout << "Inside Mutex" << std::endl;
 
 
     // Add a task

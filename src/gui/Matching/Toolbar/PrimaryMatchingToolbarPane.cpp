@@ -61,7 +61,7 @@ void PrimaryMatchingToolbarPane::Initialize_Configuration()
                                    false);
 
     m_sys_config->Add_Config_Param("system.matching.toolbar.primary_panel.project_button.text",
-                                   "Project\\\nSettings",
+                                   "Project\\nSettings",
                                    "#  Button Text",
                                    false );
 

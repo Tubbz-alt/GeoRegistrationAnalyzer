@@ -7,6 +7,7 @@
 
 // Project Info
 #include "MatchingImportProjectJob.hpp"
+#include "../../../log/System_Logger.hpp"
 
 
 /*****************************/
@@ -30,6 +31,10 @@ void Matching_Worker::Initialize()
     int pool_size = 2;
     m_thread_pool = std::make_shared<Thread_Pool>(pool_size);
 
+    // Initialize the pool
+    bool success;
+    m_thread_pool->Initialize(success);
+
 }
 
 
@@ -47,6 +52,8 @@ void Matching_Worker::Finalize()
 /***************************************/
 void Matching_Worker::Import_Project( const Config_Param& project_info )
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
 
     // Create a load job
     Worker_Thread::ptr_t worker_thread = std::make_shared<MatchingImportProjectJob>( project_info,
