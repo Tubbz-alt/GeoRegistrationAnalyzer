@@ -43,6 +43,10 @@ void Matching_Worker::Initialize()
 /*************************************************/
 void Matching_Worker::Finalize()
 {
+    // Destroy the thread pool
+    bool status;
+    m_thread_pool->Destroy_Pool(status);
+    m_thread_pool = nullptr;
 
 }
 
@@ -60,5 +64,6 @@ void Matching_Worker::Import_Project( const Config_Param& project_info )
                                                                                      m_sys_config );
 
     // Add to Thread Pool
+    LOG_CLASS_TRACE("Adding Import-Project Worker Job");
     m_thread_pool->Assign_Work(worker_thread);
 }

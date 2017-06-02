@@ -51,7 +51,12 @@ int main( int argc, char* argv[] )
     // Load any Pre-Loaded Project Files
     if( system_configuration->Project_Path_Provided() )
     {
+        LOG_TRACE("Project Path Provided. Loading: " + system_configuration->Get_Project_Pathname());
         main_window->Load_Project( system_configuration->Get_Project_Pathname() );
+    }
+    else
+    {
+        LOG_TRACE("Project Path Not Provided. Using Default Project Settings.");
     }
 
     // Show the GUI

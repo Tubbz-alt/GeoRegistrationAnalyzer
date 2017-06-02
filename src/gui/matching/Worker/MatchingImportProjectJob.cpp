@@ -12,6 +12,7 @@
 // Project Libraries
 #include "../../../core/assets/Asset_Image_Local.hpp"
 #include "../../../core/assets/Image_Asset_Builder.hpp"
+#include "../../../io/GDAL_Image_Loader.hpp"
 #include "../../../log/System_Logger.hpp"
 
 
@@ -54,34 +55,62 @@ void MatchingImportProjectJob::Build_Image_Asset( const std::string& base_elemen
     // Log Entry
     LOG_CLASS_ENTRY();
 
+    // Resulting Asset
+    Asset_Image_Base::ptr_t new_asset;
+
     // Grab the source type
     bool value_found, success;
-    std::string source = m_sys_config->Query_Config_Param(base_element + ".source", value_found);
+    std::string error_msg;
+    std::string source = m_project_info.Query_KV_Pair(base_element + ".source", value_found);
+    LOG_CLASS_TRACE("Asset Base: " + base_element + ", Source: " + source);
 
     // Check source type
     if( source == "local" )
     {
         // Get the file list, if so
-        std::string list_type = m_sys_config->Query_Config_Param(base_element + ".path_list_format", value_found);
-        std::vector<std::string> path_list;
+        std::string list_type = m_project_info.Query_KV_Pair(base_element + ".local.path_list_format", value_found);
+        std::vector<std::string> image_path_list;
+        LOG_CLASS_TRACE("Local Asset Path List Type: " + list_type );
 
         if( list_type == "file" )
         {
 
-            std::string list_path = m_sys_config->Query_Config_Param(base_element + ".path_list_string", value_found);
-            path_list = Image_Asset_Builder::Load_Path_File(list_path, success);
+            std::string list_path = m_project_info.Query_KV_Pair(base_element + ".local.path_list_string", value_found);
+            LOG_CLASS_TRACE("Local Asset Path List String: " + list_path);
+            image_path_list = Image_Asset_Builder::Load_Path_File(list_path, success, error_msg);
+
+            if( !success )
+            {
+                LOG_CLASS_ERROR(error_msg);
+            }
         }
 
         // Get the type
-        std::string local_type = m_sys_config->Query_Config_Param(base_element + ".type", value_found);
+        std::string local_type = m_project_info.Query_KV_Pair(base_element + ".local.type", value_found);
+        LOG_CLASS_TRACE("Local Asset Driver: " + local_type);
+
 
         // if GDAL
         if( local_type == "gdal" )
         {
             // Load Files
-            for( auto fname : path_list )
+            for( auto fname : image_path_list )
             {
-                std::cout << "Loading Path: " << fname << std::endl;
+                LOG_CLASS_TRACE("Loading Image: " + fname);
+
+                // Create asset
+                new_asset = GDAL_Image_Loader::Load_Image( fname, success, error_msg);
+
+                // Check status
+                if( !success )
+                {
+                    LOG_CLASS_ERROR(error_msg);
+                }
+                // Process
+                else
+                {
+
+                }
             }
         }
     }

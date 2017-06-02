@@ -23,7 +23,8 @@ include_directories(${Boost_INCLUDE_DIRS})
 #   Define our Source Files
 set( UNIT_TEST_SOURCES
         core/TEST_Config_Param.cpp
-        core/TEST_System_Configuration.cpp)
+        core/TEST_System_Configuration.cpp
+        core/assets/TEST_Image_Asset_Builder.cpp)
 
 set( PROJECT_SOURCES
         ${CMAKE_SOURCE_DIR}/src/core/Config_Param.hpp
@@ -32,6 +33,8 @@ set( PROJECT_SOURCES
         ${CMAKE_SOURCE_DIR}/src/core/System_Config_Utils.cpp
         ${CMAKE_SOURCE_DIR}/src/core/System_Configuration.hpp
         ${CMAKE_SOURCE_DIR}/src/core/System_Configuration.cpp
+        ${CMAKE_SOURCE_DIR}/src/core/assets/Image_Asset_Builder.cpp
+        ${CMAKE_SOURCE_DIR}/src/core/assets/Image_Asset_Builder.hpp
         ${CMAKE_SOURCE_DIR}/src/utility/String_Utilities.hpp
         ${CMAKE_SOURCE_DIR}/src/utility/String_Utilities.cpp)
 

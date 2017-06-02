@@ -18,6 +18,9 @@
 #include <vector>
 
 
+// Project Libraries
+#include "BlockingQueue.hpp"
+
 
 /**
  * @class Worker_Thread
@@ -216,7 +219,7 @@ class Thread_Pool{
         
         
         /// Work QUeue
-        std::deque<Worker_Thread::ptr_t>  m_queue;
+        Blocking_Queue<Worker_Thread::ptr_t>  m_queue;
         
         
         /// Thread List
@@ -225,27 +228,22 @@ class Thread_Pool{
 
         /// Thread Pool State
         volatile int m_pool_state;
- 
+
 
         /// Number of Open Jobs Pushed
         std::atomic<int> m_number_assigned_workers;
 
-        // Number of currently executing threads
-        std::atomic<int> m_number_running_threads;
-
-        /// Assigned Work Mutex
+        /// Number of Assigned workers mutex and cv
         std::mutex m_number_assigned_workers_mutex;
-
-        /// Assigned Work Condition Variable
         std::condition_variable m_number_assigned_workers_cv;
-
 
         /**
          * @enum ThreadPoolStatusType
          *
          * @brief Thread Pool Status Flags
          */
-        enum class ThreadPoolStatusType : uint8_t{
+        enum class ThreadPoolStatusType : uint8_t
+        {
             POOL_STOPPED = 0 /**< Thread pool has stopped running.*/,
             POOL_STARTED = 1 /**< Thread pool has started running.*/,
         }; // End of ThreadPoolStatusType Enumeration

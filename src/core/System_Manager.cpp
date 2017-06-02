@@ -9,6 +9,8 @@
 // C++ Libraries
 #include <iostream>
 
+// Other Libraries
+#include <gdal_priv.h>
 
 
 /************************************/
@@ -20,6 +22,9 @@ System_Manager::System_Manager( System_Configuration::ptr_t system_configuration
 {
     // Update Configuration
     Update_Configuration();
+
+    // Initialize GDAL
+    GDALAllRegister();
 
 }
 

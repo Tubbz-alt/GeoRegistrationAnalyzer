@@ -26,6 +26,14 @@ find_package( Boost
               REQUIRED )
 include_directories(${Boost_INCLUDE_DIRS})
 
+
+#----------------------------#
+#-      Configure GDAL      -#
+#----------------------------#
+find_package( GDAL REQUIRED )
+include_directories(${GDAL_INCLUDE_DIR})
+
+
 #---------------------------#
 #-      Configure Qt5      -#
 #---------------------------#
@@ -50,6 +58,7 @@ list( APPEND GEO_REGISTRATION_LIBRARIES
 
 #  Add Each Sub-Project
 add_subdirectory(core)
+add_subdirectory(io)
 add_subdirectory(log)
 add_subdirectory(utility)
 
@@ -131,10 +140,13 @@ add_executable( geo-registration-analyzer
                 ${GEO_REGISTRATION_SOURCES}
                 ${GEO_REGISTRATION_HEADERS}
                 $<TARGET_OBJECTS:GEO_CORE_OBJ>
+                $<TARGET_OBJECTS:GEO_IO_OBJ>
                 $<TARGET_OBJECTS:GEO_LOG_OBJ>
                 $<TARGET_OBJECTS:GEO_UTIL_OBJ>)
 
 target_link_libraries( geo-registration-analyzer
                        ${GEO_REGISTRATION_LIBRARIES}
                        pthread
+                       ${GDAL_LIBRARY}
                        ${Boost_LIBRARIES} )
+

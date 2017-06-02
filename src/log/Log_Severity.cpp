@@ -15,6 +15,8 @@ std::string LogSeverityToString( const LogSeverity& level )
     {
         case LogSeverity::FATAL:
             return "FATAL";
+        case LogSeverity::ERROR:
+            return "ERROR";
         case LogSeverity::WARNING:
             return "WARNING";
         case LogSeverity::INFO:

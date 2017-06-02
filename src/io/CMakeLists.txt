@@ -1,0 +1,26 @@
+#    File:   CMakeLists.txt
+#    Author: Marvin Smith
+#    Date:   6/2/2017
+#
+
+
+#---------------------------------#
+#-      Define our Sources       -#
+#---------------------------------#
+set( GEO_IO_SOURCES
+        GDAL_Image_Loader.cpp
+        GDAL_Utilities.cpp)
+
+#-----------------------------#
+#-     Define our Headers    -#
+#-----------------------------#
+set( GEO_IO_HEADERS
+        GDAL_Image_Loader.hpp
+        GDAL_Utilities.hpp)
+
+#------------------------------------#
+#-     Build the Target Library     -#
+#------------------------------------#
+add_library( GEO_IO_OBJ OBJECT
+        ${GEO_IO_SOURCES}
+        ${GEO_IO_HEADERS} )

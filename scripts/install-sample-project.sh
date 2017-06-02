@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+#  Create Project Subdir
+PROJECT_SUBDIR=~/.geo-registration-analyzer/projects/my_test_project
+mkdir -p ${PROJECT_SUBDIR}
+
 #  Copy project file
-cp data/unit-test-data/sample-project-matching-01.cfg ~/.geo-registration-analyzer/projects/
-cp data/unit-test-data/sample-project-matching-01-file-list.txt ~/.geo-registration-analyzer/projects/file-list.txt
+cp data/unit-test-data/sample-project-matching-01.cfg ${PROJECT_SUBDIR}/
+cp data/unit-test-data/sample-project-matching-01-file-list.txt ${PROJECT_SUBDIR}/file-list.csv

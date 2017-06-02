@@ -45,8 +45,7 @@ Thread_Pool::Thread_Pool( const int& max_threads )
   : m_class_name("Thread_Pool"),
     m_pool_size(max_threads),
     m_pool_state((int)ThreadPoolStatusType::POOL_STOPPED),
-    m_number_assigned_workers(0),
-    m_number_running_threads(0)
+    m_number_assigned_workers(0)
 {
     // Make sure we have a minimum number
     if( m_pool_size < 1 )
@@ -78,11 +77,7 @@ Thread_Pool::~Thread_Pool(){
 /**************************************/
 int Thread_Pool::Get_Remaining_Work()
 {
-    int result;
-    m_mutex.lock();
-    result = m_queue.size();
-    m_mutex.unlock();
-    return result;
+    return m_queue.Size();
 }
 
 
@@ -115,6 +110,7 @@ void Thread_Pool::Initialize( bool& status )
     for( int i=0; i<m_pool_size; i++ )
     {
         // Create the thread
+        std::cout << "Creating thread " << i << std::endl;
         m_threads[i] = std::thread( &Thread_Pool::Execute_Thread, this );
     }
 
@@ -154,15 +150,8 @@ void Thread_Pool::Destroy_Pool( bool& status )
     }
     
     // Clear each worker
-    for( int i=0; i<m_queue.size(); i++ )
-    {
-        if( m_queue[i] != NULL || 
-            m_queue[i] != nullptr )
-        {
-            m_queue[i].reset();
-        }
-    }
-    m_queue.clear();
+    m_queue.Clear();
+    m_queue.Complete();
 
     // Clear the thread list
     m_threads.clear();
@@ -177,15 +166,24 @@ void Thread_Pool::Wait_Until_Pool_Empty( bool& status )
     // Initialize Status
     status = true;
 
-    //  Get the remaining work, skip if empty
+
+    // Wait for pool to empty
+    std::cout << "Waiting for Work Queue to Complete" << std::endl;
+    m_queue.Complete();
+
+
+    //  Wait for workers to complete
+    std::cout << "Waiting for Assigned Workers to Complete" << std::endl;
     while( m_number_assigned_workers > 0 )
     {
         // Create the lock
         std::unique_lock<std::mutex> lck(m_number_assigned_workers_mutex);
 
         // Wait
-        m_number_assigned_workers_cv.wait(lck);
+        m_number_assigned_workers_cv.wait(lck, [this]{return m_number_assigned_workers <= 0; });
     }
+
+    std::cout << "Assigned Workers Completed" << std::endl;
 }
 
 
@@ -198,73 +196,47 @@ void Thread_Pool::Execute_Thread()
 {
     // Create Task
     Worker_Thread::ptr_t worker_thread = nullptr;
-
-
+    bool status;
 
     // Work until done
-    while( true )
+    while( m_pool_state != (int)ThreadPoolStatusType::POOL_STOPPED )
     {
-        
-        while( (m_pool_state != (int)ThreadPoolStatusType::POOL_STOPPED) &&
-               m_queue.empty() )
+
+        // Pop an item from the queue
+        status = m_queue.Pop( worker_thread );
+
+        // Make sure there was not a problem
+        if( !status || worker_thread == nullptr )
         {
-            std::cout << "AAA" << std::endl;
-            // Wait
-            std::unique_lock<std::mutex> lck(m_mutex);
-            bool state = (m_pool_state != (int)ThreadPoolStatusType::POOL_STOPPED);
-            m_condv.wait(lck, [&]{ return state;});
-            
+            std::cout << "Work Queue Popped item with error." << std::endl;
+            continue;
         }
 
-        // Lock the mutex
-        m_mutex.lock();
-        
-        // If we stopped, then exit
-        if( m_queue.size() <= 0 && m_pool_state == (int)ThreadPoolStatusType::POOL_STOPPED )
+        // Otherwise, if no errors, check run state
+        else if( m_pool_state == (int)ThreadPoolStatusType::POOL_STOPPED )
         {
-
-            std::cout << "BBB" << std::endl;
-            // Unlock the mutex
-            m_mutex.unlock();
-
-            // Stop the thread
-            return;
+            std::cout << "Pool has stopped.  Exiting." << std::endl;
         }
 
-        std::cout << "CCC" << std::endl;
-        // pop the next task
-        worker_thread = m_queue.front();
-        m_queue.pop_front();
-        
 
-        std::cout << "DDD" << std::endl;
-        // Unlock the mutex
-        m_mutex.unlock();
-        std::cout << "EEE" << std::endl;
+        // Otherwise, continue
+        else
+        {
+            // Execute the Task
+            worker_thread->Set_Running_Flag(true);
+            m_number_assigned_workers++;
+            worker_thread->Execute();
+            worker_thread->Set_Running_Flag(false);
 
-        // Execute the Task
-        worker_thread->Set_Running_Flag(true);
-        m_number_running_threads++;
-        worker_thread->Execute();
-        worker_thread->Set_Running_Flag(false);
-        m_number_running_threads--;
+            // Delete the job
+            worker_thread.reset();
 
-        // Delete the job
-        worker_thread.reset();
+            // Decrement the counter
+            m_number_assigned_workers--;
 
-
-        std::cout << "FFF" << std::endl;
-        std::unique_lock<std::mutex> lck(m_number_assigned_workers_mutex);
-
-        // Decrement the counter
-        m_number_assigned_workers--;
-
-        // Check if empty, if so notify the worker condition variable
-        if( m_number_assigned_workers <= 0 ){
-            m_number_assigned_workers_cv.notify_all();
         }
+
     }
-    std::cout << "GGG" << std::endl;
     
 }
 
@@ -276,32 +248,17 @@ void Thread_Pool::Assign_Work( Worker_Thread::ptr_t new_thread )
 {
     
     // Make sure the new worker is not null
-    if( new_thread == nullptr ){ 
-        return; 
-    }
-
-    // Lock the mutex
-    std::cout << "Waiting on Mutex" << std::endl;
-    m_mutex.lock();
-    std::cout << "Inside Mutex" << std::endl;
-
-
-    // Add a task
-    m_queue.push_back( std::move(new_thread) );
-
-    
-    // Increment the counter
+    if( new_thread == nullptr )
     {
-        std::unique_lock<std::mutex> lck(m_number_assigned_workers_mutex);
-        m_number_assigned_workers++;
+
     }
 
-    // Signal the next job
-    m_condv.notify_one();
-
-
-    // Unlock the mutex
-    m_mutex.unlock();
+    // Otherwise, continue
+    else
+    {
+        // Add the work
+        m_queue.Push(new_thread);
+    }
 }
 
 
@@ -310,7 +267,7 @@ void Thread_Pool::Assign_Work( Worker_Thread::ptr_t new_thread )
 /********************************************/
 int Thread_Pool::Get_Current_Running_Threads()
 {
-    return m_number_running_threads;
+    return m_threads.size();
 }
             
 
@@ -319,7 +276,6 @@ int Thread_Pool::Get_Current_Running_Threads()
 /***********************************************/
 int Thread_Pool::Get_Current_Work_Items()
 {
-    std::unique_lock<std::mutex> lck(m_number_assigned_workers_mutex);
     return m_number_assigned_workers;
 }
             

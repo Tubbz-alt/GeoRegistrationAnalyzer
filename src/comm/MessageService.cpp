@@ -50,7 +50,7 @@ MessageService::~MessageService()
 void MessageService::Initialize()
 {
     // Start the queue
-    m_queue.start();
+    m_queue.Start();
 
     // Set the listen flag
     m_listen_state = true;
@@ -68,7 +68,7 @@ void MessageService::Finalize()
 
     // Set status and close thread
     m_listen_state = false;
-    m_queue.complete();
+    m_queue.Complete();
     if( m_listen_thread.joinable() )
     {
         m_listen_thread.join();
@@ -98,7 +98,7 @@ void MessageService::Send( const std::string& topic_name,
                            const std::string& message )
 {
     // Add to Queue
-    m_queue.push( std::make_tuple(topic_name, message ));
+    m_queue.Push( std::make_tuple(topic_name, message ));
 
 
 }
@@ -115,7 +115,7 @@ void MessageService::Run_Listener()
     {
 
         // Wait to pop
-        m_queue.pop( tp );
+        m_queue.Pop( tp );
 
         // Check if Topic is in list of Subscribers
         if( m_subscribers.find(std::get<0>(tp)) == m_subscribers.end() )

@@ -6,6 +6,7 @@
 #ifndef BLOCKING_QUEUE_HPP
 #define BLOCKING_QUEUE_HPP
 
+// C++ Libraries
 #include <mutex>
 #include <queue>
 #include <condition_variable>
@@ -15,6 +16,13 @@
  * @class Blocking_Queue
  *
  * @brief Simple thread-safe class for blocking push/pop operations.
+ *
+ * General usage guidelines
+ *
+ * - Construct
+ * - Call Start()
+ * -
+ *
  */
 template<class T>
 class Blocking_Queue
@@ -35,7 +43,7 @@ class Blocking_Queue
         /**
          * @brief Clear the Queue
          */
-        void clear()
+        void Clear()
         {
             // Release all waiting queue pops
             {
@@ -57,11 +65,24 @@ class Blocking_Queue
 
 
         /**
+         * @brief Get the Size of the queue.
+         * @return
+         */
+        size_t Size()
+        {
+            // Lock the method
+            std::unique_lock<std::mutex> lock{m_mutex};
+
+            return m_queue.size();
+        }
+
+
+        /**
          * @brief Push Value onto Queue
          *
          * @return True if successful, false if not initialized or full.
          */
-        bool push(T&& value)
+        bool Push(T&& value)
         {
             std::unique_lock<std::mutex> lock{m_mutex};
             if(m_break || m_complete)
@@ -80,7 +101,7 @@ class Blocking_Queue
         /**
          * @brief Push value onto queue.
          */
-        bool push(const T& value)
+        bool Push(const T& value)
         {
             std::unique_lock<std::mutex> lock{m_mutex};
             if(m_break || m_complete)
@@ -95,7 +116,14 @@ class Blocking_Queue
             }
         }
 
-        bool try_pop(T& value)
+
+        /**
+         * @brief Try a pop
+         *
+         * @param value
+         * @return
+         */
+        bool Try_Pop(T& value)
         {
             std::unique_lock<std::mutex> lock{m_mutex};
 
@@ -115,7 +143,13 @@ class Blocking_Queue
             }
         }
 
-        bool pop(T& value)
+
+        /**
+         * @brief Pop data from queue
+         * @param value
+         * @return
+         */
+        bool Pop(T& value)
         {
             std::unique_lock<std::mutex> lock{m_mutex};
             m_cv.wait( lock, [this]
@@ -141,12 +175,20 @@ class Blocking_Queue
             }
         }
 
-        void start()
+
+        /**
+         * @brief Start or Initialize the Blocking Queue
+         */
+        void Start()
         {
-            validate();
+            Validate();
         }
 
-        void complete()
+
+        /**
+         * @brief Complete actions on the queue
+         */
+        void Complete()
         {
             std::unique_lock<std::mutex> lock{m_mutex};
             m_complete = true;
@@ -154,7 +196,11 @@ class Blocking_Queue
 
         }
 
-        void invalidate()
+
+        /**
+         * @brief Invalidate the Queue, causing
+         */
+        void Invalidate()
         {
             std::unique_lock<std::mutex> lock{m_mutex};
             m_break = true;
@@ -163,14 +209,22 @@ class Blocking_Queue
 
         }
 
-        void validate()
+        /**
+         * @brief Validate data on the queue / Re-Initialize
+         */
+        void Validate()
         {
             std::unique_lock<std::mutex> lock{m_mutex};
             m_break = false;
             m_complete = false;
         }
 
-        bool is_valid()
+
+        /**
+         * @brief Check if working / valid.
+         * @return
+         */
+        bool Is_Valid()
         {
             std::unique_lock<std::mutex> lock{m_mutex};
             if(m_break) return false;
@@ -179,6 +233,8 @@ class Blocking_Queue
         }
 
     private:
+
+
         std::mutex m_mutex;
         std::condition_variable m_cv;
         bool m_break;

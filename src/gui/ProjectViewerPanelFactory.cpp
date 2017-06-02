@@ -6,7 +6,7 @@
 #include "ProjectViewerPanelFactory.hpp"
 
 // Implemented Panels
-#include "Matching/ProjectViewerPanelMatching.hpp"
+#include "matching/ProjectViewerPanelMatching.hpp"
 
 
 /*****************************************/
