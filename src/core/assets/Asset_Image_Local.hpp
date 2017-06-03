@@ -13,6 +13,9 @@
 // OpenCV Libraries
 #include <opencv2/opencv.hpp>
 
+// GDAL Libraries
+#include <ogr_spatialref.h>
+
 // Project Libraries
 #include "Asset_Image_Base.hpp"
 
@@ -26,7 +29,9 @@ class Asset_Image_Local : public Asset_Image_Base
         /**
          * @brief Constructor
          */
-        Asset_Image_Local( cv::Mat image );
+        Asset_Image_Local( cv::Mat                         image,
+                           const std::vector<cv::Point3d>& corners,
+                           const OGRSpatialReference&      proj_info );
 
 
         /**
@@ -48,6 +53,13 @@ class Asset_Image_Local : public Asset_Image_Base
 
         // Image Pixel Data
         cv::Mat m_image;
+
+        /// Corner Information
+        std::vector<cv::Point3d> m_corners;
+
+        /// Projection Information
+        OGRSpatialReference m_proj_info;
+
 
 }; // End of Asset_Image_Local Class
 

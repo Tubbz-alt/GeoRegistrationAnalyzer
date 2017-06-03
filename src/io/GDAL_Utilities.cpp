@@ -148,9 +148,52 @@ GDAL_Raster_Info  Get_Raster_Information( GDALDataset* dataset,
     // Otherwise, grab projection information
     else
     {
+        // Set projection info
+        char* pszWkt = const_cast<char*>(dataset->GetProjectionRef());
 
+        raster_info.proj_info.importFromWkt(&pszWkt);
+
+        // Get Image Dimensions
+        int img_rows = dataset->GetRasterYSize();
+        int img_cols = dataset->GetRasterXSize();
+
+        // Get the geo-transform
+        double geo_transform[6];
+
+        if(dataset->GetGeoTransform(geo_transform) == CE_None)
+        {
+            // corners
+            cv::Point3d pt;
+
+            // Top-Left
+            int px = 0;
+            int py = 0;
+            pt.x = geo_transform[0] + px * geo_transform[1] + py * geo_transform[2];
+            pt.y = geo_transform[3] + px * geo_transform[4] + py * geo_transform[5];
+            raster_info.corners.push_back(cv::Point3d(pt.x, pt.y, 0));
+
+            // Top-Right
+            px = img_cols-1;
+            py = 0;
+            pt.x = geo_transform[0] + px * geo_transform[1] + py * geo_transform[2];
+            pt.y = geo_transform[3] + px * geo_transform[4] + py * geo_transform[5];
+            raster_info.corners.push_back(cv::Point3d(pt.x, pt.y, 0));
+
+            // Bottom-Right
+            px = img_cols-1;
+            py = img_rows-1;
+            pt.x = geo_transform[0] + px * geo_transform[1] + py * geo_transform[2];
+            pt.y = geo_transform[3] + px * geo_transform[4] + py * geo_transform[5];
+            raster_info.corners.push_back(cv::Point3d(pt.x, pt.y, 0));
+
+            // Bottom-Left
+            px = 0;
+            py = img_rows-1;
+            pt.x = geo_transform[0] + px * geo_transform[1] + py * geo_transform[2];
+            pt.y = geo_transform[3] + px * geo_transform[4] + py * geo_transform[5];
+            raster_info.corners.push_back(cv::Point3d(pt.x, pt.y, 0));
+        }
     }
-
 
     return raster_info;
 }

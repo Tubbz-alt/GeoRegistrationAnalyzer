@@ -184,8 +184,14 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
         // Convert Color
         cv::cvtColor( image, image, color_conversion);
 
+        // Get raster info
+        GDAL_Raster_Info raster_info = Get_Raster_Information(dataset, status, error_msg);
+
+
         // Construct Asset
-        output = std::make_shared<Asset_Image_Local>(image, geo_transform, metadata);
+        output = std::make_shared<Asset_Image_Local>(image,
+                                                     raster_info.corners,
+                                                     raster_info.proj_info );
     }
 
 

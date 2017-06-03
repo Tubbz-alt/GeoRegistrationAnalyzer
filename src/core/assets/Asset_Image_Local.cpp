@@ -9,10 +9,14 @@
 /*********************************/
 /*          Constructor          */
 /*********************************/
-Asset_Image_Local::Asset_Image_Local( cv::Mat image )
+Asset_Image_Local::Asset_Image_Local( cv::Mat                         image,
+                                      const std::vector<cv::Point3d>& corners,
+                                      const OGRSpatialReference&      proj_info )
   : Asset_Image_Base(),
     m_class_name("Asset_Image_Local"),
-    m_image(image)
+    m_image(image),
+    m_corners(corners),
+    m_proj_info(proj_info)
 {
 
 }
