@@ -85,12 +85,41 @@ class Log_Handler_Base
                           const std::string& message ) = 0;
 
 
+        /**
+         * @brief Log a class method.
+         * @param severity
+         * @param timestamp
+         * @param class_name
+         * @param file_name
+         * @param func_name
+         * @param line_no
+         * @param message
+         */
         virtual void Log_Class( const LogSeverity& severity,
                                 const time_t&      timestamp,
                                 const std::string& class_name,
+                                const std::string& file_name,
                                 const std::string& func_name,
                                 const int&         line_no,
                                 const std::string& message ) = 0;
+
+
+        /**
+         * @brief Log a Function Method.
+         *
+         * @param severity
+         * @param timestamp
+         * @param file_name
+         * @param func_name
+         * @param line_no
+         * @param message
+         */
+        virtual void Log_Function( const LogSeverity& severity,
+                                   const time_t&      timestamp,
+                                   const std::string& file_name,
+                                   const std::string& func_name,
+                                   const int&         line_no,
+                                   const std::string& message ) = 0;
 
     private:
 

@@ -32,6 +32,10 @@ class Log_Formatter
         Log_Formatter( const Config_Param& config_params );
 
 
+        /**
+         * @brief Format a log string
+         */
+
     private:
 
         /// Class Name

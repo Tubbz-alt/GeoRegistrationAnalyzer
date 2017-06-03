@@ -24,18 +24,30 @@
 #define LOG_TRACE(   message ) System_Logger::Log( LogSeverity::TRACE,   message )
 
 
-#define LOG_CLASS_ERROR(   message ) System_Logger::Log( LogSeverity::ERROR,   m_class_name, __func__, __LINE__, message )
-#define LOG_CLASS_WARNING( message ) System_Logger::Log( LogSeverity::WARNING, m_class_name, __func__, __LINE__, message )
-#define LOG_CLASS_INFO(    message ) System_Logger::Log( LogSeverity::INFO,    m_class_name, __func__, __LINE__, message )
-#define LOG_CLASS_DEBUG(   message ) System_Logger::Log( LogSeverity::DEBUG,   m_class_name, __func__, __LINE__, message )
-#define LOG_CLASS_TRACE(   message ) System_Logger::Log( LogSeverity::TRACE,   m_class_name, __func__, __LINE__, message )
+#define LOG_CLASS_ERROR(   message ) System_Logger::Log_Class( LogSeverity::ERROR,   m_class_name, __FILE__, __func__, __LINE__, message )
+#define LOG_CLASS_WARNING( message ) System_Logger::Log_Class( LogSeverity::WARNING, m_class_name, __FILE__, __func__, __LINE__, message )
+#define LOG_CLASS_INFO(    message ) System_Logger::Log_Class( LogSeverity::INFO,    m_class_name, __FILE__, __func__, __LINE__, message )
+#define LOG_CLASS_DEBUG(   message ) System_Logger::Log_Class( LogSeverity::DEBUG,   m_class_name, __FILE__, __func__, __LINE__, message )
+#define LOG_CLASS_TRACE(   message ) System_Logger::Log_Class( LogSeverity::TRACE,   m_class_name, __FILE__, __func__, __LINE__, message )
 
+
+#define LOG_FUNCTION_ERROR(   message ) System_Logger::Log_Function( LogSeverity::ERROR,   __FILE__, __func__, __LINE__, message )
+#define LOG_FUNCTION_WARNING( message ) System_Logger::Log_Function( LogSeverity::WARNING, __FILE__, __func__, __LINE__, message )
+#define LOG_FUNCTION_INFO(    message ) System_Logger::Log_Function( LogSeverity::INFO,    __FILE__, __func__, __LINE__, message )
+#define LOG_FUNCTION_DEBUG(   message ) System_Logger::Log_Function( LogSeverity::DEBUG,   __FILE__, __func__, __LINE__, message )
+#define LOG_FUNCTION_TRACE(   message ) System_Logger::Log_Function( LogSeverity::TRACE,   __FILE__, __func__, __LINE__, message )
 
 /**
  * @brief Log the Entry of a Class
  */
-#define LOG_CLASS_ENTRY() System_Logger::Log( LogSeverity::TRACE, m_class_name, __func__, __LINE__, "Start of Method" )
-#define LOG_CLASS_EXIT()  System_Logger::Log( LogSeverity::TRACE, m_class_name, __func__, __LINE__, "End of Method" )
+#define LOG_CLASS_ENTRY() System_Logger::Log_Class( LogSeverity::TRACE, m_class_name, __FILE__, __func__, __LINE__, "Start of Method" )
+#define LOG_CLASS_EXIT()  System_Logger::Log_Class( LogSeverity::TRACE, m_class_name, __FILE__, __func__, __LINE__, "End of Method" )
+
+/**
+ * @brief Log the Entry of a Function
+ */
+#define LOG_FUNCTION_ENTRY() System_Logger::Log_Function( LogSeverity::TRACE, __FILE__, __func__, __LINE__, "Start of Method" )
+#define LOG_FUNCTION_EXIT()  System_Logger::Log_Function( LogSeverity::TRACE, __FILE__, __func__, __LINE__, "End of Method" )
 
 
 /**
@@ -84,11 +96,26 @@ class System_Logger
          * @param line_no
          * @param message
          */
-        static void Log( const LogSeverity&  severity,
-                         const std::string&  class_name,
-                         const std::string&  func_name,
-                         const int&          line_no,
-                         const std::string&  message );
+        static void Log_Class( const LogSeverity&  severity,
+                               const std::string&  class_name,
+                               const std::string&  file_name,
+                               const std::string&  func_name,
+                               const int&          line_no,
+                               const std::string&  message );
+
+
+        /**
+         * @brief Log
+         * @param severity
+         * @param class_name
+         * @param line_no
+         * @param message
+         */
+        static void Log_Function( const LogSeverity&  severity,
+                                  const std::string&  file_name,
+                                  const std::string&  func_name,
+                                  const int&          line_no,
+                                  const std::string&  message );
 
 
     private:

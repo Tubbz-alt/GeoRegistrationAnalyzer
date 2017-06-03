@@ -9,6 +9,7 @@
 #include <ctime>
 
 
+
 /************************************/
 /*            Constructor           */
 /************************************/
@@ -119,11 +120,12 @@ void System_Logger::Log( const LogSeverity& severity,
 /*******************************/
 /*         Log Message         */
 /*******************************/
-void System_Logger::Log( const LogSeverity& severity,
-                         const std::string& class_name,
-                         const std::string& func_name,
-                         const int&         line_no,
-                         const std::string& message )
+void System_Logger::Log_Class( const LogSeverity& severity,
+                               const std::string& class_name,
+                               const std::string& file_name,
+                               const std::string& func_name,
+                               const int&         line_no,
+                               const std::string& message )
 {
     // Grab the time
     time_t timeval;
@@ -155,6 +157,7 @@ void System_Logger::Log( const LogSeverity& severity,
             handler->Log_Class( severity,
                                 timeval,
                                 class_name,
+                                file_name,
                                 func_name,
                                 line_no,
                                 message );
@@ -163,6 +166,53 @@ void System_Logger::Log( const LogSeverity& severity,
 
 }
 
+
+/*******************************/
+/*         Log Message         */
+/*******************************/
+void System_Logger::Log_Function( const LogSeverity& severity,
+                                  const std::string& file_name,
+                                  const std::string& func_name,
+                                  const int&         line_no,
+                                  const std::string& message )
+{
+    // Grab the time
+    time_t timeval;
+    time(&timeval);
+
+
+    // Check if initialized
+    if( !Is_Initialized() ) {
+        // FOrmat the timestamp
+        struct tm *timeinfo = localtime(&timeval);
+        char buffer[80];
+
+        strftime(buffer, 80, "%Y%m%d %H%M%S", timeinfo);
+        std::string time_str = std::string(buffer);
+
+        std::cerr << "Warning:  Logger Not Initialized. Time: " << time_str << " Severity: ";
+        std::cerr << LogSeverityToString(severity) << ", MSG: " << message << std::endl;
+    }
+
+        // Continue
+    else
+    {
+        // Get Instance
+        auto inst = Get_Instance();
+
+        // Iterate over handlers
+        for( auto handler : inst->m_log_handlers )
+        {
+            handler->Log_Function( severity,
+                                   timeval,
+                                   file_name,
+                                   func_name,
+                                   line_no,
+                                   message );
+        }
+    }
+
+}
 
 /********************************/
 /*        Get Instance          */

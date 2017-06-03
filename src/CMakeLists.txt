@@ -34,6 +34,12 @@ find_package( GDAL REQUIRED )
 include_directories(${GDAL_INCLUDE_DIR})
 
 
+#------------------------------#
+#-      Configure OpenCV      -#
+#------------------------------#
+find_package( OpenCV REQUIRED )
+include_directories(${OpenCV_INCLUDE_DIRS})
+
 #---------------------------#
 #-      Configure Qt5      -#
 #---------------------------#
@@ -148,5 +154,6 @@ target_link_libraries( geo-registration-analyzer
                        ${GEO_REGISTRATION_LIBRARIES}
                        pthread
                        ${GDAL_LIBRARY}
-                       ${Boost_LIBRARIES} )
+                       ${Boost_LIBRARIES}
+                       ${OpenCV_LIBS} )
 

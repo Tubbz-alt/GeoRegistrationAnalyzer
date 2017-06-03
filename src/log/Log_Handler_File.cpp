@@ -49,9 +49,32 @@ void Log_Handler_File::Log( const LogSeverity& severity,
 void Log_Handler_File::Log_Class( const LogSeverity& severity,
                                   const time_t&      timestamp,
                                   const std::string& class_name,
+                                  const std::string& file_name,
                                   const std::string& func_name,
                                   const int&         line_no,
                                   const std::string& message )
+{
+    // FOrmat the timestamp
+    struct tm * timeinfo = localtime(&timestamp);
+    char buffer [80];
+
+    strftime (buffer,80,"%Y/%m/%d %H::%M::%S",timeinfo);
+    std::string time_str = std::string(buffer);
+
+
+}
+
+
+
+/*****************************/
+/*       Log a Message       */
+/*****************************/
+void Log_Handler_File::Log_Function( const LogSeverity& severity,
+                                     const time_t&      timestamp,
+                                     const std::string& file_name,
+                                     const std::string& func_name,
+                                     const int&         line_no,
+                                     const std::string& message )
 {
     // FOrmat the timestamp
     struct tm * timeinfo = localtime(&timestamp);

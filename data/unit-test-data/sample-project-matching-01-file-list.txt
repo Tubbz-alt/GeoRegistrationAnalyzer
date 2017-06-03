@@ -1,1 +1,1 @@
-/home/ms6401/Desktop/Imagery/emerald-bay.tif
+/Users/marvinsmith/Desktop/Imagery/emerald-bay.tif

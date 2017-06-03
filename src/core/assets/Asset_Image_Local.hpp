@@ -10,6 +10,9 @@
 #include <memory>
 #include <string>
 
+// OpenCV Libraries
+#include <opencv2/opencv.hpp>
+
 // Project Libraries
 #include "Asset_Image_Base.hpp"
 
@@ -23,13 +26,28 @@ class Asset_Image_Local : public Asset_Image_Base
         /**
          * @brief Constructor
          */
-        Asset_Image_Local();
+        Asset_Image_Local( cv::Mat image );
+
+
+        /**
+         * @brief Destructor
+         */
+        virtual ~Asset_Image_Local();
+
+
+        /**
+         * @brief De-Allocate
+         */
+        void Deallocate();
 
 
     private:
 
         /// Class Name
         std::string m_class_name;
+
+        // Image Pixel Data
+        cv::Mat m_image;
 
 }; // End of Asset_Image_Local Class
 

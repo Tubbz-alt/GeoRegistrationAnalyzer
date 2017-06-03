@@ -69,9 +69,26 @@ class Log_Handler_File : public Log_Handler_Base
         virtual void Log_Class( const LogSeverity& severity,
                                 const time_t&      timestamp,
                                 const std::string& class_name,
+                                const std::string& file_name,
                                 const std::string& func_name,
                                 const int&         line_no,
                                 const std::string& message );
+
+
+        /**
+         * @brief Log a Class Message
+         * @param severity
+         * @param timestamp
+         * @param class_name
+         * @param line_no
+         * @param message
+         */
+        virtual void Log_Function( const LogSeverity& severity,
+                                   const time_t&      timestamp,
+                                   const std::string& file_name,
+                                   const std::string& func_name,
+                                   const int&         line_no,
+                                   const std::string& message );
 
 
     private:

@@ -50,6 +50,9 @@ class Log_Handler_Qt : public Log_Handler_Base
         */
         Log_Handler_Qt( Log_Handler_Config_Base::ptr_t config );
 
+
+
+
     private:
 
         /// Class Name
