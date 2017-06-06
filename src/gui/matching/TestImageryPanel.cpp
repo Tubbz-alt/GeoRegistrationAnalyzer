@@ -5,8 +5,23 @@
 */
 #include "TestImageryPanel.hpp"
 
+// C++ Libraries
+#include <sstream>
+
+
 // Qt Libraries
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QVBoxLayout>
+
+
+// Project Libraries
+#include "../../comm/MessageService.hpp"
+#include "../../core/assets/Asset_Image_Base.hpp"
+#include "../../core/assets/Asset_Manager.hpp"
+#include "../../core/System_Manager.hpp"
+#include "../../log/System_Logger.hpp"
 
 
 /********************************/
@@ -18,12 +33,38 @@ TestImageryPanel::TestImageryPanel( System_Configuration::ptr_t sys_config,
     m_class_name("TestImageryPanel"),
     m_sys_config(sys_config)
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
     // Initialize the Configuration
     Initialize_Configuration();
 
     // Initialize the GUI
     Initialize_GUI();
+
+    // Register Handler
+    MessageService::HANDLER_TYPE handler = std::bind( &TestImageryPanel::Handle_Message,
+                                                      this,
+                                                      std::placeholders::_1,
+                                                      std::placeholders::_2);
+
+    // Add Handler
+    System_Manager::Get_Message_Service()->Subscribe("test_imagery_load", handler );
 }
+
+
+/************************************************/
+/*            Update the Geo-Viewer             */
+/************************************************/
+void TestImageryPanel::Update_Geo_Viewer( const std::string&      asset_type,
+                                          Asset_Image_Base::ptr_t new_asset )
+
+{
+    // Check the current geo-viewer type
+    m_geo_widget->Update_Asset(asset_type, new_asset);
+
+}
+
 
 /************************************/
 /*          Initialize GUI          */
@@ -53,6 +94,57 @@ void TestImageryPanel::Initialize_GUI()
 
     // Set the Window Title
     setWindowTitle("Test Imagery");
+}
+
+
+/************************************/
+/*          Handle Message          */
+/************************************/
+void TestImageryPanel::Handle_Message(const std::string& topic_name,
+                                      const std::string& message)
+{
+    // Log Entry
+    LOG_CLASS_TRACE( "Start of Method. Topic: (" + topic_name
+                     + "), Message: (" + message + ")");
+
+    //  Check if we received command to load image
+    if( topic_name == "test_imagery_load" )
+    {
+        // Convert
+        QJsonDocument json_doc;
+        QJsonObject json_obj;
+
+        json_doc = QJsonDocument::fromJson(QByteArray(message.c_str()));
+        json_obj = json_doc.object();
+        std::stringstream sss;
+        sss << "Parsed JSON Obj: " << json_obj.size();
+        LOG_CLASS_TRACE(sss.str());
+
+        // Extract the asset id
+        int asset_id           = json_obj["asset_id"].toInt(-1);
+        std::string asset_type = json_obj["source"].toString().toStdString();
+
+        //  Grab the Asset
+        LOG_CLASS_TRACE( "Loading Asset ID: " + std::to_string(asset_id)
+                         + ", Source: " + asset_type);
+
+        Asset_Image_Base::ptr_t image_asset = std::dynamic_pointer_cast<Asset_Image_Base>(Asset_Manager::Query_Asset( asset_id ));
+
+        // Make sure it is valid
+        if( image_asset == nullptr )
+        {
+            LOG_CLASS_ERROR("Asset returned was null.");
+        }
+
+        else
+        {
+            // Update or reconstruct new GeoViewer
+            Update_Geo_Viewer( asset_type,
+                               image_asset );
+        }
+
+    }
+
 }
 
 

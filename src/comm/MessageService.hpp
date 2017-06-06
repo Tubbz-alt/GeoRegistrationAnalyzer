@@ -3,8 +3,8 @@
  * @author  Marvin Smith
  * @date    4/17/2017
 */
-#ifndef MESSAGE_SERVICE_HPP
-#define MESSAGE_SERVICE_HPP
+#ifndef COMM_MESSAGE_SERVICE_HPP
+#define COMM_MESSAGE_SERVICE_HPP
 
 // C++ Libraries
 #include <deque>
@@ -18,7 +18,7 @@
 
 
 // Project Libraries
-#include "core/BlockingQueue.hpp"
+#include "../core/BlockingQueue.hpp"
 
 
 /**
@@ -53,8 +53,10 @@ class MessageService
         /// Pointer Type
         typedef std::shared_ptr<MessageService> ptr_t;
 
+
         /// Handler Type
         typedef std::function<void(std::string, std::string)> HANDLER_TYPE;
+
 
         /**
          * @brief Constructor

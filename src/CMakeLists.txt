@@ -63,6 +63,7 @@ list( APPEND GEO_REGISTRATION_LIBRARIES
 
 
 #  Add Each Sub-Project
+add_subdirectory(comm)
 add_subdirectory(core)
 add_subdirectory(io)
 add_subdirectory(log)
@@ -73,7 +74,6 @@ add_subdirectory(utility)
 #-------------------------------#
 set( GEO_REGISTRATION_SOURCES
         geo-registration-analyzer.cpp
-        comm/MessageService.cpp
         gui/ConfigurationSaveDialog.cpp
         gui/LogViewerPanel.cpp
         gui/Main_Window.cpp
@@ -107,7 +107,6 @@ set( GEO_REGISTRATION_SOURCES
 
 
 set( GEO_REGISTRATION_HEADERS
-        comm/MessageService.hpp
         gui/ConfigurationSaveDialog.hpp
         gui/LogViewerPanel.hpp
         gui/Main_Window.hpp
@@ -145,6 +144,7 @@ set( GEO_REGISTRATION_HEADERS
 add_executable( geo-registration-analyzer
                 ${GEO_REGISTRATION_SOURCES}
                 ${GEO_REGISTRATION_HEADERS}
+                $<TARGET_OBJECTS:GEO_COMM_OBJ>
                 $<TARGET_OBJECTS:GEO_CORE_OBJ>
                 $<TARGET_OBJECTS:GEO_IO_OBJ>
                 $<TARGET_OBJECTS:GEO_LOG_OBJ>

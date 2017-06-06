@@ -46,6 +46,14 @@ class Asset_Manager
         static int64_t Register_Asset( Asset_Base::ptr_t asset );
 
 
+        /**
+         * @brief Query the asset
+         * @param asset_id
+         * @return
+         */
+        static Asset_Base::ptr_t Query_Asset( const int& asset_id );
+
+
     private:
 
         /**
@@ -57,7 +65,7 @@ class Asset_Manager
         /**
          * @brief Get an instance
          */
-        static Asset_Manager::ptr_t Get_Instance();
+        static Asset_Manager::ptr_t& Get_Instance();
 
 
         /// Class Name

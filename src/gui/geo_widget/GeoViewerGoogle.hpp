@@ -44,6 +44,12 @@ class GeoViewerGoogle : public GeoViewerBase
         virtual void Set_URL( const std::string& url );
 
 
+        /**
+         * @brief Update the Asset In View
+         */
+        virtual void Update_Asset( const Asset_Image_Base::ptr_t new_asset );
+
+
     protected:
 
         /**

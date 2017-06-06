@@ -15,12 +15,9 @@ Asset_Manager::ptr_t local_inst;
 /*********************************/
 void Asset_Manager::Initialize(System_Configuration::ptr_t sys_config)
 {
-    // Get instance
-    Asset_Manager::ptr_t inst = Get_Instance();
-
-    if( inst == nullptr )
+    if( Get_Instance() == nullptr )
     {
-
+        Get_Instance() = Asset_Manager::ptr_t(new Asset_Manager(sys_config));
     }
 }
 
@@ -40,17 +37,40 @@ void Asset_Manager::Finalize()
 /**********************************/
 int64_t Asset_Manager::Register_Asset(Asset_Base::ptr_t asset)
 {
+    // Asset ID
+    int64_t asset_id = -1;
 
-    // Get an instance
-    auto inst = Get_Instance();
+    // Make sure instance is not null
+    if( Get_Instance() == nullptr )
+    {
+        std::cerr << "Assset_Manager is currently null." << std::endl;
+    }
 
-    // Generate an id
-    int64_t asset_id = inst->m_assets.size();
+    else
+    {
+        // Generate an id
+        asset_id = Get_Instance()->m_assets.size();
 
-    inst->m_assets[asset_id] = asset;
+        Get_Instance()->m_assets[asset_id] = asset;
+    }
 
     return asset_id;
 }
+
+
+/*************************************/
+/*          Query the Asset          */
+/*************************************/
+Asset_Base::ptr_t Asset_Manager::Query_Asset( const int& asset_id )
+{
+    // Check if the asset exists
+    if( Get_Instance()->m_assets.find(asset_id) != Get_Instance()->m_assets.end())
+    {
+        return Get_Instance()->m_assets.find(asset_id)->second;
+    }
+    return nullptr;
+}
+
 
 /*********************************/
 /*          Constructor          */
@@ -66,7 +86,7 @@ Asset_Manager::Asset_Manager(System_Configuration::ptr_t sys_config)
 /***********************************/
 /*         Get an Instance         */
 /***********************************/
-Asset_Manager::ptr_t Asset_Manager::Get_Instance()
+Asset_Manager::ptr_t& Asset_Manager::Get_Instance()
 {
     return local_inst;
 }

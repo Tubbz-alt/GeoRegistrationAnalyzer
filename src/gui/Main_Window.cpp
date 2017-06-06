@@ -76,7 +76,7 @@ void Main_Window::Initialize_GUI()
 
     // Build project panels
     m_project_panels["matching"] = new MatchingBasePanel(m_sys_config, this);
-    m_project_panels["analysis"] = new MatchingBasePanel(m_sys_config, this);
+    m_project_panels["analysis"] = new AnalysisBasePanel(m_sys_config, this);
 
     // Add each sub-widget
     m_stack_widget->addWidget( m_project_panels["matching"]);

@@ -232,6 +232,23 @@ class Blocking_Queue
             else return true;
         }
 
+
+        /**
+         *
+         * @return
+         */
+        bool Is_Complete()const{
+            return m_complete;
+        }
+
+
+        /**
+         * @brief
+         */
+        bool Is_Invalid()const{
+            return m_break;
+        }
+
     private:
 
 

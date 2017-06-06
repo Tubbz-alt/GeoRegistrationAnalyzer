@@ -10,6 +10,7 @@
 // Qt Libraries
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QTransform>
 #include <QWidget>
 
 // Project Libraries
@@ -35,6 +36,10 @@ class GeoViewerLocal : public GeoViewerBase
                         System_Configuration::ptr_t sys_config,
                         QWidget*                    parent = nullptr );
 
+        /**
+         * @brief Update the Asset In View
+         */
+        virtual void Update_Asset( const Asset_Image_Base::ptr_t new_asset );
 
 
     protected:
@@ -66,6 +71,9 @@ class GeoViewerLocal : public GeoViewerBase
 
         /// Main View
         QGraphicsView* m_view;
+
+        /// Current Transform
+        QTransform m_transform;
 
 };
 

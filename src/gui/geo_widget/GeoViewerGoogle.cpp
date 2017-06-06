@@ -5,8 +5,13 @@
  */
 #include "GeoViewerGoogle.hpp"
 
+
 // Qt Libraries
 #include <QVBoxLayout>
+
+
+// Project Libraries
+#include "../../log/System_Logger.hpp"
 
 
 /*********************************/
@@ -40,6 +45,20 @@ void GeoViewerGoogle::Set_URL( const std::string& url )
         }
     }
     m_web_view->setUrl(QUrl(turl.c_str()));
+}
+
+
+/*********************************/
+/*        Update the Asset       */
+/*********************************/
+void GeoViewerGoogle::Update_Asset(const Asset_Image_Base::ptr_t new_asset)
+{
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
+    // Log Not Supported
+    LOG_CLASS_ERROR("Not Supported Yet.");
+    throw std::runtime_error("Not Supported Yet");
 }
 
 

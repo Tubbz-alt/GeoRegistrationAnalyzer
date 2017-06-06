@@ -10,6 +10,7 @@
 #include <QWidget>
 
 // Project Libraries
+#include "../../core/assets/Asset_Image_Base.hpp"
 #include "../../core/System_Configuration.hpp"
 #include "GeoViewerBase.hpp"
 #include "GeoViewerFactory.hpp"
@@ -32,6 +33,12 @@ class GeoWidget : public QWidget
                    System_Configuration::ptr_t sys_config,
                    QWidget*                    parent = nullptr );
 
+
+        /**
+         * @brief Update the widget asset
+         */
+         void Update_Asset( const std::string&      asset_type,
+                            Asset_Image_Base::ptr_t new_asset );
 
     protected:
 

@@ -37,7 +37,8 @@ class MatchingImportProjectJob : public Worker_Thread
         /**
          * @brief  Build Image Asset
          */
-        void Build_Image_Asset( const std::string& base_element )const;
+        void Build_Image_Asset( const std::string& panel_type,
+                                const std::string& base_element )const;
 
 
         /// Class Name

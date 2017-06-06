@@ -26,6 +26,10 @@ class Asset_Image_Local : public Asset_Image_Base
 {
     public:
 
+        /// Pointer Type
+        typedef std::shared_ptr<Asset_Image_Local> ptr_t;
+
+
         /**
          * @brief Constructor
          */
@@ -44,6 +48,14 @@ class Asset_Image_Local : public Asset_Image_Base
          * @brief De-Allocate
          */
         void Deallocate();
+
+
+        /**
+         * @brief Get the Image
+         */
+        inline cv::Mat Get_Image()const{
+            return m_image;
+        }
 
 
     private:

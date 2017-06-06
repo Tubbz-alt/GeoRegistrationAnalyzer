@@ -66,4 +66,7 @@ void Matching_Worker::Import_Project( const Config_Param& project_info )
     // Add to Thread Pool
     LOG_CLASS_TRACE("Adding Import-Project Worker Job");
     m_thread_pool->Assign_Work(worker_thread);
+
+    // Log Exit
+    LOG_CLASS_EXIT();
 }

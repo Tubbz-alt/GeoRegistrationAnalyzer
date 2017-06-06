@@ -12,6 +12,7 @@
 
 // Project Libraries
 #include "System_Configuration.hpp"
+#include "../comm/MessageService.hpp"
 
 
 /**
@@ -40,12 +41,19 @@ class System_Manager
          * @brief Finalize System Manager
         */
         static void Finalize();
+
+
+        /**
+         * @brief Get the Message-Service
+         * @return
+         */
+        static MessageService::ptr_t& Get_Message_Service();
         
 
         /**
          * @brief Get Instance.
          */
-        static System_Manager::ptr_t Get_Instance();
+        static System_Manager::ptr_t& Get_Instance();
 
     protected:
 
@@ -83,6 +91,9 @@ class System_Manager
 
         /// System Configuration
         System_Configuration::ptr_t m_system_configuration;
+
+        /// Message Service
+        MessageService::ptr_t m_message_service;
 
 }; // End of System_Manager Class
 

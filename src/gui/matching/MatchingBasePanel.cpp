@@ -9,6 +9,10 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+// Project Libraries
+#include "../../log/System_Logger.hpp"
+
+
 /********************************/
 /*          Constructor         */
 /********************************/
@@ -53,14 +57,25 @@ void MatchingBasePanel::Import_Project( const Config_Param& project_info )
 /****************************************/
 void MatchingBasePanel::Initialize_GUI()
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
     // Build the Main Layout
     QHBoxLayout* main_layout = new QHBoxLayout();
 
     // Build the Splitter
     m_main_splitter = new QSplitter(this);
 
+    // Creating the Reference Imagery Panel
+    LOG_CLASS_TRACE("Creating Reference Imagery Panel");
     m_main_splitter->addWidget( new ReferenceImageryPanel( m_sys_config, m_main_splitter));
+
+    // Creating the Test Imagery Panel
+    LOG_CLASS_TRACE("Creating Test Imagery Panel");
     m_main_splitter->addWidget( new TestImageryPanel( m_sys_config, m_main_splitter));
+
+    // Build the toolbar
+    LOG_CLASS_TRACE("Creating Toolbar Panel");
     m_toolbar_widget = new MatchingToolbarWidget( m_sys_config,
                                                   this );
     m_main_splitter->addWidget(m_toolbar_widget);
@@ -73,4 +88,6 @@ void MatchingBasePanel::Initialize_GUI()
     // Set layout
     setLayout( main_layout );
 
+    // Log Exit
+    LOG_CLASS_EXIT();
 }

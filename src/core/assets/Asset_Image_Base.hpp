@@ -21,6 +21,10 @@ class Asset_Image_Base : public Asset_Base
 {
     public:
 
+        /// Pointer Type
+        typedef std::shared_ptr<Asset_Image_Base> ptr_t;
+
+
         /**
          * @brief Constructor
          */

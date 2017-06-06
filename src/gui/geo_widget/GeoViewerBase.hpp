@@ -12,6 +12,7 @@
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
+#include "../../core/assets/Asset_Image_Base.hpp"
 
 
 /**
@@ -31,6 +32,12 @@ class GeoViewerBase : public QWidget
         GeoViewerBase( const std::string&          base_config_profile,
                        System_Configuration::ptr_t sys_config,
                        QWidget*                    parent = nullptr );
+
+
+        /**
+         * @brief Update the Asset In View
+         */
+        virtual void Update_Asset( const Asset_Image_Base::ptr_t new_asset ) = 0;
 
 
     protected:

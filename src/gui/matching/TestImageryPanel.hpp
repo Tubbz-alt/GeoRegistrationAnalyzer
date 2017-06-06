@@ -12,6 +12,7 @@
 // Project Libraries
 #include "TestToolbar.hpp"
 #include "../../core/System_Configuration.hpp"
+#include "../../core/assets/Asset_Image_Base.hpp"
 #include "../geo_widget/GeoWidget.hpp"
 
 
@@ -28,12 +29,24 @@ class TestImageryPanel : public QWidget
         TestImageryPanel( System_Configuration::ptr_t sys_config,
                           QWidget*                    parent = nullptr );
 
+
+
+        void Update_Geo_Viewer( const std::string&      asset_type,
+                                Asset_Image_Base::ptr_t new_asset );
+
     protected:
 
         /**
          * @brief Initialize the GUI
         */
         void Initialize_GUI();
+
+
+        /**
+         * @brief Register Message Service
+         */
+        void Handle_Message( const std::string& topic_name,
+                             const std::string& message );
 
         
     private:

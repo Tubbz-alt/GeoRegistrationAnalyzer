@@ -64,10 +64,12 @@ int GDAL_Data_Type_To_OpenCV_Type( const GDALDataType& gdal_type )
 /******************************************************************************/
 /*     Convert GDAL Color Interpretations to OpenCV Color Conversion          */
 /******************************************************************************/
-int GDAL_Color_Layers_To_OpenCV_BGRA_Conversion( const std::vector<GDALColorInterp>& image_colors )
+int GDAL_Color_Layers_To_OpenCV_RGB_Conversion( const std::vector<GDALColorInterp>& image_colors,
+                                                bool&                               skip_conversion)
 {
     // Default Value
     int output = 0;
+    skip_conversion = false;
 
     // Create combo string
     std::string combo_str;
@@ -83,7 +85,7 @@ int GDAL_Color_Layers_To_OpenCV_BGRA_Conversion( const std::vector<GDALColorInte
     // Check Grayscale
     if( image_colors.size() == 1 )
     {
-        output = CV_GRAY2BGRA;
+        output = CV_GRAY2RGB;
     }
 
     // Check 3 channels
@@ -97,11 +99,11 @@ int GDAL_Color_Layers_To_OpenCV_BGRA_Conversion( const std::vector<GDALColorInte
         {
             if( image_colors.size() == 3 )
             {
-                output = CV_RGB2BGRA;
+                skip_conversion = true;
             }
             else if( image_colors.size() == 4 )
             {
-                output = CV_RGBA2BGRA;
+                output = CV_RGBA2RGB;
             }
             else
             {

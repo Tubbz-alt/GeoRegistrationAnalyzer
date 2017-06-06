@@ -28,6 +28,28 @@ GeoWidget::GeoWidget( const std::string&          base_config_profile,
 }
 
 
+/****************************************************/
+/*         Update the asset being displayed         */
+/****************************************************/
+void GeoWidget::Update_Asset( const std::string&      asset_type,
+                              Asset_Image_Base::ptr_t new_asset )
+{
+    // CHeck current provider
+    if( m_geo_viewers.find(asset_type) == m_geo_viewers.end() )
+    {
+        // If they are not the same, replace asset
+    }
+
+    // Otherwise, update
+    else
+    {
+        m_geo_viewers[asset_type]->Update_Asset( new_asset );
+    }
+
+
+}
+
+
 /****************************************/
 /*          Update Configuration        */
 /****************************************/

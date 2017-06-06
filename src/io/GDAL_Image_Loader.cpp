@@ -19,6 +19,7 @@
 // Project Libraries
 #include "GDAL_Utilities.hpp"
 #include "OpenCV_Utilities.hpp"
+#include "../core/assets/Asset_Manager.hpp"
 #include "../log/System_Logger.hpp"
 
 
@@ -45,11 +46,13 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
     const std::string m_class_name = "GDAL_Image_Loader";
     LOG_CLASS_ENTRY();
 
+
     // Initialize status
     status = true;
     error_msg = "";
     std::string message;
     Asset_Image_Base::ptr_t output;
+
 
     // Make sure path exists
     if( !bf::exists(bf::path(pathname)))
@@ -65,6 +68,7 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
         GDALDriver*  driver;
         GDALDataset* dataset;
 
+
         // Open the dataset
         dataset = (GDALDataset*)GDALOpen(pathname.c_str(), GA_ReadOnly);
 
@@ -74,6 +78,7 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
             status = false;
             error_msg = "Unable to open gdal dataset for image (" + pathname + ")";
         }
+
 
         // make sure we have pixel data
         if( status && dataset->GetRasterCount() <= 0 )
@@ -119,7 +124,7 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
             // Allocate Asset Memory
             image = cv::Mat(image_rows,
                             image_cols,
-                            CV_8UC4,
+                            CV_8UC3,
                             cv::Scalar(0, 0, 0, 255));
 
             // Allocate temporary working memory
@@ -175,23 +180,37 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
             temp_row = nullptr;
         }
 
+        LOG_CLASS_TRACE("Merging Image Layers");
         // Merge Layers
         cv::merge( image_layers, image);
 
         // Compute Conversion
-        int color_conversion = GDAL_Color_Layers_To_OpenCV_BGRA_Conversion( image_colors );
+        bool skip_conversion;
+        int color_conversion = GDAL_Color_Layers_To_OpenCV_RGB_Conversion( image_colors, skip_conversion );
 
         // Convert Color
-        cv::cvtColor( image, image, color_conversion);
+        if( !skip_conversion ) {
+            cv::cvtColor(image, image, color_conversion);
+        }
 
         // Get raster info
+        LOG_CLASS_TRACE("Getting Raster Information");
         GDAL_Raster_Info raster_info = Get_Raster_Information(dataset, status, error_msg);
 
 
         // Construct Asset
+        LOG_CLASS_TRACE("Building Image Asset");
         output = std::make_shared<Asset_Image_Local>(image,
                                                      raster_info.corners,
                                                      raster_info.proj_info );
+
+
+        // Close the dataset
+        LOG_CLASS_TRACE("Closing Dataset");
+        if( dataset != nullptr ) {
+            GDALClose(dataset);
+        }
+
     }
 
 

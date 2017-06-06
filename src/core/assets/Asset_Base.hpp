@@ -28,6 +28,11 @@ class Asset_Base
         Asset_Base();
 
 
+        /**
+         * @brief Print Log String
+         */
+        virtual std::string To_Log_String( const int& offset = 0 )const;
+
     private:
 
         /// Class Name

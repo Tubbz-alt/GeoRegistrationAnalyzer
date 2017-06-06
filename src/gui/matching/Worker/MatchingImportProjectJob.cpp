@@ -8,9 +8,15 @@
 // C++ Libraries
 #include <vector>
 
+// Qt Libraries
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 // Project Libraries
+#include "../../../core/System_Manager.hpp"
 #include "../../../core/assets/Asset_Image_Local.hpp"
+#include "../../../core/assets/Asset_Manager.hpp"
 #include "../../../core/assets/Image_Asset_Builder.hpp"
 #include "../../../io/GDAL_Image_Loader.hpp"
 #include "../../../log/System_Logger.hpp"
@@ -34,14 +40,20 @@ MatchingImportProjectJob::MatchingImportProjectJob(const Config_Param&         p
 /*****************************/
 int MatchingImportProjectJob::Execute()
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
 
     // Build the Reference Imagery Asset
-    Build_Image_Asset("project.matching.reference_imagery");
+    Build_Image_Asset("reference",
+                      "project.matching.reference_imagery");
 
     // Build the Test Imagery Asset
-    Build_Image_Asset("project.matching.test_imagery");
+    Build_Image_Asset("test",
+                      "project.matching.test_imagery");
 
 
+    // Log Exit
+    LOG_CLASS_EXIT();
 
     return 1;
 }
@@ -50,7 +62,8 @@ int MatchingImportProjectJob::Execute()
 /********************************************/
 /*          Build the Image Asset           */
 /********************************************/
-void MatchingImportProjectJob::Build_Image_Asset( const std::string& base_element )const
+void MatchingImportProjectJob::Build_Image_Asset( const std::string& panel_type,
+                                                  const std::string& base_element )const
 {
     // Log Entry
     LOG_CLASS_ENTRY();
@@ -58,11 +71,16 @@ void MatchingImportProjectJob::Build_Image_Asset( const std::string& base_elemen
     // Resulting Asset
     Asset_Image_Base::ptr_t new_asset;
 
+    // JSon Elements
+    QJsonObject json_obj;
+
     // Grab the source type
-    bool value_found, success;
+    bool value_found, success, first_asset_loaded = false;
     std::string error_msg;
+    int asset_id;
     std::string source = m_project_info.Query_KV_Pair(base_element + ".source", value_found);
-    LOG_CLASS_TRACE("Asset Base: " + base_element + ", Source: " + source);
+    json_obj["source"] = source.c_str();
+
 
     // Check source type
     if( source == "local" )
@@ -109,10 +127,27 @@ void MatchingImportProjectJob::Build_Image_Asset( const std::string& base_elemen
                 // Process
                 else
                 {
-
+                    // Register asset
+                    asset_id = Asset_Manager::Register_Asset(new_asset);
+                    if( !first_asset_loaded )
+                    {
+                        json_obj["asset_id"] = asset_id;
+                        first_asset_loaded = true;
+                    }
                 }
             }
         }
     }
 
+    // Send the Comm Message
+    if( first_asset_loaded )
+    {
+        // Create message
+        std::stringstream sin;
+        QJsonDocument json_doc(json_obj);
+
+        sin << json_doc.toJson().toStdString();
+        System_Manager::Get_Message_Service()->Send( "test_imagery_load",
+                                                     sin.str());
+    }
 }

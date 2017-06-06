@@ -26,6 +26,13 @@ System_Manager::System_Manager( System_Configuration::ptr_t system_configuration
     // Initialize GDAL
     GDALAllRegister();
 
+    // Create Message-Service
+    MessageServiceConfig::ptr_t msg_svc_config = std::make_shared<MessageServiceConfig>();
+    m_message_service = std::make_shared<MessageService>( msg_svc_config );
+
+    // Initialize
+    m_message_service->Initialize();
+
 }
 
 
@@ -34,15 +41,14 @@ System_Manager::System_Manager( System_Configuration::ptr_t system_configuration
 /************************************/
 System_Manager::~System_Manager()
 {
-    // Finalize
-    Finalize();
+    //
 }
 
 
 /***************************************/
 /*            Get Instance             */
 /***************************************/
-System_Manager::ptr_t System_Manager::Get_Instance()
+System_Manager::ptr_t& System_Manager::Get_Instance()
 {
     return Get_Reference();
 }
@@ -63,13 +69,10 @@ System_Manager::ptr_t& System_Manager::Get_Reference()
 /************************************/
 void System_Manager::Initialize( System_Configuration::ptr_t system_configuration)
 {
-    // Grab Reference
-    auto reference = Get_Reference();
-
     // Check if it has been created
-    if( reference == nullptr )
+    if( Get_Reference() == nullptr )
     {
-        reference = System_Manager::ptr_t( new System_Manager( system_configuration ));
+        Get_Reference() = System_Manager::ptr_t( new System_Manager( system_configuration ));
     }
 
     // Otherwise, log error
@@ -85,16 +88,22 @@ void System_Manager::Initialize( System_Configuration::ptr_t system_configuratio
 /************************************/
 void System_Manager::Finalize()
 {
-    // Grab Reference
-    auto reference = Get_Reference();
-    
     // Delete Manager
-    if( reference != nullptr )
+    if( Get_Reference() != nullptr )
     {
-        reference.reset();
+        Get_Reference().reset();
     }
 }
 
+
+/*******************************************/
+/*          Get the message service        */
+/*******************************************/
+MessageService::ptr_t& System_Manager::Get_Message_Service()
+{
+    // return message service
+    return Get_Reference()->m_message_service;
+}
 
 /******************************************/
 /*          Update Configuration          */
