@@ -82,7 +82,6 @@ void GeoViewerLocal::Update_Asset(const Asset_Image_Base::ptr_t new_asset)
                      static_cast<int>(image.step),
                      QImage::Format_RGB888 );
 
-    m_view->translate(midX, midY);
 
     // Push to scene
     QGraphicsPixmapItem* new_pixmap = new QGraphicsPixmapItem(QPixmap::fromImage(qt_image));
