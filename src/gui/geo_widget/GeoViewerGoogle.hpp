@@ -10,6 +10,8 @@
 // Qt Libraries
 #include <QtWebEngine/QtWebEngine>
 #include <QtWebEngineWidgets/QWebEngineView>
+#include <QWebSocket>
+#include <QWebSocketServer>
 #include <QWidget>
 
 // Project Libraries
@@ -67,6 +69,12 @@ class GeoViewerGoogle : public GeoViewerBase
 
         /// Web View
         QWebEngineView* m_web_view;
+
+        /// WebSocket Server
+        QWebSocketServer* m_socket_server;
+
+        /// List of Connections
+        QList<QWebSocket*> m_socket_clients;
 
 };
 
