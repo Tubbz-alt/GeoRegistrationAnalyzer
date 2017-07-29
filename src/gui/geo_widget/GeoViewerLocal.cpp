@@ -74,7 +74,7 @@ void GeoViewerLocal::Update_Asset(const Asset_Image_Base::ptr_t new_asset)
     int midX = image.cols/2;
     int midY = image.rows/2;
 
-    m_transform.translate( midX, midY);
+    m_image_transform.translate( -midX, -midY);
 
     // Load the pixel data
     QImage qt_image( image.data,
@@ -85,9 +85,19 @@ void GeoViewerLocal::Update_Asset(const Asset_Image_Base::ptr_t new_asset)
 
     // Push to scene
     QGraphicsPixmapItem* new_pixmap = new QGraphicsPixmapItem(QPixmap::fromImage(qt_image));
+    new_pixmap->setTransform(m_image_transform);
     m_scene.addItem(new_pixmap);
 
+    // If everything is okay, then remove the text
+    m_scene.removeItem(m_warning_text);
 
+    // Print the Location of the viewport
+    std::stringstream sin;
+    sin << "Viewport BBox: " << m_view->sceneRect().x() << ", " << m_view->sceneRect().y();
+    sin << " : Size: " << m_view->sceneRect().size().width() << " x " << m_view->sceneRect().size().height() << std::endl;
+    sin << "Scene BBox: " << m_scene.sceneRect().x() << ", " << m_scene.sceneRect().y();
+    sin << " : Size: " << m_scene.sceneRect().size().width() << " x " << m_scene.sceneRect().size().height() << std::endl;
+    LOG_CLASS_INFO(sin.str());
 
     // Log Exit
     LOG_CLASS_EXIT();
@@ -109,5 +119,5 @@ void GeoViewerLocal::Update_Configuration()
 void GeoViewerLocal::Initialize_Scene()
 {
     //m_scene.setSceneRect(QRectF(QPoint(-1, 1), QSizeF(2, 2)));
-    m_scene.addText("No Dataset Loaded.");
+    m_warning_text = m_scene.addText("No Dataset Loaded.");
 }

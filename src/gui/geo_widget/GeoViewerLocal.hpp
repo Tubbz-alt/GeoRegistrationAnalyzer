@@ -36,6 +36,7 @@ class GeoViewerLocal : public GeoViewerBase
                         System_Configuration::ptr_t sys_config,
                         QWidget*                    parent = nullptr );
 
+
         /**
          * @brief Update the Asset In View
          */
@@ -72,8 +73,12 @@ class GeoViewerLocal : public GeoViewerBase
         /// Main View
         QGraphicsView* m_view;
 
-        /// Current Transform
+        /// Current Transforms
         QTransform m_transform;
+        QTransform m_image_transform;
+
+        /// Initialization Materials
+        QGraphicsTextItem* m_warning_text;
 
 };
 

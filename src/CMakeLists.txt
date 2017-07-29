@@ -95,6 +95,7 @@ set( GEO_REGISTRATION_SOURCES
         gui/matching/Worker/Matching_Worker.cpp
         gui/matching/Worker/MatchingImportProjectJob.cpp
         gui/geo_widget/GeoViewerBase.cpp
+        gui/geo_widget/GeoViewerCesium.cpp
         gui/geo_widget/GeoViewerFactory.cpp
         gui/geo_widget/GeoViewerLocal.cpp
         gui/geo_widget/GeoViewerGoogle.cpp
@@ -128,6 +129,7 @@ set( GEO_REGISTRATION_HEADERS
         gui/matching/Worker/Matching_Worker.hpp
         gui/matching/Worker/MatchingImportProjectJob.hpp
         gui/geo_widget/GeoViewerBase.hpp
+        gui/geo_widget/GeoViewerCesium.hpp
         gui/geo_widget/GeoViewerFactory.hpp
         gui/geo_widget/GeoViewerLocal.hpp
         gui/geo_widget/GeoViewerGoogle.hpp

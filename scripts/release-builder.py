@@ -49,31 +49,20 @@ def Big_Copy( src_dir, dst_dir ):
 #-------------------------------------------#
 def Build_Release_Structure( options ):
 
-    #  Create release directory
-    try:
-        os.makedirs('releases/geo-registration-analyzer/bin')
-    except:
-        pass
+    #  Build Directory List
+    dirlist = ['releases/geo-registration-analyzer/bin',
+               'releases/geo-registration-analyzer/html',
+               'releases/geo-registration-analyzer/icons',
+               'releases/geo-registration-analyzer/scripts',
+               'releases/geo-registration-analyzer/share',
+               'releases/geo-registration-analyzer/images']
 
-    try:
-        os.makedirs('releases/geo-registration-analyzer/html')
-    except:
-        pass
-
-    try:
-        os.makedirs('releases/geo-registration-analyzer/icons')
-    except:
-        pass
-
-    try:
-        os.makedirs('releases/geo-registration-analyzer/scripts')
-    except:
-        pass
-
-    try:
-        os.makedirs('releases/geo-registration-analyzer/images')
-    except:
-        pass
+    #  Create release directories
+    for dname in dirlist:
+        try:
+            os.makedirs(dname)
+        except:
+            pass
 
     #  Copy Icons and HTML Files
     Big_Copy( 'src/icons', 'releases/geo-registration-analyzer/icons/')

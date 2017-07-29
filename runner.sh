@@ -101,6 +101,25 @@ Build_Documentation()
 
 
 #--------------------------------#
+#-      Usage Instructions      -# 
+#--------------------------------#
+Usage()
+{
+    echo "usage: $0 <task> [options]" 
+    echo ""
+    echo "  -c | --clean : Clean the project" 
+    echo "  -m | --make  <build-args>: Build the project"
+    echo ''
+    echo '      Optional Arguments:'
+    echo '      -j<number-threads> : Number of compile threads'
+    echo '  -i | --install : Install software'
+    echo '  -D | --docs    : Build Documentation'
+    echo '  -f | --full    : Build, then Install Software'
+
+}
+
+
+#--------------------------------#
 #-       Main Application       -#
 #--------------------------------#
 
@@ -110,8 +129,8 @@ RUN_MAKE=0
 RUN_INSTALL=0
 RUN_CLEAN=0
 RUN_DOCS=0
-THREAD_FLAG=0
 NUM_THREADS=1
+FLAG_SET=0
 
 
 #  Iterate over command-line argument
@@ -119,25 +138,35 @@ for ARG in "$@"; do
 
     case $ARG in
 
+        #  Show help
+        '-h'|'--help'|'usage')
+            Usage
+            exit 0
+            ;;
+
         #  Clean Project
         '-c'|'--clean')
             RUN_CLEAN=1
+            FLAG_SET=1
             ;;
 
         #  Build Software
         '-m'|'--make')
             RUN_MAKE=1
+            FLAG_SET=1
             ;;
 
         #  Install Software
         '-i'|'--install')
             RUN_INSTALL=1
+            FLAG_SET=1
             ;;
 
         #  Do Everything
         '-f'|'--full')
             RUN_MAKE=1
             RUN_INSTALL=1
+            FLAG_SET=1
             ;;
 
         #  Setup the debug mode
@@ -151,25 +180,27 @@ for ARG in "$@"; do
             ;;
 
         #  Set thread flag
-        '-j')
-            THREAD_FLAG=1
+        (-j*)
+            NUM_THREADS=`echo ${ARG} | sed 's/-j//'`
             ;;
 
         #  Build Documentation
         '-D'|'--docs')
             RUN_DOCS=1
+            FLAG_SET=1
             ;;
 
         *)
-            if [ "$THREAD_FLAG" = '1' ]; then
-                THREAD_FLAG=0
-                NUM_THREADS=$ARG
-            else
-                echo "error: Unsupported flag ($ARG)"
-            fi
+            echo "error: Unsupported flag ($ARG)"
             ;;
     esac
 done
+
+#  Check if flags provided
+if [ "$FLAG_SET" = '0' ]; then
+    echo "error: No flags provided."
+    Usage
+fi
 
 #  Run Clean
 if [ "$RUN_CLEAN" = '1' ]; then
