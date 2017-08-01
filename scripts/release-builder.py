@@ -16,6 +16,13 @@ def Parse_Command_Line():
                         default='/opt/geo-registration-analyzer',
                         help='Destination on filesystem.')
 
+    #  Pre-Command Arguments
+    parser.add_argument('--pre-cmd-args',
+                        dest='pre_cmd_args',
+                        default='',
+                        help='Args to append to actual method call.')
+
+
     #   Installation Base Path
     parser.add_argument('-i','--install-base-path',
                         dest='install_base_path',
@@ -87,6 +94,7 @@ def Build_Run_Script( options ):
 
     #  Start applying replaces
     script_data = script_data.replace('__GEO_REGISTRATION_BASE_PATH__', options.prefix )
+    script_data = script_data.replace('__PRE_CMD_ARGS__', options.pre_cmd_args )
 
     #  Write new file
     with open('releases/geo-registration-analyzer/scripts/geo-registration-analyzer.sh', 'w') as fout:
