@@ -8,6 +8,33 @@
 #
 
 
+#  CMake Binary
+CMAKE_BIN='cmake'
+
+#----------------------------------#
+#-     Configure CMake Binary     -#
+#----------------------------------#
+check_cmake()
+{
+    #  Check the CMake Version
+    CMAKE_VERSION=`cmake --version | head -n 1 | cut -d ' ' -f 3`
+    
+    #  Split the major
+    CMAKE_MAJOR=`echo $CMAKE_VERSION | cut -d . -f 1`
+    if [ "$CMAKE_MAJOR" -lt '3' ]; then
+        
+        #  Look for CMake 3
+        CMAKE3_BIN=`which cmake3`
+        if [ -e "$CMAKE3_BIN" ]; then
+            CMAKE_BIN=$CMAKE3_BIN
+        fi
+    fi
+
+    echo "Using CMake Binary: $CMAKE_BIN"
+}
+
+
+
 #-------------------------------#
 #-      Clean the Software     -#
 #-------------------------------#
@@ -44,7 +71,7 @@ Build_Software()
     pushd ${BUILD_TYPE}
 
     #  Run CMake
-    cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
+    ${CMAKE_BIN} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
     ORES="$?"
     if [ ! "$ORES" == '0' ]; then
         echo "CMake Failed to Build.  Code: $ORES"
@@ -122,6 +149,9 @@ Usage()
 #--------------------------------#
 #-       Main Application       -#
 #--------------------------------#
+
+#  Required for Centos/RHEL as they allow cmake (2) or cmake3 (3) (We need 3)
+check_cmake
 
 #  Baseline Flags
 BUILD_TYPE='release'

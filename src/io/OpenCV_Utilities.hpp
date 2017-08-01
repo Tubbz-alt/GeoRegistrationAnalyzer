@@ -7,7 +7,7 @@
 #define IO_OPENCV_UTILITIES_HPP
 
 // OpenCV Libraries
-#include <opencv2/core.hpp>
+#include <opencv2/core/core.hpp>
 
 
 /**
