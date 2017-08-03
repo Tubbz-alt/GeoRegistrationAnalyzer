@@ -15,11 +15,26 @@ set (CMAKE_CXX_STANDARD 14)
 #  Name Project
 project(GeoRegistrationAnalyzer)
 
-#  Add Project Dependencies
+#-------------------------------------#
+#-     Add Manual CMake Scripts      -#
+#-------------------------------------#
+LIST( APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
+
+
+#-------------------------------------#
+#-      Add Project Dependencies     -#
+#-------------------------------------#
 add_subdirectory(src)
 
-#  Add ThirdParty Dependencies
+
+#-------------------------------------#
+#-    Add ThirdParty Dependencies    -#
+#-------------------------------------#
 add_subdirectory(thirdparty)
 
-#  Add Test Dependencies
+
+#-------------------------------------#
+#-       Add Test Dependencies       -#
+#-------------------------------------#
 add_subdirectory(test)
+

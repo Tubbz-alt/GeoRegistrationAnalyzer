@@ -40,6 +40,22 @@ include_directories(${GDAL_INCLUDE_DIR})
 find_package( OpenCV REQUIRED )
 include_directories(${OpenCV_INCLUDE_DIRS})
 
+
+#----------------------------------#
+#-      Configure ArcGIS SDK      -#
+#----------------------------------#
+find_package( ArcGIS_SDK REQUIRED )
+
+if( ARCGIS_SDK_FOUND )
+    message("ArcGIS SDK Found")
+    message("  - Includes: ${ARCGIS_SDK_INCLUDES}")
+    message("  - Libraries: ${ARCGIS_SDK_LIBRARIES}")
+else()
+    message( FATAL_ERROR "Could Not Find ArcGIS SDK")
+endif()
+include_directories(${ARCGIS_SDK_INCLUDES})
+
+
 #---------------------------#
 #-      Configure Qt5      -#
 #---------------------------#
@@ -157,5 +173,7 @@ target_link_libraries( geo-registration-analyzer
                        pthread
                        ${GDAL_LIBRARY}
                        ${Boost_LIBRARIES}
-                       ${OpenCV_LIBS} )
+                       ${OpenCV_LIBS} 
+                       ${ARCGIS_SDK_LIBRARIES}
+                       )
 
