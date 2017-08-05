@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #  Create Project Subdir
-PROJECT_SUBDIR=~/.geo-registration-analyzer/projects/my_test_project
+PROJECT_SUBDIR=~/.geo-viewer/projects/my_test_project
 mkdir -p ${PROJECT_SUBDIR}
 
 #  Copy project file

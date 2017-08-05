@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #
-#    File:    geo-registration-utility.bash
+#    File:    geo-viewer.bash
 #    Author:  Marvin Smith
-#    Date:    5/16/2017
+#    Date:    8/4/2017
 #
-#    Purpose:  Run the Geo-Registration Utility
+#    Purpose:  Run the Geo-Viewer Utility
 #
 
 #  Set Environment Variables
-export GEO_REGISTRATION_BASE=__GEO_VIEWER_PATH__
+export GEO_VIEWER_BASE=__GEO_VIEWER_BASE_PATH__
 
 #  Pre-Command Arguments
 export PRE_CMD=__PRE_CMD_ARGS__
@@ -39,5 +39,5 @@ done
 
 #  Run the application
 echo "Running Application"
-${PRE_CMD} ${GEO_REGISTRATION_BASE}/bin/geo-registration-analyzer $ARGLIST
+${PRE_CMD} ${GEO_VIEWER_BASE}/bin/geo-viewer $ARGLIST
 

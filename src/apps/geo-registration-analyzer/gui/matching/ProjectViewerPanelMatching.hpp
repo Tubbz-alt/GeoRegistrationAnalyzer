@@ -14,10 +14,11 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+// GeoViewer Libraries
+#include <GeoViewer/core/System_Configuration.hpp>
 
 // Project Libraries
 #include "../ProjectViewerPanelBase.hpp"
-#include "../../core/System_Configuration.hpp"
 
 
 /**

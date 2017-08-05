@@ -13,9 +13,11 @@
 #include <QMenuBar>
 #include <QMessageBox>
 
+// GeoViewer Libraries
+#include <GeoViewer/log/System_Logger.hpp>
+
 // Project Libraries
 #include "ConfigurationSaveDialog.hpp"
-#include "../log/System_Logger.hpp"
 
 
 /**********************************/

@@ -11,10 +11,11 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
+// GeoViewer Libraries
+#include <GeoViewer/core/Config_Param.hpp>
+#include <GeoViewer/core/System_Configuration.hpp>
 
 // Project Libraries
-#include "core/Config_Param.hpp"
-#include "core/System_Configuration.hpp"
 #include "gui/ProjectViewerPanelFactory.hpp"
 
 

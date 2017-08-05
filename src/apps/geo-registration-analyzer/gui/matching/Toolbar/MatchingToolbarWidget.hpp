@@ -14,8 +14,10 @@
 #include <QStackedWidget>
 #include <QWidget>
 
+// GeoViewer Libraries
+#include <GeoViewer/core/System_Configuration.hpp>
+
 // Project Libraries
-#include "../../../core/System_Configuration.hpp"
 #include "PrimaryMatchingToolbarPane.hpp"
 #include "ProjectMatchingToolbarPane.hpp"
 

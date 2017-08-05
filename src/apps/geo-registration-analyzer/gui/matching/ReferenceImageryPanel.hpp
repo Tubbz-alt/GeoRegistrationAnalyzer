@@ -11,9 +11,10 @@
 
 // Project Libraries
 #include "ReferenceToolbar.hpp"
-#include "../../core/System_Configuration.hpp"
-#include "../geo_widget/GeoWidget.hpp"
 
+// GeoViewer Libraries
+#include <GeoViewer/core/System_Configuration.hpp>
+#include <GeoViewer/gui/geo_widget/GeoWidget.hpp>
 
 /**
  * @class ReferenceImageryPanel

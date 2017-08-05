@@ -3,21 +3,22 @@
  * @author  Marvin Smith
  * @date    4/21/2017
  */
-#ifndef GUI_MAIN_WINDOW_HPP
-#define GUI_MAIN_WINDOW_HPP
+#ifndef GEO_REGISTRATION_UTILITY_GUI_MAIN_WINDOW_HPP
+#define GEO_REGISTRATION_UTILITY_GUI_MAIN_WINDOW_HPP
 
 // C++ Libraries
 #include <map>
 #include <string>
 
-
 // Qt Libraries
 #include <QMainWindow>
 #include <QStackedWidget>
 
+// GeoViewer Libraries
+#include <GeoViewer/core/System_Configuration.hpp>
+
 
 // Project Libraries
-#include "../core/System_Configuration.hpp"
 #include "project_dialogs/NewProjectDialog.hpp"
 #include "project_dialogs/ImportProjectDialog.hpp"
 #include "PreferenceDialog.hpp"

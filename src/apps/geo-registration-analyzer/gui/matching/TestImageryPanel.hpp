@@ -9,11 +9,13 @@
 // Qt Libraries
 #include <QWidget>
 
+// GeoViewer Libraries
+#include <GeoViewer/core/System_Configuration.hpp>
+#include <GeoViewer/core/assets/Asset_Image_Base.hpp>
+#include <GeoViewer/gui/geo_widget/GeoWidget.hpp>
+
 // Project Libraries
 #include "TestToolbar.hpp"
-#include "../../core/System_Configuration.hpp"
-#include "../../core/assets/Asset_Image_Base.hpp"
-#include "../geo_widget/GeoWidget.hpp"
 
 
 /**

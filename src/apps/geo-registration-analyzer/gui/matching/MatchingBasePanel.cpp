@@ -9,8 +9,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-// Project Libraries
-#include "../../log/System_Logger.hpp"
+// GeoViewer Libraries
+#include <GeoViewer/log/System_Logger.hpp>
 
 
 /********************************/

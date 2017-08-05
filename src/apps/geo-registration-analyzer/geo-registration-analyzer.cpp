@@ -7,26 +7,36 @@
 // Qt Libraries
 #include <QApplication>
 
-// C++ Libraries
-
+// GeoViewer Libraries
+#include <GeoViewer/core/assets/Asset_Manager.hpp>
+#include <GeoViewer/core/System_Manager.hpp>
+#include <GeoViewer/log/System_Logger.hpp>
 
 // Project Libraries
-#include "core/System_Configuration.hpp"
-#include "core/System_Manager.hpp"
-#include "core/assets/Asset_Manager.hpp"
-#include "log/System_Logger.hpp"
+#include "core/System_Config_Utils.hpp"
 #include "gui/Main_Window.hpp"
 #include "utility/Init_Utilities.hpp"
 
 
+/**
+ * @brief Main Method
+ *
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main( int argc, char* argv[] )
 {
     
     //   Create the Qt Application
     QApplication app(argc, argv);
-    
+
+    // Create the config file generator
+    auto config_generator = std::make_shared<Viewer_Config_Generator>();
+
     // Load the Configuration
-    auto system_configuration = std::make_shared<System_Configuration>(argc, argv);
+    auto system_configuration = std::make_shared<System_Configuration>(argc, argv,
+                                                                       config_generator );
 
 
     // Initialize the System Logger

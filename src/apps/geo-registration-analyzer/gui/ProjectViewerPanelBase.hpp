@@ -12,8 +12,8 @@
 // C++ Libraries
 #include <string>
 
-// Project Libraries
-#include "../core/System_Configuration.hpp"
+// GeoViewer Libraries
+#include <GeoViewer/core/System_Configuration.hpp>
 
 
 /**

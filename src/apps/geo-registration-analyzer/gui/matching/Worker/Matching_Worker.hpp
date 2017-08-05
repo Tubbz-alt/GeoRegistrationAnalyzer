@@ -13,10 +13,10 @@
 // Qt Libraries
 #include <QWidget>
 
-// Project Libraries
-#include "../../../core/Config_Param.hpp"
-#include "../../../core/System_Configuration.hpp"
-#include "../../../core/Thread_Pool.hpp"
+// GeoViewer Libraries
+#include <GeoViewer/core/Config_Param.hpp>
+#include <GeoViewer/core/System_Configuration.hpp>
+#include <GeoViewer/core/Thread_Pool.hpp>
 
 
 /**

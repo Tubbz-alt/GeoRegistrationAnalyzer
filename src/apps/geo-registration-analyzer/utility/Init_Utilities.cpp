@@ -1,13 +1,13 @@
 /**
  * @file    Init_Utilities.cpp
  * @author  Marvin Smith
- * @date    4/20/2017
+ * @date    8/4/2017
  */
 #include "Init_Utilities.hpp"
 
 // Project Libraries
-#include "../../../libGeoViewer/log/Log_Handler_Console.hpp"
-#include "../../../libGeoViewer/log/Log_Handler_File.hpp"
+#include <GeoViewer/log/Log_Handler_Console.hpp>
+#include <GeoViewer/log/Log_Handler_File.hpp>
 
 
 /**************************************/
