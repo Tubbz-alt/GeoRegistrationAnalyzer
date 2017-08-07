@@ -94,7 +94,8 @@ Build_Software()
     ./scripts/release-builder.py --build-dir=${BUILD_TYPE}
 
     #  Make run script executable
-    chmod +x ./releases/geo-registration-analyzer/scripts/geo-registration-analyzer.sh
+    chmod +x ./releases/geo-viewer/scripts/geo-viewer.sh
+    chmod +x ./releases/geo-viewer/scripts/geo-registration-analyzer.sh
 
 
 }
@@ -109,9 +110,10 @@ Install_Software()
     echo '-> Installing Software'
 
     #  Copy to /opt
-    sudo cp -r releases/geo-registration-analyzer /opt/
+    sudo rsync -a releases/geo-viewer/ /opt/geo-viewer/
 
-    sudo ln -snf /opt/geo-registration-analyzer/scripts/geo-registration-analyzer.sh /usr/local/bin/geo-registration-analyzer
+    sudo ln -snf /opt/geo-viewer/scripts/geo-registration-analyzer.sh /usr/local/bin/geo-registration-analyzer
+    sudo ln -snf /opt/geo-viewer/scripts/geo-viewer.sh                /usr/local/bin/geo-viewer
 
 
 }

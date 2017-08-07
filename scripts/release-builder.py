@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse, shutil, os
+import argparse, shutil, os, glob
 
 
 #---------------------------------------#
@@ -35,6 +35,13 @@ def Parse_Command_Line():
                         default='release',
                         help='Build Directory')
 
+    #  Copy Required Libraries
+    parser.add_argument('--package-deps',
+                        dest='package_deps',
+                        default=False,
+                        action='store_true',
+                        help='Package dependencies with software')
+
 
     return parser.parse_args()
 
@@ -54,11 +61,12 @@ def Big_Copy( src_dir, dst_dir ):
 #-------------------------------------------#
 #-       Build the Release Structure       -#
 #-------------------------------------------#
-def Build_Release_Structure( options, app_name ):
+def Build_Release_Structure( options ):
 
     #  Build Directory List
     dirlist = ['releases/geo-viewer/bin',
                'releases/geo-viewer/html',
+               'releases/geo-viewer/lib',
                'releases/geo-viewer/icons',
                'releases/geo-viewer/scripts',
                'releases/geo-viewer/share']
@@ -71,12 +79,21 @@ def Build_Release_Structure( options, app_name ):
             pass
 
     #  Copy Icons and HTML Files
-    Big_Copy( 'src/apps/' + app_name + '/icons', 'releases/geo-viewer/icons/')
-    Big_Copy( 'src/apps/' + app_name + '/html',  'releases/geo-viewer/html/')
+    Big_Copy( 'src/apps/geo-viewer/icons',                'releases/geo-viewer/icons/')
+    Big_Copy( 'src/apps/geo-viewer/html',                 'releases/geo-viewer/html/')
+    Big_Copy( 'src/apps/geo-registration-analyzer/icons', 'releases/geo-viewer/icons/')
+    Big_Copy( 'src/apps/geo-registration-analyzer/html',  'releases/geo-viewer/html/')
 
-    #  Copy Executable
-    shutil.copy(options.build_dir + '/src/geo-viewer',
+    #  Copy Libraries
+    results = glob.glob(options.build_dir + '/lib/*')
+    for res in results:
+        shutil.copy(res, options.install_base_path + '/lib/' + os.path.basename(res))
+
+    #  Copy Executables
+    shutil.copy(options.build_dir + '/bin/geo-viewer',
                 options.install_base_path + '/bin/geo-viewer')
+    shutil.copy(options.build_dir + '/bin/geo-registration-analyzer',
+                options.install_base_path + '/bin/geo-registration-analyzer')
 
 
 #-----------------------------------#
@@ -110,8 +127,7 @@ def Main():
 
 
     #  Build Release Structure
-    Build_Release_Structure( options, 'geo-viewer' )
-    Build_Release_Structure( options, 'geo-registration-analyzer')
+    Build_Release_Structure( options )
 
     #  Build the Run Script
     Build_Run_Script( options, 'geo-viewer' )

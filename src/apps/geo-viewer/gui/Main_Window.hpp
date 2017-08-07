@@ -16,8 +16,12 @@
 #include <QStackedWidget>
 
 
-// Project Libraries
+// GeoViewer Libraries
 #include <GeoViewer/core/System_Configuration.hpp>
+
+// Project Libraries
+#include "ProjectBasePanel.hpp"
+
 
 /**
  * @class Main_Window

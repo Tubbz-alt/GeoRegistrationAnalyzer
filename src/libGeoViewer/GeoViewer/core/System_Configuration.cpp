@@ -10,6 +10,10 @@
 #include <fstream>
 #include <iostream>
 
+// Qt Libraries
+#include <QMessageBox>
+
+
 // Boost Libraries
 #include <boost/filesystem.hpp>
 
@@ -38,11 +42,29 @@ System_Configuration::System_Configuration( int argc, char* argv[],
     Parse_Command_Line( argc, argv );
 
     // Parse the Configuration File
+    if( !bf::exists(bf::path(m_config_pathname)))
+    {
+        QMessageBox::Icon window_icon = QMessageBox::Icon::Question;
+        QString window_title = "System Configuration";
+        std::string window_text = "Configuration File does not exist.\nPath: ";
+        window_text += m_config_pathname + "\n";
+        window_text += "Would you like to create file now?";
+        QMessageBox::StandardButtons window_buttons = QMessageBox::StandardButton::Save | QMessageBox::StandardButton::Discard;
+
+        QMessageBox* box = new QMessageBox( window_icon,
+                                            window_title,
+                                            QString(window_text.c_str()),
+                                            window_buttons );
+
+        int ret = box->exec();
+        if( ret == QMessageBox::StandardButton::Save )
+        {
+            Generate_Configuration_File();
+        }
+    }
+
     if( bf::exists(bf::path(m_config_pathname))) {
         Parse_Configuration_File();
-    }
-    else
-    {
     }
 
     // Build Project Structure

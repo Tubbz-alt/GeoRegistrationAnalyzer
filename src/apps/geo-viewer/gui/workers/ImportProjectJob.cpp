@@ -1,9 +1,9 @@
 /**
- * @file    MatchingImportProjectJob.cpp
+ * @file    ImportProjectJob.cpp
  * @author  Marvin Smith
- * @date    5/25/2017
+ * @date    8/6/2017
  */
-#include "MatchingImportProjectJob.hpp"
+#include "ImportProjectJob.hpp"
 
 // C++ Libraries
 #include <vector>
@@ -25,9 +25,9 @@
 /*********************************/
 /*          Constructor          */
 /*********************************/
-MatchingImportProjectJob::MatchingImportProjectJob(const Config_Param&         project_info,
-                                                   System_Configuration::ptr_t sys_config)
-  : m_class_name("MatchingImportProjectJob"),
+ImportProjectJob::ImportProjectJob( const Config_Param&         project_info,
+                                    System_Configuration::ptr_t sys_config)
+  : m_class_name("ImportProjectJob"),
     m_sys_config(sys_config),
     m_project_info(project_info)
 {
@@ -38,18 +38,18 @@ MatchingImportProjectJob::MatchingImportProjectJob(const Config_Param&         p
 /*****************************/
 /*          Execute          */
 /*****************************/
-int MatchingImportProjectJob::Execute()
+int ImportProjectJob::Execute()
 {
     // Log Entry
     LOG_CLASS_ENTRY();
 
     // Build the Reference Imagery Asset
     Build_Image_Asset("reference",
-                      "project.matching.reference_imagery");
+                      "project.reference_imagery");
 
     // Build the Test Imagery Asset
     Build_Image_Asset("test",
-                      "project.matching.test_imagery");
+                      "project.test_imagery");
 
 
     // Log Exit
@@ -62,8 +62,8 @@ int MatchingImportProjectJob::Execute()
 /********************************************/
 /*          Build the Image Asset           */
 /********************************************/
-void MatchingImportProjectJob::Build_Image_Asset( const std::string& panel_type,
-                                                  const std::string& base_element )const
+void ImportProjectJob::Build_Image_Asset( const std::string& panel_type,
+                                          const std::string& base_element )const
 {
     // Log Entry
     LOG_CLASS_ENTRY();
@@ -147,7 +147,7 @@ void MatchingImportProjectJob::Build_Image_Asset( const std::string& panel_type,
         QJsonDocument json_doc(json_obj);
 
         sin << json_doc.toJson().toStdString();
-        System_Manager::Get_Message_Service()->Send( "test_imagery_load",
+        System_Manager::Get_Message_Service()->Send( "imagery_load",
                                                      sin.str());
     }
 }

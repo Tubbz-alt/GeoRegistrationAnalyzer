@@ -59,8 +59,13 @@ void Main_Window::Initialize_GUI()
     // Create the stack Widgets
     m_stack_widget = new QStackedWidget(this);
 
+    // Create the imagery panel
+    ProjectBasePanel* project_panel = new ProjectBasePanel(m_sys_config,
+                                                           this);
+    m_stack_widget->addWidget(project_panel);
 
 
+    // Add widget to main gui
     setCentralWidget( m_stack_widget );
 
     // Build the Menu Bar

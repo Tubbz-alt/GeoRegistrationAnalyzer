@@ -53,6 +53,7 @@ int main( int argc, char* argv[] )
     // Create the Main Widget
     Main_Window* main_window = new Main_Window( system_config );
 
+
     // Load any Pre-Loaded Project Files
     if( system_config->Project_Path_Provided() )
     {
@@ -69,6 +70,5 @@ int main( int argc, char* argv[] )
 
 
     // Start the Application and Release Control
-
-    return 0;
+    return app.exec();
 }

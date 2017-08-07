@@ -1,10 +1,10 @@
 /**
- * @file    MatchingImportProjectJob.hpp
+ * @file    ImportProjectJob.hpp
  * @author  Marvin Smith
- * @date    5/12/2017
+ * @date    8/6/2017
  */
-#ifndef GUI_MATCHING_WORKER_MATCHING_IMPORT_PROJECT_JOB_HPP
-#define GUI_MATCHING_WORKER_MATCHING_IMPORT_PROJECT_JOB_HPP
+#ifndef GEO_VIEWER_GUI_WORKERS_IMPORT_PROJECT_JOB_HPP
+#define GEO_VIEWER_GUI_WORKERS_IMPORT_PROJECT_JOB_HPP
 
 // Project Libraries
 #include <GeoViewer/core/Config_Param.hpp>
@@ -13,17 +13,17 @@
 
 
 /**
- * @class MatchingImportProjectJob
+ * @class ImportProjectJob
  */
-class MatchingImportProjectJob : public Worker_Thread
+class ImportProjectJob : public Worker_Thread
 {
     public:
 
         /**
          * @brief Constructor
          */
-        MatchingImportProjectJob( const Config_Param&          project_info,
-                                  System_Configuration::ptr_t  sys_config );
+        ImportProjectJob( const Config_Param&          project_info,
+                          System_Configuration::ptr_t  sys_config );
 
 
         /**
@@ -49,7 +49,8 @@ class MatchingImportProjectJob : public Worker_Thread
 
         /// Project Info
         Config_Param m_project_info;
-};
+
+}; // End of ImportProjectJob Class
 
 
 #endif

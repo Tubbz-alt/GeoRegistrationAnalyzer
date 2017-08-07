@@ -9,6 +9,7 @@
 #---------------------------------#
 set( LIB_GEO_GUI_SOURCES
         geo_widget/GeoViewerBase.cpp
+        geo_widget/GeoViewerEsri.cpp
         geo_widget/GeoViewerFactory.cpp
         geo_widget/GeoViewerGoogle.cpp
         geo_widget/GeoViewerLocal.cpp
@@ -19,6 +20,7 @@ set( LIB_GEO_GUI_SOURCES
 #-----------------------------#
 set( LIB_GEO_GUI_HEADERS
         geo_widget/GeoViewerBase.hpp
+        geo_widget/GeoViewerEsri.hpp
         geo_widget/GeoViewerFactory.hpp
         geo_widget/GeoViewerGoogle.hpp
         geo_widget/GeoViewerLocal.hpp

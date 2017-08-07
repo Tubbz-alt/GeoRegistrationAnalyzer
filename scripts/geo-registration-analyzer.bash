@@ -8,10 +8,12 @@
 #
 
 #  Set Environment Variables
-export GEO_REGISTRATION_BASE=__GEO_VIEWER_PATH__
+export GEO_VIEWER_BASE=__GEO_VIEWER_PATH__
 
 #  Pre-Command Arguments
 export PRE_CMD=__PRE_CMD_ARGS__
+
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${GEO_VIEWER_BASE}/lib
 
 ARGLIST=''
 

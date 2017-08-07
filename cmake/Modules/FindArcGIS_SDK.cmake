@@ -22,10 +22,24 @@ SET( ARCGIS_BASE_PATH
      ${ArcGIS_SDK_ROOT}
      $ENV{ArcGIS_SDK_ROOT}
 )
-SET( ARCGIS_LIB_SUFFIXES linux/x64/lib )
+
+#----------------------------------------#
+#-      Set Package Default Options     -#
+#----------------------------------------#
+set( USE_RUNTIME_CORE_LIB TRUE )
+
 if(APPLE)
+    SET( ARCGIS_LIB_SUFFIXES macOS/x64/lib )
+    SET( ARCGIS_BASE_PATH
+            ${ARCGIS_BASE_PATH}
+            "${ARCGIS_BASE_PATH}/macOS/x64/lib" )
+
+    #  Do not look for Runtime Core Library
+    set(USE_RUNTIME_CORE_LIB FALSE)
 elseif(WIN32)
+    SET( ARCGIS_LIB_SUFFIXES win32/x64/lib )
 elseif(LINUX)
+    SET( ARCGIS_LIB_SUFFIXES linux/x64/lib )
 else()
 
 endif()
@@ -35,6 +49,8 @@ endif()
 #---------------------------------#
 #-      Configure ArcGIS SDK     -#
 #---------------------------------#
+
+#   ArcGIS Runtime QT Library
 find_library( ARCGIS_RT_QT_LIB
                 EsriRuntimeQt
                 PATHS
@@ -42,20 +58,45 @@ find_library( ARCGIS_RT_QT_LIB
                 PATH_SUFFIXES
                     ${ARCGIS_LIB_SUFFIXES}
 )
-find_library( ARCGIS_RT_CORE_LIB
-                runtimecore
-                PATHS
-                 ${ARCGIS_BASE_PATH}
-                PATH_SUFFIXES
-                    ${ARCGIS_LIB_SUFFIXES}
-)
+if( ARCGIS_RT_QT_LIB )
+    set( ARCGIS_SDK_LIBRARIES
+            ${ARCGIS_SDK_LIBRARIES}
+            ${ARCGIS_RT_QT_LIB})
+endif()
+
+
+#  ArcGIS Runtime Core Library
+if( USE_RUNTIME_CORE_LIB )
+    find_library( ARCGIS_RT_CORE_LIB
+                    runtimecore
+                    PATHS
+                     ${ARCGIS_BASE_PATH}
+                    PATH_SUFFIXES
+                        ${ARCGIS_LIB_SUFFIXES}
+    )
+    if( ARCGIS_RT_CORE_LIB )
+        set( ARCGIS_SDK_LIBRARIES
+                ${ARCGIS_SDK_LIBRARIES}
+                ${ARCGIS_RT_CORE_LIB})
+    endif()
+
+endif()
+
+
+#  ArcGIS Runtime QT Library
 find_library( ARCGIS_RT_QT_COMMON_LIB
-                libEsriCommonQt.so
+                EsriCommonQt
                 PATHS
                     ${ARCGIS_BASE_PATH}
                 PATH_SUFFIXES
                     ${ARCGIS_LIB_SUFFIXES}
 )
+if( ARCGIS_RT_QT_COMMON_LIB )
+    set( ARCGIS_SDK_LIBRARIES
+            ${ARCGIS_SDK_LIBRARIES}
+            ${ARCGIS_RT_QT_COMMON_LIB})
+endif()
+
 
 
 FIND_PATH( ARCGIS_SDK_INCLUDES
@@ -64,12 +105,6 @@ FIND_PATH( ARCGIS_SDK_INCLUDES
                 ${ARCGIS_BASE_PATH}
              PATH_SUFFIXES
                 include
-)
-
-set(ARCGIS_SDK_LIBRARIES
-        ${ARCGIS_RT_QT_LIB}
-        ${ARCGIS_RT_CORE_LIB}
-        ${ARCGIS_RT_QT_COMMON_LIB}
 )
 
 #  Set the found flag

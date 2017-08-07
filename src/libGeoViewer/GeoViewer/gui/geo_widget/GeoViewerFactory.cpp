@@ -6,6 +6,7 @@
 #include "GeoViewerFactory.hpp"
 
 // Project Libraries
+#include "GeoViewerEsri.hpp"
 #include "GeoViewerGoogle.hpp"
 #include "GeoViewerLocal.hpp"
 
@@ -24,6 +25,13 @@ GeoViewerBase*  GeoViewerFactory::Create( const std::string&          base_confi
     if( window_name == "google" ) {
         widget = new GeoViewerGoogle(base_config_profile,
                                      sys_config);
+    }
+
+    // Construct the Esri Viewer
+    else if( window_name == "esri" )
+    {
+        widget = new GeoViewerEsri(base_config_profile,
+                                   sys_config);
     }
 
     // Construct the Local Viewer

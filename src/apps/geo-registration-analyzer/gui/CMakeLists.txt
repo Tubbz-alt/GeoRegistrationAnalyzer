@@ -24,6 +24,9 @@ set( GEO_REGISTRATION_ANALYZER_SOURCES
         gui/matching/ReferenceToolbar.cpp
         gui/matching/TestImageryPanel.cpp
         gui/matching/TestToolbar.cpp
+        gui/matching/Toolbar/MatchingToolbarWidget.cpp
+        gui/matching/Toolbar/PrimaryMatchingToolbarPane.cpp
+        gui/matching/Toolbar/ProjectMatchingToolbarPane.cpp
         gui/matching/Worker/Matching_Worker.cpp
         gui/matching/Worker/MatchingImportProjectJob.cpp
         gui/project_dialogs/ImportProjectDialog.cpp
@@ -52,6 +55,9 @@ set( GEO_REGISTRATION_ANALYZER_HEADERS
         gui/matching/ReferenceToolbar.hpp
         gui/matching/TestImageryPanel.hpp
         gui/matching/TestToolbar.hpp
+        gui/matching/Toolbar/MatchingToolbarWidget.hpp
+        gui/matching/Toolbar/PrimaryMatchingToolbarPane.hpp
+        gui/matching/Toolbar/ProjectMatchingToolbarPane.hpp
         gui/matching/Worker/Matching_Worker.hpp
         gui/matching/Worker/MatchingImportProjectJob.hpp
         gui/project_dialogs/ImportProjectDialog.hpp
