@@ -14,8 +14,10 @@ set( GEO_VIEWER_SOURCES
         gui/ProjectImageryPanel.cpp
         gui/ProjectImageryToolbar.cpp
         gui/ProjectViewer.cpp
-        gui/toolbar/PrimaryToolbarPane.cpp 
+        gui/dialogs/import_asset/ImportAssetDialog.cpp
+        gui/toolbar/PrimaryToolbarPane.cpp
         gui/toolbar/ProjectToolbarWidget.cpp
+        gui/widgets/Asset_Manager_Widget.cpp
         gui/workers/ImportProjectJob.cpp
         gui/workers/Project_Worker.cpp
         PARENT_SCOPE )
@@ -30,8 +32,10 @@ set( GEO_VIEWER_HEADERS
         gui/ProjectImageryPanel.hpp
         gui/ProjectImageryToolbar.hpp
         gui/ProjectViewer.hpp
+        gui/dialogs/import_asset/ImportAssetDialog.hpp
         gui/toolbar/PrimaryToolbarPane.hpp 
         gui/toolbar/ProjectToolbarWidget.hpp
+        gui/widgets/Asset_Manager_Widget.hpp
         gui/workers/ImportProjectJob.hpp
         gui/workers/Project_Worker.hpp
         PARENT_SCOPE )

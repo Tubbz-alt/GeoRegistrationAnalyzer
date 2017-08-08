@@ -21,6 +21,9 @@
 // GeoViewer Libraries
 #include <GeoViewer/core/System_Configuration.hpp>
 
+// Project Libraries
+#include "../widgets/Asset_Manager_Widget.hpp"
+
 
 /**
  * @class PrimaryToolbarPane
@@ -95,6 +98,11 @@ class PrimaryToolbarPane : public QWidget
 
         /// List of Buttons (Key is Sys-Config Element Name, Value is button reference)
         std::map<std::string,QToolButton*> m_button_list;
+        int m_col_span;
+
+        /// Asset-Management Widget
+        Asset_Manager_Widget* m_asset_manager;
+
 
 };  // End of PrimaryToolbarPane Class
 

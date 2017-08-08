@@ -48,7 +48,7 @@ endif()
 #----------------------------#
 find_package( GDAL REQUIRED )
 include_directories(${GDAL_INCLUDE_DIR})
-
+message("-- ${Blue}GDAL Includes:${Green}${GDAL_INCLUDE_DIR}${ColorReset}")
 
 #------------------------------#
 #-      Configure OpenCV      -#

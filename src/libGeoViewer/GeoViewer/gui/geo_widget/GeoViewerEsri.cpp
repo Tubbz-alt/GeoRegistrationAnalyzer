@@ -59,16 +59,12 @@ void GeoViewerEsri::Initialize_GUI()
     // Create Layout
     QVBoxLayout* main_layout = new QVBoxLayout();
 
-    // Create Object
-    Raster* raster_obj = new Raster( QString("/Users/marvinsmith/Desktop/Imagery/emerald-bay.tif"), this );
-    
-    RasterLayer* m_raster_layer = new RasterLayer( raster_obj, this );
-
     // Create the basemap
-    m_basemap = new Basemap::openStreetMap(m_raster_layer, this);
+    m_basemap = Basemap::imagery(this);
 
     // Create the map
     m_map = new Map(m_basemap, this);
+
 
     // Create the viewer
     m_mapView = new MapGraphicsView( m_map, this );
@@ -79,6 +75,7 @@ void GeoViewerEsri::Initialize_GUI()
 
     // Set layout
     setLayout(main_layout);
+
 }
 
 /*************************************************/

@@ -12,7 +12,8 @@ PrimaryToolbarPane::PrimaryToolbarPane( System_Configuration::ptr_t  sys_config,
                                         QWidget*                     parent)
   : QWidget(parent),
     m_class_name("PrimaryToolbarPane"),
-    m_sys_config(sys_config)
+    m_sys_config(sys_config),
+    m_col_span(0)
 {
     // Initialize the Configuration
     Initialize_Configuration();
@@ -35,6 +36,10 @@ void PrimaryToolbarPane::Initialize_GUI()
 
     // Build Tool Buttons
     Build_Tool_Buttons();
+
+    // Create the asset management widget
+    m_asset_manager = new Asset_Manager_Widget(m_sys_config, this);
+    m_main_layout->addWidget(m_asset_manager, 2, 0, 1, m_col_span );
 
     // Set the layout
     setLayout(m_main_layout);
@@ -119,7 +124,7 @@ void PrimaryToolbarPane::Build_Tool_Buttons()
     std::string icon_base_path = m_sys_config->Get_Icon_Path();
 
     // Create the button for the project management
-    button_title = m_sys_config->Query_Config_Param("system.toolbar.primary_panel.project_button.text", value_found);
+    button_title = m_sys_config->Query_Config_Param_NL("system.toolbar.primary_panel.project_button.text", value_found);
     button_icon_path = m_sys_config->Query_Config_Param("system.toolbar.primary_panel.project_button.icon", value_found);
     button_icon_path = icon_base_path + "/" + button_icon_path;
     std::string title_str = "system.toolbar.primary_panel.project_button";
@@ -130,6 +135,7 @@ void PrimaryToolbarPane::Build_Tool_Buttons()
     m_button_list[title_str]->setFixedSize(def_button_width, def_button_height);
     m_button_list[title_str]->setIconSize(QSize(def_icon_width, def_icon_height));
     connect(m_button_list[title_str], SIGNAL(clicked()), this, SLOT(Project_Button_Pressed()));
+    m_col_span += 1;
 
     // Add to widget
     m_main_layout->addWidget(m_button_list[title_str], 1, 0, 1, 1);
