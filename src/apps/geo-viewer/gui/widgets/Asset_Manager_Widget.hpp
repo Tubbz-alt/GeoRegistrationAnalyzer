@@ -14,6 +14,9 @@
 #include <QTreeWidget>
 #include <QWidget>
 
+// Project Libraries
+#include "../dialogs/import_asset/ImportAssetDialog.hpp"
+
 // GeoViewer Libraries
 #include <GeoViewer/core/System_Configuration.hpp>
 
@@ -27,6 +30,13 @@
 class Asset_Manager_Widget : public QGroupBox
 {
     Q_OBJECT
+
+    signals:
+
+        /**
+         * @brief Notify that Asset is Ready for Import
+         */
+        void Asset_Ready_To_Import();
 
     public:
 
@@ -67,6 +77,12 @@ class Asset_Manager_Widget : public QGroupBox
 
 
         /**
+         * @brief Build Sub-Dialogs
+         */
+        void Build_Dialogs();
+
+
+        /**
          * @brief Initialize Configuration
          */
         void Initialize_Configuration();
@@ -85,6 +101,9 @@ class Asset_Manager_Widget : public QGroupBox
 
         /// Button List
         std::vector<QToolButton*> m_tool_buttons;
+
+        /// Import Asset Dialog
+        ImportAssetDialog* m_import_asset_dialog;
 
 }; // End of Asset_Manager_Widget Class
 

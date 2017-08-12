@@ -5,10 +5,8 @@
  */
 #include "Asset_Manager_Widget.hpp"
 
-// Qt Libraries
-#include <QLabel>
-#include <QToolButton>
-#include <QVBoxLayout>
+// C++ Libraries
+#include <iostream>
 
 
 /********************************/
@@ -23,6 +21,9 @@ Asset_Manager_Widget::Asset_Manager_Widget(System_Configuration::ptr_t sys_confi
     // Initialize System Configuration Options
     Initialize_Configuration();
 
+    // Build Dialogs
+    Build_Dialogs();
+
     // Initialize the Widgets
     Initialize_GUI();
 
@@ -34,7 +35,9 @@ Asset_Manager_Widget::Asset_Manager_Widget(System_Configuration::ptr_t sys_confi
 /*************************************************/
 void Asset_Manager_Widget::Trigger_Import_Asset_Response()
 {
-    // Create an Import-Asset Dialog
+    // Show the dialog
+    m_import_asset_dialog->show();
+
 
 }
 
@@ -108,9 +111,12 @@ void Asset_Manager_Widget::Build_Toolbar()
 {
     // Build Toolbar Widget
     QGroupBox* toolbar_widget = new QGroupBox();
+    toolbar_widget->setContentsMargins(5,5,5,5);
+
 
     QVBoxLayout* toolbar_layout = new QVBoxLayout();
     toolbar_layout->setAlignment(Qt::AlignTop);
+    toolbar_layout->setContentsMargins(0,0,0,0);
 
 
     // Get the default information
@@ -145,4 +151,14 @@ void Asset_Manager_Widget::Build_Toolbar()
 
     // Add to main layout
     m_main_layout->addWidget(toolbar_widget);
+}
+
+/*************************************************/
+/*            Build Internal Dialogs             */
+/*************************************************/
+void Asset_Manager_Widget::Build_Dialogs()
+{
+    // Create an Import-Asset Dialog
+    m_import_asset_dialog = new ImportAssetDialog(m_sys_config, this);
+
 }

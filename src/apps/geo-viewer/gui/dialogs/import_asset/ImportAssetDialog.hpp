@@ -8,6 +8,7 @@
 
 // Qt Libraries
 #include <QDialog>
+#include <QStackedWidget>
 #include <QVBoxLayout>
 
 
@@ -30,6 +31,32 @@ class ImportAssetDialog : public QDialog
         ImportAssetDialog( System_Configuration::ptr_t sys_config,
                            QWidget*                    parent = nullptr );
 
+    public slots:
+
+
+        /**
+         * @brief Reset Requested
+         */
+        void Reset_Action();
+
+
+        /**
+         * @brief Import Requested
+         */
+        void Import_Action();
+
+
+        /**
+         * @brief Cancel Action
+         */
+        void Cancel_Action();
+
+
+        /**
+         * @brief Set Panel ID
+         */
+        void Set_Panel_Index( const int index );
+
 
     private:
 
@@ -46,8 +73,27 @@ class ImportAssetDialog : public QDialog
 
 
         /**
-         * @brief Initialize
+         * @brief Create Title Widget
          */
+        void Build_Title_Pane();
+
+
+        /**
+         * @brief Build Easy Import Widget
+         */
+        void Build_Easy_Import_Pane();
+
+
+        /**
+         * @brief Build Advanced Import Widget
+         */
+        void Build_Advanced_Import_Pane();
+
+
+        /**
+         * @brief Build Toolbar
+         */
+        void Build_Toolbar();
 
 
         /// Class Name
@@ -58,6 +104,9 @@ class ImportAssetDialog : public QDialog
 
         /// Main Layout
         QVBoxLayout* m_main_layout;
+
+        /// Stack Widget
+        QStackedWidget* m_import_viewer_stack;
 
 
 }; // End of ImportAssetDialog Class
