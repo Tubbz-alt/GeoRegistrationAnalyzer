@@ -104,7 +104,7 @@ Asset_Base::ptr_t Asset_Loader::Load_Asset(const Config_Param&  asset_info,
     {
         status.Append(StatusType::FAILURE,
                       StatusReason::NOT_REGISTERED,
-                      "No Matching Generator Found.");
+                      "No Matching Generator Found (Asset Generator: " + asset_name + ").");
     }
 
     // Otherwise, iterate over generators

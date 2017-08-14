@@ -8,6 +8,9 @@
 #-      Define our Sources       -#
 #---------------------------------#
 set( LIB_GEO_GUI_SOURCES
+        asset_info/Asset_Info_Widget_Base.cpp
+        asset_info/Asset_Info_Widget_ESRI.cpp
+        asset_info/Asset_Info_Widget_Factory.cpp
         geo_widget/GeoViewerBase.cpp
         geo_widget/GeoViewerEsri.cpp
         geo_widget/GeoViewerFactory.cpp
@@ -19,6 +22,9 @@ set( LIB_GEO_GUI_SOURCES
 #-     Define our Headers    -#
 #-----------------------------#
 set( LIB_GEO_GUI_HEADERS
+        asset_info/Asset_Info_Widget_Base.hpp
+        asset_info/Asset_Info_Widget_ESRI.hpp
+        asset_info/Asset_Info_Widget_Factory.hpp
         geo_widget/GeoViewerBase.hpp
         geo_widget/GeoViewerEsri.hpp
         geo_widget/GeoViewerFactory.hpp

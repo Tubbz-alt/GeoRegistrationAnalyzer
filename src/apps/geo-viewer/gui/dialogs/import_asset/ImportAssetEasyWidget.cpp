@@ -170,29 +170,8 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
     // Otherwise, Process Widget
     else
     {
-        // Load the Asset
-        Asset_Base::ptr_t new_asset = Asset_Loader::Load_Asset( asset_info,
-                                                                temp_status );
-        status.Append(temp_status);
+        // Check For Asset Generator Name
 
-        // Make sure successful
-        if( !status.Not_Failure() )
-        {
-            QString qmesg = "Unable to load asset. Asset Info: ";
-            qmesg += asset_info.ToString().c_str();
-            qmesg += "\n Error Message: ";
-            qmesg += status.To_Log_String().c_str();
-
-            auto new_panel = new QLabel(qmesg);
-            Replace_Info_Panel(new_panel);
-
-        }
-
-        // Continue
-        else
-        {
-            //System_Manager::Get_Message_Service()
-        }
 
     }
 
