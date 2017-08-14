@@ -16,18 +16,20 @@
  * @enum CoreStatusReaon
  * @brief General-Purpose reason for a failure
  */
-enum class CoreStatusReason : int16_t
+enum class StatusReason : int16_t
 {
-        UNKNOWN = 0 /**< This is a good error condition.*/,
-        NO_ERRORS = 1 /**< No errors detected.*/,
-        UNINITIALIZED = 2 /**< Something not initialized or allocated properly.*/,
+        UNKNOWN             = 0 /**< This is a good error condition.*/,
+        NO_ERRORS           = 1 /**< No errors detected.*/,
+        UNINITIALIZED       = 2 /**< Something not initialized or allocated properly.*/,
+        ALREADY_INITIALIZED = 3 /**< Already Initialized.*/,
+        NOT_REGISTERED      = 4 /**< No Matching Objects Registered.*/,
 };
 
 
 /**
  * @brief Convert Status Reason to String
  */
-std::string StatusReasonToString( );
+std::string StatusReasonToString( const StatusReason& reason );
 
 
 #endif

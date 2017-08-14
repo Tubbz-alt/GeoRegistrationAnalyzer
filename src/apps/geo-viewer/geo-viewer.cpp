@@ -9,6 +9,8 @@
 
 // GeoViewer Libraries
 #include <GeoViewer/core/assets/Asset_Manager.hpp>
+#include <GeoViewer/core/GeoViewer_Initialization.hpp>
+#include <GeoViewer/core/Signal_Handlers.hpp>
 #include <GeoViewer/core/System_Manager.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 
@@ -16,6 +18,9 @@
 #include "core/System_Config_Utils.hpp"
 #include "gui/Main_Window.hpp"
 #include "utility/Init_Utilities.hpp"
+
+// OS Libraries
+#include <csignal>
 
 
 /**
@@ -26,9 +31,16 @@
  */
 int main( int argc, char* argv[] )
 {
+    // Dump the stack on a segmentation fault
+    signal( SIGSEGV, Stack_Trace_Signal_Handler);
 
     // Create the Qt Application
     QApplication app(argc, argv);
+
+    // Misc Variables
+    Status status = Status::SUCCESS();
+    Status temp_status = Status::SUCCESS();
+
 
     // Create the config file generator
     auto config_generator = std::make_shared<Viewer_Config_Generator>();
@@ -40,6 +52,10 @@ int main( int argc, char* argv[] )
     // Initialize the System Logger
     Initialize_Logging( system_config );
 
+
+    // Initialize GeoViewer
+    GEOVIEWER_INITIALIZE(temp_status);
+    status.Append(temp_status);
 
     // Initialize the Asset-Manager
     Asset_Manager::Initialize( system_config );

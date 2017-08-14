@@ -8,7 +8,13 @@
 
 // C++ Libraries
 #include <cinttypes>
+#include <deque>
 #include <string>
+#include <vector>
+
+
+// Project Libraries
+#include "StatusReason.hpp"
 
 
 /**
@@ -55,6 +61,107 @@ class Status
         /**
          * @brief Parameterized Constructor
          */
+        Status( const StatusType&   status_type,
+                const StatusReason& status_reason,
+                const std::string&  status_details )
+           : m_class_name("Status"),
+             m_status_type(status_type),
+             m_status_reason(status_reason),
+             m_status_details(status_details)
+        {
+        }
+
+
+        /**
+         * @brief
+         */
+        inline StatusType Get_Status_Type()const{
+            return m_status_type;
+        }
+
+
+        inline StatusReason Get_Status_Reason()const{
+            return m_status_reason;
+        }
+
+
+        /**
+         * @brief Get the status detail string.
+         *
+         * @return
+         */
+        inline std::string Get_Status_Details()const{
+            return m_status_details;
+        }
+
+
+        /**
+         * @brief Append Status
+         */
+        void Append( const Status& new_status );
+
+
+        /**
+         * @brief Append Status Components
+         */
+        void Append( const StatusType&    status_type,
+                     const StatusReason&  status_reason,
+                     const std::string&   status_details );
+
+
+        /**
+         * @brief Append Operator
+         */
+        void operator += ( const Status& status );
+
+
+        /**
+         * @brief Check if not a failure
+         */
+        inline bool Not_Failure()const{
+            return (m_status_type == StatusType::SUCCESS ||
+                    m_status_type == StatusType::WARNING);
+        }
+
+
+        /**
+         * @brief Check if not a success
+         */
+        inline bool Not_Success()const{
+            return (m_status_type != StatusType::SUCCESS );
+        }
+
+
+        /**
+         * @brief Check if a success
+         */
+        inline bool Is_Success()const{
+            return (m_status_type == StatusType::SUCCESS );
+        }
+
+
+        /**
+         * @brief Print to Log String
+         */
+        std::string To_Log_String( const int& indent = 0 )const;
+
+
+        /**
+         * @brief To Pretty String
+         */
+        std::string To_Pretty_String( const int& indent = 0 ) const;
+
+
+        /**
+         * @brief Return Successful Type
+         * @return
+         */
+        inline static Status SUCCESS()
+        {
+            return Status( StatusType::SUCCESS,
+                           StatusReason::NO_ERRORS,
+                           "");
+        }
 
     private:
 
@@ -65,10 +172,16 @@ class Status
         StatusType m_status_type;
 
         /// Status Reason
-        int16_t m_status_reason;
+        StatusReason m_status_reason;
 
         /// Description
         std::string m_status_details;
+
+        /// Internal Status List
+        std::vector<Status> m_status_list;
+
+        /// Flag if status set
+        bool m_status_appended;
 };
 
 

@@ -77,3 +77,4 @@ std::vector<std::string> Image_Asset_Builder::Load_Path_File( const std::string&
     // return the output
     return output;
 }
+

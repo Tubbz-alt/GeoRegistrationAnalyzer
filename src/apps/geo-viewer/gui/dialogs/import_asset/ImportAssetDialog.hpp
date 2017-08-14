@@ -8,12 +8,20 @@
 
 // Qt Libraries
 #include <QDialog>
+#include <QFileDialog>
+#include <QLabel>
 #include <QStackedWidget>
+#include <QToolButton>
 #include <QVBoxLayout>
 
+// C++ Libraries
+#include <map>
 
 // Geo-Viewer Libraries
 #include <GeoViewer/core/System_Configuration.hpp>
+
+// Project Libraries
+#include "ImportAssetEasyWidget.hpp"
 
 
 /**
@@ -55,7 +63,13 @@ class ImportAssetDialog : public QDialog
         /**
          * @brief Set Panel ID
          */
-        void Set_Panel_Index( const int index );
+        void Set_Panel_Index( int index );
+
+
+        /**
+         * @brief Show the Easy Import Pane
+         */
+        void Show_Easy_Import_Pane();
 
 
     private:
@@ -107,6 +121,9 @@ class ImportAssetDialog : public QDialog
 
         /// Stack Widget
         QStackedWidget* m_import_viewer_stack;
+
+        /// Easy Import Widget
+        ImportAssetEasyWidget* m_easy_import_widget;
 
 
 }; // End of ImportAssetDialog Class

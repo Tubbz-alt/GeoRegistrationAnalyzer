@@ -40,6 +40,8 @@ class Image_Asset_Builder
         static std::vector<std::string> Load_Path_File( const std::string& pathname,
                                                         bool&              success,
                                                         std::string&       error_msg );
+
+
 };
 
 #endif

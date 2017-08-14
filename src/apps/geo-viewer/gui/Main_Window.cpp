@@ -14,6 +14,7 @@
 #include <QMessageBox>
 
 // Project Libraries
+#include <GeoViewer/core/GeoViewer_Initialization.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 
 
@@ -79,6 +80,8 @@ void Main_Window::Initialize_GUI()
 /*************************************/
 void Main_Window::closeEvent(QCloseEvent *event)
 {
+    // Initialize Status
+    Status temp_status;
 
     // Check if changes to the config were generated
     if( m_sys_config->Has_Changed() )
@@ -107,6 +110,13 @@ void Main_Window::closeEvent(QCloseEvent *event)
 
     // Clean up the System Configuration
     m_sys_config->Finalize();
+
+    // Finalize GeoViewer
+    GEOVIEWER_FINALIZE(temp_status);
+    if( temp_status.Not_Success() )
+    {
+        LOG_CLASS_ERROR(temp_status.To_Log_String());
+    }
 
 }
 

@@ -8,10 +8,13 @@
 // Qt Libraries
 #include <QGroupBox>
 #include <QHBoxLayout>
-#include <QToolButton>
+#include <QSizePolicy>
+
 
 // GeoViewer Libraries
+#include <GeoViewer/core/assets.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
+#include <QStandardPaths>
 
 
 /********************************/
@@ -40,7 +43,8 @@ void ImportAssetDialog::Reset_Action()
     // Log Entry
     LOG_CLASS_ENTRY();
 
-
+    // Reset Easy Import WIdget
+    m_easy_import_widget->Reset_Action();
 
     // Set Index
     Set_Panel_Index(0);
@@ -85,10 +89,25 @@ void ImportAssetDialog::Cancel_Action()
 /****************************************/
 /*          Set the Panel Index         */
 /****************************************/
-void ImportAssetDialog::Set_Panel_Index(const int index)
+void ImportAssetDialog::Set_Panel_Index( int index)
 {
+    // Log Entry
+    LOG_TRACE("Start of Method. Index: " + std::to_string(index));
+
+    // Set the Index
     m_import_viewer_stack->setCurrentIndex(index);
 }
+
+
+/****************************************/
+/*          Show Easy Import Pane       */
+/****************************************/
+void ImportAssetDialog::Show_Easy_Import_Pane()
+{
+    Set_Panel_Index(1);
+}
+
+
 
 
 /*********************************************************/
@@ -110,6 +129,7 @@ void ImportAssetDialog::Initialize_GUI()
 
     // Create stack widget
     m_import_viewer_stack = new QStackedWidget(this);
+    m_main_layout->addWidget(m_import_viewer_stack);
 
     // Build Title Layer
     Build_Title_Pane();
@@ -171,6 +191,9 @@ void ImportAssetDialog::Build_Toolbar()
 /****************************************/
 void ImportAssetDialog::Build_Title_Pane()
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
     // Build actual widget
     QWidget* title_pane = new QWidget(m_import_viewer_stack);
 
@@ -181,7 +204,7 @@ void ImportAssetDialog::Build_Title_Pane()
     QToolButton* easy_button = new QToolButton(title_pane);
     easy_button->setText("File Import");
     title_layout->addWidget(easy_button);
-    connect(easy_button, SIGNAL(clicked()), this, SLOT(Set_Panel_Index(1)));
+    connect(easy_button, SIGNAL(clicked()), this, SLOT(Show_Easy_Import_Pane()));
 
 
     // Create Advanced Button
@@ -195,6 +218,9 @@ void ImportAssetDialog::Build_Title_Pane()
 
     // Add to stack widget
     m_import_viewer_stack->addWidget(title_pane);
+
+    // Log Exit
+    LOG_CLASS_EXIT();
 }
 
 
@@ -203,13 +229,18 @@ void ImportAssetDialog::Build_Title_Pane()
 /**********************************************/
 void ImportAssetDialog::Build_Easy_Import_Pane()
 {
-    // Create widget
-    QWidget* import_widget = new QWidget(m_import_viewer_stack);
+    // Log Entry
+    LOG_CLASS_ENTRY();
 
+    // Create widget
+    m_easy_import_widget = new ImportAssetEasyWidget(m_sys_config, this);
 
 
     // Add to stack
-    m_import_viewer_stack->addWidget(import_widget);
+    m_import_viewer_stack->addWidget(m_easy_import_widget);
+
+    // Log Exit
+    LOG_CLASS_EXIT();
 }
 
 
@@ -220,3 +251,5 @@ void ImportAssetDialog::Build_Advanced_Import_Pane()
 {
 
 }
+
+
