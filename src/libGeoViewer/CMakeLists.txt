@@ -84,6 +84,7 @@ set(CMAKE_AUTOMOC ON)
 
 
 # Find the QtWidgets library
+find_package(Qt5Core        REQUIRED)
 find_package(Qt5WebEngine REQUIRED)
 find_package(Qt5WebEngineWidgets REQUIRED)
 find_package(Qt5WebSockets REQUIRED )
@@ -93,16 +94,27 @@ find_package(Qt5Widgets REQUIRED)
 # Add the include path
 #  Note:  the find does this during the add_library, but causes issues when I try building
 #         objects.
+include_directories(${Qt5Core_INCLUDE_DIRS})
 include_directories(${Qt5WebEngine_INCLUDE_DIRS})
 include_directories(${Qt5WebEngineWidgets_INCLUDE_DIRS})
 include_directories(${Qt5WebSockets_INCLUDE_DIRS})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
+#---------------------------------#
+#-      Define our Sources       -#
+#---------------------------------#
+set( LIB_GEO_VIEWER_SOURCES )
+
+#-----------------------------#
+#-     Define our Headers    -#
+#-----------------------------#
+set( LIB_GEO_VIEWER_HEADERS )
 
 #  Add Sources
 add_subdirectory(GeoViewer)
 
-
+message("OUTPUT SOURCES: ${LIB_GEO_VIEWER_SOURCES}")
+message("OUTPUT HEADERS: ${LIB_GEO_VIEWER_HEADERS}")
 #------------------------------#
 #-       Build Library        -#
 #------------------------------#
@@ -113,7 +125,10 @@ add_library( GeoViewer SHARED
                 $<TARGET_OBJECTS:LIB_GEO_IO_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_LOG_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_UTIL_OBJ>
+                ${LIB_GEO_VIEWER_SOURCES}
+                ${LIB_GEO_VIEWER_HEADERS}
 )
+
 
 target_link_libraries( GeoViewer
                        pthread
@@ -121,6 +136,7 @@ target_link_libraries( GeoViewer
                        ${Boost_LIBRARIES}
                        ${GDAL_LIBRARY}
                        ${OpenCV_LIBS}
+                       Qt5::Core
                        Qt5::WebEngine
                        Qt5::WebEngineWidgets
                        Qt5::WebSockets

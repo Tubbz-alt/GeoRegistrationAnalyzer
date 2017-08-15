@@ -20,7 +20,7 @@
  */
 class Asset_Info_Widget_ESRI : public Asset_Info_Widget_Base
 {
-    //Q_OBJECT
+    Q_OBJECT
 
     public:
 

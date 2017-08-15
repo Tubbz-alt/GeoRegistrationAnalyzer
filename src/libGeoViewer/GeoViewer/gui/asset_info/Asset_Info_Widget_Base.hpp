@@ -15,7 +15,7 @@
 
 class Asset_Info_Widget_Base : public QWidget
 {
-    //Q_OBJECT
+    Q_OBJECT
 
     public:
 
