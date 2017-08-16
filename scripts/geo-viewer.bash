@@ -24,7 +24,7 @@ for ARG in "$@"; do
     
         #  Check if valgrind
         '--valgrind')
-            PRE_CMD="valgrind ${PRE_CMD}"
+            PRE_CMD="valgrind --show-leak-kinds=all ${PRE_CMD}"
             ;;
 
         #  Check if GDB

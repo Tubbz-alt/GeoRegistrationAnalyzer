@@ -110,7 +110,7 @@ void Asset_Manager_Widget::Build_Tree_Widget()
 void Asset_Manager_Widget::Build_Toolbar()
 {
     // Build Toolbar Widget
-    QGroupBox* toolbar_widget = new QGroupBox();
+    QWidget* toolbar_widget = new QWidget(this);//GroupBox(this);
     toolbar_widget->setContentsMargins(5,5,5,5);
 
 
@@ -137,13 +137,7 @@ void Asset_Manager_Widget::Build_Toolbar()
     m_tool_buttons.back()->setIconSize(QSize(def_button_width-5, def_button_height-5));
     m_tool_buttons.back()->setToolTip("Import Layer to Geo-Viewer");
     connect(m_tool_buttons.back(), SIGNAL(clicked()), this, SLOT(Trigger_Import_Asset_Response()));
-
-
-    // Add buttons
-    for( auto btn : m_tool_buttons )
-    {
-        toolbar_layout->addWidget(btn);
-    }
+    toolbar_layout->addWidget(m_tool_buttons.back());
 
 
     // Set layout

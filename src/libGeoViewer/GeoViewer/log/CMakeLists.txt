@@ -20,6 +20,7 @@ set( LIB_GEO_LOG_SOURCES
 #-     Define our Headers    -#
 #-----------------------------#
 set( LIB_GEO_LOG_HEADERS
+        ../log.hpp
         Log_Handler_Base.hpp
         Log_Handler_Console.hpp
         Log_Handler_Factory.hpp

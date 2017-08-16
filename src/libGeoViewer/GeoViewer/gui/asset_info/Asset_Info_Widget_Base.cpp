@@ -12,7 +12,8 @@
 Asset_Info_Widget_Base::Asset_Info_Widget_Base( const Config_Param& asset_info,
                                                 QWidget*            parent )
   : QWidget(parent),
-    m_class_name("Asset_Info_Widget_Base")
+    m_class_name("Asset_Info_Widget_Base"),
+    m_asset_info(asset_info)
 {
 
 }

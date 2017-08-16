@@ -36,13 +36,15 @@ if(APPLE)
 
     #  Do not look for Runtime Core Library
     set(USE_RUNTIME_CORE_LIB FALSE)
-    message("Configuring for Apple")
 elseif(WIN32)
-    SET( ARCGIS_LIB_SUFFIXES win32/x64/lib )
-    message("Configuring for Windows")
+    set( ARCGIS_LIB_SUFFIXES win32/x64/lib )
 elseif(UNIX)
-    SET( ARCGIS_LIB_SUFFIXES linux/x64/lib )
-    message("Configuring for Linux")
+    set( ARCGIS_LIB_SUFFIXES linux/x64/lib )
+
+    if( NOT ARCGIS_BASE_PATH )
+        set( ARCGIS_BASE_PATH
+                /opt/software/arcgis/runtime_sdk/qt100.1/sdk )
+    endif()
 else()
 
 endif()
@@ -66,9 +68,6 @@ if( ARCGIS_RT_QT_LIB )
             ${ARCGIS_SDK_LIBRARIES}
             ${ARCGIS_RT_QT_LIB})
 endif()
-message("RT QT: ${ARCGIS_RT_QT_LIB}")
-message("SUFF : ${ARCGIS_LIB_SUFFIXES}")
-message("BASEP: ${ARCGIS_BASE_PATH}")
 
 
 #  ArcGIS Runtime Core Library
@@ -112,7 +111,6 @@ FIND_PATH( ARCGIS_SDK_INCLUDES
              PATH_SUFFIXES
                 include
 )
-message("ArcGIS SDK Includes: ${ARCGIS_SDK_INCLUDES}")
 
 #  Set the found flag
 if( ARCGIS_SDK_LIBRARIES AND ARCGIS_SDK_INCLUDES )

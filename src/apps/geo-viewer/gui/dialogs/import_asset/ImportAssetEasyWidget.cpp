@@ -8,6 +8,7 @@
 // GeoViewer Libraries
 #include <GeoViewer/core/assets.hpp>
 #include <GeoViewer/core/System_Manager.hpp>
+#include <GeoViewer/gui/asset_info/Asset_Info_Widget_Factory.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 
 // Qt Libraries
@@ -47,16 +48,21 @@ void ImportAssetEasyWidget::Reset_Action()
 /****************************************/
 void ImportAssetEasyWidget::Select_File_Action()
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
     // Setup File Selector
-    QFileDialog selector( this, "Select Asset to Import", "~/");
-    selector.setViewMode(QFileDialog::ViewMode::Detail);
+    QFileDialog* selector = new QFileDialog( this, "Select Asset to Import");
+    selector->setViewMode(QFileDialog::ViewMode::Detail);
 
     // Show
     QStringList file_list;
-    if( selector.exec() )
+    if( selector->exec() )
     {
         // Make sure file is good
-        file_list = selector.selectedFiles();
+        file_list = selector->selectedFiles();
+
+        LOG_CLASS_TRACE("Number of Selected Files: " + std::to_string(file_list.size()));
 
         if( file_list.size() == 1 )
         {
@@ -69,6 +75,9 @@ void ImportAssetEasyWidget::Select_File_Action()
     }
 
     // Get results
+
+    // Log Exit
+    LOG_CLASS_EXIT();
 }
 
 
@@ -79,7 +88,7 @@ void ImportAssetEasyWidget::Initialize_GUI()
 {
 
     // Create Layout
-    m_main_layout = new QVBoxLayout();
+    m_main_layout = new QGridLayout();
     m_main_layout->setAlignment(Qt::AlignTop);
 
 
@@ -118,7 +127,7 @@ void ImportAssetEasyWidget::Build_Path_Widget()
 
 
     path_widget->setLayout(path_layout);
-    m_main_layout->addWidget(path_widget);
+    m_main_layout->addWidget(path_widget, 0, 0, 1, 1);
 }
 
 
@@ -158,7 +167,7 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
     status.Append(temp_status);
 
     // Check Contents
-    if( status.Not_Failure() )
+    if( !status.Not_Failure() )
     {
         // Display Error Widget
         QString qmsg = "Error: Unsupported Dialog.\nDetails: ";
@@ -171,8 +180,20 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
     else
     {
         // Check For Asset Generator Name
+        auto new_panel = Asset_Info_Widget_Factory::Create(asset_info, this, temp_status);
+        status.Append(temp_status);
 
-
+        if( status.Not_Failure() ) {
+            Replace_Info_Panel(new_panel);
+        }
+        else
+        {
+            // Display Error Widget
+            QString qmsg = "Error: Unsupported Dialog.\nDetails: ";
+            qmsg += status.To_Log_String().c_str();
+            auto new_panel = new QLabel(qmsg);
+            Replace_Info_Panel( new_panel );
+        }
     }
 
 
@@ -198,7 +219,7 @@ void ImportAssetEasyWidget::Replace_Info_Panel( QWidget* widget )
 
     // Replace Panel
     m_info_panel = widget;
-    m_main_layout->addWidget(m_info_panel);
+    m_main_layout->addWidget(m_info_panel, 1, 0, 1, 1);
 
     // Log Exit
     LOG_CLASS_EXIT();

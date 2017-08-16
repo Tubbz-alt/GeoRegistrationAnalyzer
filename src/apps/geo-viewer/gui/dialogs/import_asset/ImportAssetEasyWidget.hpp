@@ -7,6 +7,7 @@
 #define GEO_VIEWER_GUI_IMPORT_ASSET_EASY_WIDGET_HPP
 
 // Qt Libraries
+#include <QGridLayout>
 #include <QLabel>
 #include <QVBoxLayout>
 
@@ -79,7 +80,7 @@ class ImportAssetEasyWidget : public QWidget
         std::string m_class_name;
 
         /// Easy Import Layout
-        QVBoxLayout* m_main_layout;
+        QGridLayout* m_main_layout;
 
         /// Easy Import Path
         QLabel* m_path_label;

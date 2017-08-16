@@ -22,9 +22,9 @@ class Asset_Info_Widget_Factory
         /**
          * @brief Create Asset Info Widget
          */
-        Asset_Info_Widget_Base*  Create( const Config_Param& asset_info,
-                                         QWidget*            parent,
-                                         Status&             status );
+        static Asset_Info_Widget_Base*  Create( const Config_Param& asset_info,
+                                                QWidget*            parent,
+                                                Status&             status );
 
 
 }; // End of Asset_Info_Widget_Factory Class

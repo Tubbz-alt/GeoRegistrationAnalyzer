@@ -170,6 +170,7 @@ void ImportAssetDialog::Build_Toolbar()
     import_button->setText("Import");
     toolbar_layout->addWidget(import_button);
     connect(import_button, SIGNAL(clicked()), this, SLOT(Import_Action()));
+    import_button->setEnabled(false);
 
 
     // Create Cancel Button

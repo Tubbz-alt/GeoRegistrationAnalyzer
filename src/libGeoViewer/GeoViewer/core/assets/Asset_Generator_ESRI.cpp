@@ -54,10 +54,10 @@ Config_Param Asset_Generator_ESRI::Load_Asset_Info( const std::string&  pathname
 
 
     // Load the asset information
-    output.Add_KV_Pair("asset.source", "local");
     output.Add_KV_Pair("asset.generator","esri");
-    output.Add_KV_Pair("asset.local.path", pathname);
-    output.Add_KV_Pair("asset.local.type", "esri");
+    output.Add_KV_Pair("asset.esri.type","image");
+    output.Add_KV_Pair("asset.esri.image.source.type","file");
+    output.Add_KV_Pair("asset.esri.image.source.pathname", pathname);
 
 
     return output;
