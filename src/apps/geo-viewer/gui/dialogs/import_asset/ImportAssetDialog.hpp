@@ -72,6 +72,12 @@ class ImportAssetDialog : public QDialog
         void Show_Easy_Import_Pane();
 
 
+        /**
+         * @brief Enable Import Button
+         */
+        void Enable_Import_Button();
+
+
     private:
 
         /**
@@ -124,6 +130,10 @@ class ImportAssetDialog : public QDialog
 
         /// Easy Import Widget
         ImportAssetEasyWidget* m_easy_import_widget;
+
+        /// Import Button
+        QToolButton* m_import_button;
+
 
 
 }; // End of ImportAssetDialog Class

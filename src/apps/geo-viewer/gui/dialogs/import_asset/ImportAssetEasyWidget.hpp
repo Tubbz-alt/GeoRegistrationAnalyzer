@@ -25,6 +25,10 @@ class ImportAssetEasyWidget : public QWidget
 {
     Q_OBJECT
 
+    signals:
+
+        void Enable_Import_Button();
+
     public:
 
         /**
@@ -45,6 +49,12 @@ class ImportAssetEasyWidget : public QWidget
          * @brief Response to when select file button is pressed.
          */
         void Select_File_Action();
+
+
+        /**
+         * @brief  Notify Asset Is Valid
+         */
+        void Notify_Asset_Valid();
 
     private:
 

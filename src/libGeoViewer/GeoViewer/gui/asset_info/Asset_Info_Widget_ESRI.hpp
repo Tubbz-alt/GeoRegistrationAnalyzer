@@ -85,8 +85,6 @@ class Asset_Info_Widget_ESRI : public Asset_Info_Widget_Base
         QVBoxLayout* m_main_layout;
 
         /// Status Widget
-        bool m_valid_asset;
-        std::string m_asset_status;
         QGroupBox* m_status_group;
         QGridLayout* m_status_layout;
         QLabel* m_status_label;

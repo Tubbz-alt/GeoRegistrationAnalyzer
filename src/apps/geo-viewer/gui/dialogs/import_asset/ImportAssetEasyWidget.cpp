@@ -81,6 +81,18 @@ void ImportAssetEasyWidget::Select_File_Action()
 }
 
 
+/**********************************************/
+/*      Notify UI That an Asset is Valid      */
+/**********************************************/
+void ImportAssetEasyWidget::Notify_Asset_Valid()
+{
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
+    // Emit Import Signal
+    emit Enable_Import_Button();
+}
+
 /********************************/
 /*          Initialize GUI      */
 /********************************/
@@ -115,7 +127,7 @@ void ImportAssetEasyWidget::Build_Path_Widget()
     // Create Path Label
     m_path_label = new QLabel("None Selected");
     m_path_label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    m_path_label->setFixedHeight(10);
+    m_path_label->setFixedHeight(20);
     path_layout->addWidget(m_path_label);
 
 
@@ -180,11 +192,15 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
     else
     {
         // Check For Asset Generator Name
-        auto new_panel = Asset_Info_Widget_Factory::Create(asset_info, this, temp_status);
+        Asset_Info_Widget_Base* new_panel = Asset_Info_Widget_Factory::Create(asset_info, this, temp_status);
         status.Append(temp_status);
 
-        if( status.Not_Failure() ) {
+        if( status.Not_Failure() )
+        {
+            // Connect the panel
+            LOG_CLASS_TRACE("Connecting Asset Notifications.");
             Replace_Info_Panel(new_panel);
+            connect( m_info_panel, SIGNAL(Valid_Asset()), this, SLOT(Notify_Asset_Valid()));
         }
         else
         {

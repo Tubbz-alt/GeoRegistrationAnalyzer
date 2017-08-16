@@ -92,7 +92,7 @@ void ImportAssetDialog::Cancel_Action()
 void ImportAssetDialog::Set_Panel_Index( int index)
 {
     // Log Entry
-    LOG_TRACE("Start of Method. Index: " + std::to_string(index));
+    LOG_CLASS_TRACE("Start of Method. Index: " + std::to_string(index));
 
     // Set the Index
     m_import_viewer_stack->setCurrentIndex(index);
@@ -108,6 +108,16 @@ void ImportAssetDialog::Show_Easy_Import_Pane()
 }
 
 
+/****************************************/
+/*       Enable the Import Button       */
+/****************************************/
+void ImportAssetDialog::Enable_Import_Button()
+{
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
+    m_import_button->setEnabled(true);
+}
 
 
 /*********************************************************/
@@ -166,11 +176,11 @@ void ImportAssetDialog::Build_Toolbar()
     connect(reset_button, SIGNAL(clicked()), this, SLOT(Reset_Action()));
 
     // Create Save Button
-    QToolButton* import_button = new QToolButton(toolbar_widget);
-    import_button->setText("Import");
-    toolbar_layout->addWidget(import_button);
-    connect(import_button, SIGNAL(clicked()), this, SLOT(Import_Action()));
-    import_button->setEnabled(false);
+    m_import_button = new QToolButton(toolbar_widget);
+    m_import_button->setText("Import");
+    toolbar_layout->addWidget(m_import_button);
+    connect(m_import_button, SIGNAL(clicked()), this, SLOT(Import_Action()));
+    m_import_button->setEnabled(false);
 
 
     // Create Cancel Button
@@ -235,6 +245,7 @@ void ImportAssetDialog::Build_Easy_Import_Pane()
 
     // Create widget
     m_easy_import_widget = new ImportAssetEasyWidget(m_sys_config, this);
+    connect( m_easy_import_widget, SIGNAL(Enable_Import_Button()), this, SLOT(Enable_Import_Button()));
 
 
     // Add to stack

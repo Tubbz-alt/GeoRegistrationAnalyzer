@@ -17,6 +17,10 @@ class Asset_Info_Widget_Base : public QWidget
 {
     Q_OBJECT
 
+    signals:
+
+        void Valid_Asset();
+
     public:
 
         /**
@@ -40,10 +44,17 @@ class Asset_Info_Widget_Base : public QWidget
         }
 
 
+        inline virtual bool Is_Valid_Asset()const{
+            return m_valid_asset;
+        }
+
     protected:
 
         /// Asset Info
         Config_Param m_asset_info;
+
+        bool m_valid_asset;
+        std::string m_asset_status;
 
     private:
 
