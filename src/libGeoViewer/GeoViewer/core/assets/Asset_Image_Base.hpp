@@ -28,7 +28,7 @@ class Asset_Image_Base : public Asset_Base
         /**
          * @brief Constructor
          */
-        Asset_Image_Base();
+        Asset_Image_Base(const Config_Param& asset_info);
 
 
     private:

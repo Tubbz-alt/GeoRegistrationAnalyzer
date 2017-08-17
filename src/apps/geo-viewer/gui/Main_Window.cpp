@@ -15,6 +15,7 @@
 
 // Project Libraries
 #include <GeoViewer/core/GeoViewer_Initialization.hpp>
+#include <GeoViewer/core/System_Manager.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 
 
@@ -80,6 +81,9 @@ void Main_Window::Initialize_GUI()
 /*************************************/
 void Main_Window::closeEvent(QCloseEvent *event)
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
     // Initialize Status
     Status temp_status;
 
@@ -118,6 +122,11 @@ void Main_Window::closeEvent(QCloseEvent *event)
         LOG_CLASS_ERROR(temp_status.To_Log_String());
     }
 
+    // Finalize System Manager
+    System_Manager::Finalize();
+
+    // Log Exit
+    LOG_CLASS_EXIT();
 }
 
 

@@ -70,5 +70,6 @@ Config_Param Asset_Generator_ESRI::Load_Asset_Info( const std::string&  pathname
 Asset_Base::ptr_t Asset_Generator_ESRI::Load_Asset( const Config_Param& asset_info,
                                                     Status&             status )
 {
+    // Create Asset
 
 }

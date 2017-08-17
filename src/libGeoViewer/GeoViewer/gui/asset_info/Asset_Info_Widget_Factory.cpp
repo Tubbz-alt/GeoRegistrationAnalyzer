@@ -46,9 +46,9 @@ Asset_Info_Widget_Base* Asset_Info_Widget_Factory::Create(const Config_Param& as
     // Otherwise, unregistered
     else if( status.Not_Failure() )
     {
-        status.Append(StatusType::FAILURE,
-                      StatusReason::NOT_REGISTERED,
-                      "No Matching Asset-Info-Widget (" + asset_name + ") Found.");
+        status.Append( StatusType::FAILURE,
+                       StatusReason::NOT_REGISTERED,
+                       "No Matching Asset-Info-Widget (" + asset_name + ") Found.");
     }
 
     // Log Exit

@@ -49,6 +49,11 @@ class Asset_Manager_Widget : public QGroupBox
                               QWidget*                    parent = nullptr );
 
 
+        /**
+         * @brief Handler Message
+         */
+        void Handle_Message( const std::string& topic_name,
+                             const std::string& message );
 
     public slots:
 

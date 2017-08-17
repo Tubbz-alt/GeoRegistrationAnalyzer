@@ -9,8 +9,8 @@
 /*********************************/
 /*          Constructor          */
 /*********************************/
-Asset_Image_Base::Asset_Image_Base()
-  : Asset_Base(),
+Asset_Image_Base::Asset_Image_Base(const Config_Param&  asset_info)
+  : Asset_Base(asset_info),
     m_class_name("Asset_Image_Base")
 {
 

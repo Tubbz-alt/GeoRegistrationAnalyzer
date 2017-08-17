@@ -28,6 +28,15 @@ ImportAssetEasyWidget::ImportAssetEasyWidget(System_Configuration::ptr_t sys_con
 }
 
 
+/*******************************************/
+/*          Get Asset Information          */
+/*******************************************/
+Config_Param ImportAssetEasyWidget::Get_Asset_Info() const
+{
+    return ((Asset_Info_Widget_Base*)m_info_panel)->Get_Asset_Info();
+}
+
+
 /****************************************/
 /*               Reset Action           */
 /****************************************/
@@ -198,9 +207,10 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
         if( status.Not_Failure() )
         {
             // Connect the panel
-            LOG_CLASS_TRACE("Connecting Asset Notifications.");
             Replace_Info_Panel(new_panel);
-            connect( m_info_panel, SIGNAL(Valid_Asset()), this, SLOT(Notify_Asset_Valid()));
+            if( new_panel->Is_Valid_Asset() ){
+                Notify_Asset_Valid();
+            }
         }
         else
         {

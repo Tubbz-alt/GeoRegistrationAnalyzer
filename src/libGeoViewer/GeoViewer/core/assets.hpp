@@ -12,6 +12,9 @@
 // ESRI Generator
 #include "assets/Asset_Generator_ESRI.hpp"
 
+// Asset Manager
+#include "assets/Asset_Manager.hpp"
+
 // Image Asset Builder
 #include "assets/Image_Asset_Builder.hpp"
 

@@ -13,8 +13,9 @@
 /*********************************/
 /*          Constructor          */
 /*********************************/
-Asset_Base::Asset_Base()
-  : m_class_name("Asset_Base")
+Asset_Base::Asset_Base( const Config_Param& asset_info )
+  : m_class_name("Asset_Base"),
+    m_asset_info(asset_info)
 {
 
 }

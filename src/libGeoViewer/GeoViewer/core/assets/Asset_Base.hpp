@@ -10,6 +10,9 @@
 #include <memory>
 #include <string>
 
+// Project Libraries
+#include "../Config_Param.hpp"
+
 
 /**
  * @class Asset_Base
@@ -25,13 +28,18 @@ class Asset_Base
         /**
          * @brief Constructor
          */
-        Asset_Base();
+        Asset_Base( const Config_Param& asset_info );
 
 
         /**
          * @brief Print Log String
          */
         virtual std::string To_Log_String( const int& offset = 0 )const;
+
+    protected:
+
+        /// Asset Information
+        Config_Param m_asset_info;
 
     private:
 

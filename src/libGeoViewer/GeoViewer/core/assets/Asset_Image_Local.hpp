@@ -33,7 +33,8 @@ class Asset_Image_Local : public Asset_Image_Base
         /**
          * @brief Constructor
          */
-        Asset_Image_Local( cv::Mat                         image,
+        Asset_Image_Local( const Config_Param&             asset_info,
+                           cv::Mat                         image,
                            const std::vector<cv::Point3d>& corners,
                            const OGRSpatialReference&      proj_info );
 

@@ -23,7 +23,7 @@ class Asset_Image_Google : public Asset_Image_Base
         /**
          * @brief Constructor
          */
-        Asset_Image_Google();
+        Asset_Image_Google( const Config_Param& asset_info );
 
 
     private:

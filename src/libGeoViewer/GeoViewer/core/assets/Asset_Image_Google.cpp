@@ -9,8 +9,8 @@
 /*********************************/
 /*          Constructor          */
 /*********************************/
-Asset_Image_Google::Asset_Image_Google()
-  : Asset_Image_Base(),
+Asset_Image_Google::Asset_Image_Google(const Config_Param& asset_info)
+  : Asset_Image_Base(asset_info),
     m_class_name("Asset_Image_Google")
 {
 

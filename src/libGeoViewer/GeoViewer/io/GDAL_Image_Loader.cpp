@@ -199,10 +199,12 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
 
 
         // Construct Asset
+        Config_Param asset_info;
         LOG_CLASS_TRACE("Building Image Asset");
-        output = std::make_shared<Asset_Image_Local>(image,
-                                                     raster_info.corners,
-                                                     raster_info.proj_info );
+        output = std::make_shared<Asset_Image_Local>( asset_info,
+                                                      image,
+                                                      raster_info.corners,
+                                                      raster_info.proj_info );
 
 
         // Close the dataset

@@ -64,6 +64,7 @@ int main( int argc, char* argv[] )
     // Initialize System-Manager
     System_Manager::Initialize( system_config );
     auto system_manager = System_Manager::Get_Instance();
+    Asset_Manager::Register_Message_Service( system_manager->Get_Message_Service() );
 
 
     // Create the Main Widget

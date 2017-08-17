@@ -13,6 +13,7 @@
 
 // GeoViewer Libraries
 #include <GeoViewer/core/assets.hpp>
+#include <GeoViewer/core/System_Manager.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 #include <QStandardPaths>
 
@@ -62,6 +63,27 @@ void ImportAssetDialog::Import_Action()
     // Log Entry
     LOG_CLASS_ENTRY();
 
+    // Get Asset Info
+    Config_Param asset_info;
+    if( m_import_viewer_stack->currentIndex() == 1 )
+    {
+        asset_info = m_easy_import_widget->Get_Asset_Info();
+    }
+
+
+    // Load Asset
+    Status status;
+    Asset_Base::ptr_t new_asset = Asset_Loader::Load_Asset( asset_info, status );
+
+    // Check the status
+    if( status.Not_Failure() )
+    {
+        // Add Asset
+        Asset_Manager::Register_Asset(new_asset);
+    }
+
+    // Close the dialog
+    close();
 
     // Log Exit
     LOG_CLASS_EXIT();
@@ -96,6 +118,9 @@ void ImportAssetDialog::Set_Panel_Index( int index)
 
     // Set the Index
     m_import_viewer_stack->setCurrentIndex(index);
+
+    // Disable Import Button
+    m_import_button->setEnabled(true);
 }
 
 

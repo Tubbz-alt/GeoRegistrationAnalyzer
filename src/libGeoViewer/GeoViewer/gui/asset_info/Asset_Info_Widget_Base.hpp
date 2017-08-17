@@ -44,8 +44,20 @@ class Asset_Info_Widget_Base : public QWidget
         }
 
 
+        /**
+         * @brief Check if Asset is Valid.
+         * @return
+         */
         inline virtual bool Is_Valid_Asset()const{
             return m_valid_asset;
+        }
+
+
+        /**
+         * @brief Get Asset Information
+         */
+        inline Config_Param Get_Asset_Info()const{
+            return m_asset_info;
         }
 
     protected:

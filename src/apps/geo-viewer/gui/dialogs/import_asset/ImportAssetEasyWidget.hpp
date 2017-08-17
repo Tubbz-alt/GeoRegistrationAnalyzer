@@ -37,6 +37,12 @@ class ImportAssetEasyWidget : public QWidget
         ImportAssetEasyWidget( System_Configuration::ptr_t sys_config,
                                QWidget*                    parent = nullptr );
 
+
+        /**
+         * @brief Get Asset Information
+         */
+        Config_Param Get_Asset_Info()const;
+
     public slots:
 
         /**

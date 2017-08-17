@@ -12,6 +12,7 @@ set( LIB_GEO_CORE_SOURCES
         assets/Asset_Generator_Base.cpp
         assets/Asset_Generator_ESRI.cpp
         assets/Asset_Image_Base.cpp
+        assets/Asset_Image_ESRI.cpp
         assets/Asset_Image_Google.cpp
         assets/Asset_Image_Local.cpp
         assets/Asset_Loader.cpp
@@ -37,6 +38,7 @@ set( LIB_GEO_CORE_HEADERS
         assets/Asset_Generator_Base.hpp
         assets/Asset_Generator_ESRI.hpp
         assets/Asset_Image_Base.hpp
+        assets/Asset_Image_ESRI.hpp
         assets/Asset_Image_Google.hpp
         assets/Asset_Image_Local.hpp
         assets/Asset_Loader.hpp

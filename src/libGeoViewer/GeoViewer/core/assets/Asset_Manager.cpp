@@ -52,6 +52,12 @@ int64_t Asset_Manager::Register_Asset(Asset_Base::ptr_t asset)
         asset_id = Get_Instance()->m_assets.size();
 
         Get_Instance()->m_assets[asset_id] = asset;
+
+        // Notify Message Service
+        if( Get_Instance()->m_message_service )
+        {
+            Get_Instance()->m_message_service->Send("ASSET_MANAGER","ASSET_REGISTERED " + std::to_string(asset_id));
+        }
     }
 
     return asset_id;
@@ -69,6 +75,15 @@ Asset_Base::ptr_t Asset_Manager::Query_Asset( const int& asset_id )
         return Get_Instance()->m_assets.find(asset_id)->second;
     }
     return nullptr;
+}
+
+
+/************************************************/
+/*          Register Message Service            */
+/************************************************/
+void Asset_Manager::Register_Message_Service(MessageService::ptr_t message_service)
+{
+    Get_Instance()->m_message_service = message_service;
 }
 
 

@@ -14,6 +14,7 @@
 
 // Project Libraries
 #include "../System_Configuration.hpp"
+#include "../../comm/MessageService.hpp"
 #include "Asset_Base.hpp"
 
 
@@ -54,6 +55,12 @@ class Asset_Manager
         static Asset_Base::ptr_t Query_Asset( const int& asset_id );
 
 
+        /**
+         * @brief Register Message Service
+         */
+        static void Register_Message_Service( MessageService::ptr_t message_service );
+
+
     private:
 
         /**
@@ -76,6 +83,9 @@ class Asset_Manager
 
         /// List of Registered Assets
         std::map<int64_t,Asset_Base::ptr_t> m_assets;
+
+        /// Registered Message Service
+        MessageService::ptr_t m_message_service;
 
 };
 

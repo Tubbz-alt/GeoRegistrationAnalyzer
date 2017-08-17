@@ -6,7 +6,12 @@
 #include "Asset_Manager_Widget.hpp"
 
 // C++ Libraries
-#include <iostream>
+#include <functional>
+#include <sstream>
+
+// GeoViewer Libraries
+#include <GeoViewer/core/System_Manager.hpp>
+#include <GeoViewer/log/System_Logger.hpp>
 
 
 /********************************/
@@ -27,8 +32,49 @@ Asset_Manager_Widget::Asset_Manager_Widget(System_Configuration::ptr_t sys_confi
     // Initialize the Widgets
     Initialize_GUI();
 
+    // Subscribe Listener for Asset-Manager
+    std::function<void(std::string,std::string)> handler = std::bind(&Asset_Manager_Widget::Handle_Message, this, std::placeholders::_1, std::placeholders::_2);
+    System_Manager::Get_Message_Service()->Subscribe( "ASSET_MANAGER", handler );
+
 }
 
+
+/****************************************************/
+/*          Handle Message-Service Messages         */
+/****************************************************/
+void Asset_Manager_Widget::Handle_Message( const std::string& topic_name,
+                                           const std::string& message )
+{
+    // Log Entry
+    LOG_CLASS_TRACE( "Received Message. Topic (" + topic_name + "), Message: " + message);
+
+    // Check if topic-name is from Asset-Manager
+    if( topic_name == "ASSET_MANAGER" )
+    {
+        // Parse the Message
+        std::stringstream sin;
+        sin << message;
+
+        std::string action;
+        sin >> action;
+
+        // Check the action
+        if( action == "ASSET_REGISTERED" )
+        {
+            // Grab the Asset-ID
+            int asset_id;
+            sin >> asset_id;
+
+            LOG_CLASS_TRACE("New Asset: " + std::to_string(asset_id));
+            // Query Asset Information
+        }
+
+        // Otherwise, error
+        else{
+            LOG_CLASS_ERROR("Unknown Action (" + action + ")");
+        }
+    }
+}
 
 /*************************************************/
 /*          Trigger Add Layer Response           */
