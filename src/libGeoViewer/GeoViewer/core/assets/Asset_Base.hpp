@@ -32,6 +32,14 @@ class Asset_Base
 
 
         /**
+         * @brief Get Asset Information
+         */
+        inline Config_Param Get_Asset_Info()const{
+            return m_asset_info;
+        }
+
+
+        /**
          * @brief Print Log String
          */
         virtual std::string To_Log_String( const int& offset = 0 )const;

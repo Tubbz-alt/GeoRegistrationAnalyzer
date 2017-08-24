@@ -75,9 +75,6 @@ void MessageService::Initialize()
 /****************************************/
 void MessageService::Finalize()
 {
-    // Log Entry
-    LOG_CLASS_ENTRY();
-
     // Set status and close thread
     m_listen_state = false;
     m_queue.Complete();
@@ -88,9 +85,6 @@ void MessageService::Finalize()
 
     // Note that we are no longer initialized
     m_is_initialized = false;
-
-    // Log Exit
-    LOG_CLASS_EXIT();
 }
 
 /*******************************************/

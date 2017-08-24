@@ -12,6 +12,9 @@
 // Other Libraries
 #include <gdal_priv.h>
 
+// Project Libraries
+#include "../log.hpp"
+
 
 /************************************/
 /*            Constructor           */
@@ -41,7 +44,21 @@ System_Manager::System_Manager( System_Configuration::ptr_t system_configuration
 /************************************/
 System_Manager::~System_Manager()
 {
-    //
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
+    // Finalize Message Service
+    if( m_message_service == nullptr )
+    {
+        LOG_CLASS_ERROR("Why is MessageService null?");
+    }
+    else
+    {
+        m_message_service.reset();
+    }
+
+    // Log Exit
+    LOG_CLASS_EXIT();
 }
 
 
@@ -89,9 +106,17 @@ void System_Manager::Initialize( System_Configuration::ptr_t system_configuratio
 void System_Manager::Finalize()
 {
     // Delete Manager
+    const std::string m_class_name = "System_Manager";
     if( Get_Reference() != nullptr )
     {
+        // Finalize the Message-Service
+        Get_Reference()->m_message_service->Finalize();
+
+        // Delete the System-Manager
         Get_Reference().reset();
+    } else
+    {
+        LOG_CLASS_WARNING("System-Manager is currently null");
     }
 }
 

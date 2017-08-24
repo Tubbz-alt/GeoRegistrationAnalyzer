@@ -8,6 +8,7 @@
 
 // C++ Libraries
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -153,6 +154,8 @@ class System_Logger
         /// List of Log Handlers
         std::vector<Log_Handler_Base::ptr_t> m_log_handlers;
 
+        /// Internal Mutex
+        std::mutex m_log_lock;
 
 }; // End of System_Logger Class
 

@@ -11,6 +11,7 @@
 
 // GeoViewer Libraries
 #include <GeoViewer/core/System_Manager.hpp>
+#include <GeoViewer/core/assets/Asset_Manager.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 
 
@@ -33,8 +34,8 @@ Asset_Manager_Widget::Asset_Manager_Widget(System_Configuration::ptr_t sys_confi
     Initialize_GUI();
 
     // Subscribe Listener for Asset-Manager
-    std::function<void(std::string,std::string)> handler = std::bind(&Asset_Manager_Widget::Handle_Message, this, std::placeholders::_1, std::placeholders::_2);
-    System_Manager::Get_Message_Service()->Subscribe( "ASSET_MANAGER", handler );
+    //std::function<void(std::string,std::string)> handler = std::bind(&Asset_Manager_Widget::Handle_Message, this, std::placeholders::_1, std::placeholders::_2);
+    //System_Manager::Get_Message_Service()->Subscribe( "ASSET_MANAGER", handler );
 
 }
 
@@ -64,9 +65,21 @@ void Asset_Manager_Widget::Handle_Message( const std::string& topic_name,
             // Grab the Asset-ID
             int asset_id;
             sin >> asset_id;
-
             LOG_CLASS_TRACE("New Asset: " + std::to_string(asset_id));
+
             // Query Asset Information
+            Asset_Base::ptr_t asset = Asset_Manager::Query_Asset(asset_id);
+
+            if( asset == nullptr )
+            {
+                LOG_CLASS_ERROR("Asset Returned for ID (" + std::to_string(asset_id) + ").");
+            }
+            else{
+                //Config_Param asset_info = asset->Get_Asset_Info();
+
+                //LOG_CLASS_TRACE(asset_info.ToString(0));
+            }
+
         }
 
         // Otherwise, error

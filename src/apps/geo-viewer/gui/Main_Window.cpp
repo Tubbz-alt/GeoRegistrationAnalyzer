@@ -115,15 +115,15 @@ void Main_Window::closeEvent(QCloseEvent *event)
     // Clean up the System Configuration
     m_sys_config->Finalize();
 
+    // Tear Down Message Service
+    System_Manager::Finalize();
+
     // Finalize GeoViewer
     GEOVIEWER_FINALIZE(temp_status);
     if( temp_status.Not_Success() )
     {
         LOG_CLASS_ERROR(temp_status.To_Log_String());
     }
-
-    // Finalize System Manager
-    System_Manager::Finalize();
 
     // Log Exit
     LOG_CLASS_EXIT();

@@ -8,7 +8,7 @@
 // C++ Libraries
 #include <ctime>
 
-
+static std::shared_ptr<System_Logger> global_inst;
 
 /************************************/
 /*            Constructor           */
@@ -47,7 +47,10 @@ void System_Logger::Initialize( System_Configuration::ptr_t          sys_config,
         // Build the instance
         Get_Instance() = System_Logger::ptr_t(new System_Logger());
 
+        // Lock
+        Get_Instance()->m_log_lock.lock();
         Get_Instance()->m_log_handlers = log_handlers;
+        Get_Instance()->m_log_lock.unlock();
     }
 
 
@@ -59,7 +62,22 @@ void System_Logger::Initialize( System_Configuration::ptr_t          sys_config,
 /****************************************/
 void System_Logger::Finalize()
 {
+    // Clear the list of loggers
+    if( Get_Instance() == nullptr )
+    {
+        std::cerr << "WARNING: System-Logger already finalized." << std::endl;
+    }
+    else
+    {
+        // Clear out log handlers
+        Get_Instance()->m_log_lock.lock();
+        Get_Instance()->m_log_handlers.clear();
+        Get_Instance()->m_log_lock.unlock();
 
+        // Wipe out instance
+        global_inst.reset();
+    }
+    std::cout << "##########################################" << std::endl;
 }
 
 
@@ -86,7 +104,6 @@ void System_Logger::Log( const LogSeverity& severity,
     time_t timeval;
     time(&timeval);
 
-
     // Check if initialized
     if( !Is_Initialized() )
     {
@@ -104,13 +121,28 @@ void System_Logger::Log( const LogSeverity& severity,
     // Continue
     else
     {
-        // Get Instance
-        auto inst = Get_Instance();
-
-        // Iterate over handlers
-        for( auto handler : inst->m_log_handlers )
+        // Check Instance
+        if( Get_Instance() == nullptr )
         {
-            handler->Log( severity, timeval, message );
+            std::cerr << "ERROR: Logger says it is initialized yet the instance is null." << std::endl;
+        }
+
+        // Otherwise, Iterate over handlers
+        else
+        {
+            Get_Instance()->m_log_lock.lock();
+            for (auto handler : Get_Instance()->m_log_handlers)
+            {
+                if( handler == nullptr )
+                {
+                    std::cerr << "ERROR: Logger says it is initialized yet a registered handler is null." << std::endl;
+                }
+                else
+                {
+                    handler->Log(severity, timeval, message);
+                }
+            }
+            Get_Instance()->m_log_lock.unlock();
         }
     }
 
@@ -133,7 +165,8 @@ void System_Logger::Log_Class( const LogSeverity& severity,
 
 
     // Check if initialized
-    if( !Is_Initialized() ) {
+    if( Get_Instance() == nullptr )
+    {
         // FOrmat the timestamp
         struct tm *timeinfo = localtime(&timeval);
         char buffer[80];
@@ -148,19 +181,35 @@ void System_Logger::Log_Class( const LogSeverity& severity,
     // Continue
     else
     {
-        // Get Instance
-        auto inst = Get_Instance();
-
-        // Iterate over handlers
-        for( auto handler : inst->m_log_handlers )
+        // Check Instance
+        if( Get_Instance() == nullptr )
         {
-            handler->Log_Class( severity,
-                                timeval,
-                                class_name,
-                                file_name,
-                                func_name,
-                                line_no,
-                                message );
+            std::cerr << "ERROR: Logger says it is initialized yet the instance is null." << std::endl;
+        }
+
+            // Otherwise, Iterate over handlers
+        else
+        {
+            int counter = 0;
+            Get_Instance()->m_log_lock.lock();
+            for (auto handler : Get_Instance()->m_log_handlers)
+            {
+                if( handler == nullptr )
+                {
+                    std::cerr << "ERROR: Logger says it is initialized yet a registered handler is null." << std::endl;
+                }
+                else
+                {
+                    handler->Log_Class( severity,
+                                        timeval,
+                                        class_name,
+                                        file_name,
+                                        func_name,
+                                        line_no,
+                                        message );
+                }
+            }
+            Get_Instance()->m_log_lock.unlock();
         }
     }
 
@@ -182,7 +231,8 @@ void System_Logger::Log_Function( const LogSeverity& severity,
 
 
     // Check if initialized
-    if( !Is_Initialized() ) {
+    if( !Is_Initialized() )
+    {
         // FOrmat the timestamp
         struct tm *timeinfo = localtime(&timeval);
         char buffer[80];
@@ -194,14 +244,13 @@ void System_Logger::Log_Function( const LogSeverity& severity,
         std::cerr << LogSeverityToString(severity) << ", MSG: " << message << std::endl;
     }
 
-        // Continue
+    // Continue
     else
     {
-        // Get Instance
-        auto inst = Get_Instance();
+        Get_Instance()->m_log_lock.lock();
 
         // Iterate over handlers
-        for( auto handler : inst->m_log_handlers )
+        for( auto handler : Get_Instance()->m_log_handlers )
         {
             handler->Log_Function( severity,
                                    timeval,
@@ -210,6 +259,8 @@ void System_Logger::Log_Function( const LogSeverity& severity,
                                    line_no,
                                    message );
         }
+
+        Get_Instance()->m_log_lock.unlock();
     }
 
 }
@@ -219,7 +270,7 @@ void System_Logger::Log_Function( const LogSeverity& severity,
 /********************************/
 System_Logger::ptr_t&  System_Logger::Get_Instance()
 {
-    static System_Logger::ptr_t inst;
-    return inst;
+
+    return global_inst;
 }
 

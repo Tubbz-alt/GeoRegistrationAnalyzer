@@ -69,6 +69,9 @@ void ImportAssetDialog::Import_Action()
     {
         asset_info = m_easy_import_widget->Get_Asset_Info();
     }
+    else{
+        LOG_CLASS_ERROR("Invalid Index: " + std::to_string(m_import_viewer_stack->currentIndex()));
+    }
 
 
     // Load Asset
@@ -79,7 +82,8 @@ void ImportAssetDialog::Import_Action()
     if( status.Not_Failure() )
     {
         // Add Asset
-        Asset_Manager::Register_Asset(new_asset);
+        //auto result = Asset_Manager::Register_Asset(new_asset);
+        //LOG_CLASS_TRACE("Registered New Asset with ID (" + std::to_string(result) + ")");
     }
 
     // Close the dialog
@@ -120,7 +124,7 @@ void ImportAssetDialog::Set_Panel_Index( int index)
     m_import_viewer_stack->setCurrentIndex(index);
 
     // Disable Import Button
-    m_import_button->setEnabled(true);
+    m_import_button->setEnabled(false);
 }
 
 
