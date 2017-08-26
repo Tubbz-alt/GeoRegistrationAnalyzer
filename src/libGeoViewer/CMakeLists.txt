@@ -53,7 +53,7 @@ message("-- ${Blue}GDAL Includes:${Green}${GDAL_INCLUDE_DIR}${ColorReset}")
 #------------------------------#
 #-      Configure OpenCV      -#
 #------------------------------#
-find_package( OpenCV REQUIRED )
+find_package( OpenCV REQUIRED core highgui imgproc )
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 
@@ -143,3 +143,23 @@ target_link_libraries( GeoViewer
                        Qt5::Widgets
 )
 
+
+#-------------------------------#
+#-      Build Unit-Tests      --#
+#-------------------------------#
+include_directories("${PROJECT_SOURCE_DIR}/../../thirdparty/googletest/googletest/include")
+include_directories(.)
+
+#  Add Unit-Test Code
+add_subdirectory(unit-tests)
+
+#--------------------------------------#
+#-      Build Unit-Test Executable    -#
+#--------------------------------------#
+add_executable(lib-geo-viewer-unit-tests
+                  unit-tests/lib-geo-viewer-unit-tests.cpp
+                  $<TARGET_OBJECTS:LIB_GEO_CORE_TEST_OBJ> )
+
+target_link_libraries(lib-geo-viewer-unit-tests
+                        GeoViewer
+                        ${CMAKE_BINARY_DIR}/thirdparty/googletest/googlemock/libgmock.a )

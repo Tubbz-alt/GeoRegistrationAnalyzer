@@ -1,0 +1,42 @@
+/**
+
+\page message_service Message-Service
+
+\section message_service_messages Global Message-Service Messages
+
+| Topic | Contents | Description|
+|:------------:|----------|------------|
+|ASSET_MANAGER | [Asset-Manager](@ref asset_manager_messages) | Messages for Asset-Manager derived actions.|
+|GEO_WIDGET    | [Geo-Viewer](@ref geo_widget_messages)       | Messages for Geo-Widget derived actions.   |
+
+
+\subsection asset_manager_messages Asset-Manager Messages
+
+The Asset-Manager is the centralized storage and management object for Asset data.
+All Asset-Manager messages will be presented in a space-delineated format for parsing by stringstreams. Eventually this will
+be migrated to JSON, but for now, this works.
+
+\subsubsection asset_manager_message_structure Asset-Manager Message Structure
+
+The
+
+\subsubsection asset_manager_message_examples Example Message List
+
+| Topic         |  Message                          | Description                                 |
+|:-------------:|:---------------------------------:|:-------------------------------------------:|
+| ASSET_MANAGER | \"ASSET_REGISTERED  <asset_id>\"  | New asset is registered with the listed ID. |
+
+
+\subsection geo_widget_messages Geo-Widget Messages
+
+The Geo-Widget is the primary imagery and data visualizer in Geo-Viwer applications.
+
+
+\subsubsection geo_widget_message_examples Example Message List
+
+| Topic         |  Message                          | Description                                 |
+|:-------------:|:---------------------------------:|:-------------------------------------------:|
+| GEO_WIDGET    | \"IMPORT <asset_id>\"       | Asset specified by the ID should be added.  By default to the top priority. |
+
+*/
+

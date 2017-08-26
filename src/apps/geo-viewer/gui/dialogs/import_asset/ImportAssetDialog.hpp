@@ -131,8 +131,10 @@ class ImportAssetDialog : public QDialog
         /// Easy Import Widget
         ImportAssetEasyWidget* m_easy_import_widget;
 
-        /// Import Button
+        /// Important Buttons
         QToolButton* m_import_button;
+        QToolButton* m_cancel_button;
+        QToolButton* m_reset_button;
 
 
 

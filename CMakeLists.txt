@@ -49,15 +49,15 @@ LIST( APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 
 #-------------------------------------#
+#-    Add ThirdParty Dependencies    -#
+#-------------------------------------#
+add_subdirectory(thirdparty)
+
+
+#-------------------------------------#
 #-      Add Project Dependencies     -#
 #-------------------------------------#
 add_subdirectory(src)
-
-
-#-------------------------------------#
-#-    Add ThirdParty Dependencies    -#
-#-------------------------------------#
-#add_subdirectory(thirdparty)
 
 
 #-------------------------------------#

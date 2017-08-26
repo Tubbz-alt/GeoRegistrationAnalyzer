@@ -17,7 +17,7 @@ TEST( Image_Asset_Builder, Load_Path_File )
 {
     // Create the test data paths
     std::string test_path_01 = "some-bad-path";
-    std::string test_path_02 = "data/unit-test-data/test-project-file-list-01.csv";
+    std::string test_path_02 = "data/unit-tests-data/test-project-file-list-01.csv";
 
     // Run the method
     bool success;

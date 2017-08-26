@@ -62,6 +62,12 @@ class Asset_Manager_Widget : public QGroupBox
          */
         void Trigger_Import_Asset_Response();
 
+
+        /**
+         * @brief Update Tree
+         */
+        void Add_Asset_Element( const int& asset_id );
+
     private:
 
         /**
@@ -109,6 +115,9 @@ class Asset_Manager_Widget : public QGroupBox
 
         /// Import Asset Dialog
         ImportAssetDialog* m_import_asset_dialog;
+
+        /// Asset Elements
+        std::map<int,QTreeWidgetItem*> m_registered_assets;
 
 }; // End of Asset_Manager_Widget Class
 

@@ -48,6 +48,7 @@ class GeoViewerBase : public QWidget
         /// System Configuration
         System_Configuration::ptr_t m_sys_config;
 
+
     private:
 
         /// Class Name

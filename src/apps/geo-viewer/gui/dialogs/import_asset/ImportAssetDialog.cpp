@@ -15,7 +15,6 @@
 #include <GeoViewer/core/assets.hpp>
 #include <GeoViewer/core/System_Manager.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
-#include <QStandardPaths>
 
 
 /********************************/
@@ -73,7 +72,6 @@ void ImportAssetDialog::Import_Action()
         LOG_CLASS_ERROR("Invalid Index: " + std::to_string(m_import_viewer_stack->currentIndex()));
     }
 
-
     // Load Asset
     Status status;
     Asset_Base::ptr_t new_asset = Asset_Loader::Load_Asset( asset_info, status );
@@ -82,14 +80,21 @@ void ImportAssetDialog::Import_Action()
     if( status.Not_Failure() )
     {
         // Add Asset
-        //auto result = Asset_Manager::Register_Asset(new_asset);
-        //LOG_CLASS_TRACE("Registered New Asset with ID (" + std::to_string(result) + ")");
+        auto asset_id = Asset_Manager::Register_Asset(new_asset);
+        LOG_CLASS_TRACE("Registered New Asset with ID (" + std::to_string(asset_id) + ")");
+
+        // Imply to Geo-Viewers that it should import this imagery
+        Config_Param geo_viewer_message_data;
+        geo_viewer_message_data.Add_KV_Pair("commands.import.asset_id", std::to_string(asset_id));
+        geo_viewer_message_data.Add_KV_Pair("commands.show.asset_id",std::to_string(asset_id));
+
+        System_Manager::Get_Message_Service()->Send("GEO_VIEWER","IMPORT  " + std::to_string(asset_id));
+
     }
 
     // Close the dialog
     close();
 
-    // Log Exit
     LOG_CLASS_EXIT();
 }
 
@@ -101,7 +106,6 @@ void ImportAssetDialog::Cancel_Action()
 {
     // Log Entry
     LOG_CLASS_ENTRY();
-
 
 
     // Close the Dialog
@@ -192,6 +196,9 @@ void ImportAssetDialog::Initialize_GUI()
 /************************************/
 void ImportAssetDialog::Build_Toolbar()
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
     // Create the toolbar widget
     QGroupBox*  toolbar_widget = new QGroupBox("Toolbar",this);
 
@@ -199,10 +206,10 @@ void ImportAssetDialog::Build_Toolbar()
     QHBoxLayout* toolbar_layout = new QHBoxLayout();
 
     // Create Reset Button
-    QToolButton* reset_button = new QToolButton(toolbar_widget);
-    reset_button->setText("Reset");
-    toolbar_layout->addWidget(reset_button);
-    connect(reset_button, SIGNAL(clicked()), this, SLOT(Reset_Action()));
+    m_reset_button = new QToolButton(toolbar_widget);
+    m_reset_button->setText("Reset");
+    toolbar_layout->addWidget(m_reset_button);
+    connect(m_reset_button, SIGNAL(clicked()), this, SLOT(Reset_Action()));
 
     // Create Save Button
     m_import_button = new QToolButton(toolbar_widget);
@@ -213,10 +220,10 @@ void ImportAssetDialog::Build_Toolbar()
 
 
     // Create Cancel Button
-    QToolButton* cancel_button = new QToolButton(toolbar_widget);
-    cancel_button->setText("Cancel");
-    toolbar_layout->addWidget(cancel_button);
-    connect(cancel_button, SIGNAL(clicked()), this, SLOT(Cancel_Action()));
+    m_cancel_button = new QToolButton(toolbar_widget);
+    m_cancel_button->setText("Cancel");
+    toolbar_layout->addWidget(m_cancel_button);
+    connect(m_cancel_button, SIGNAL(clicked()), this, SLOT(Cancel_Action()));
 
     // Set toolbar layout
     toolbar_widget->setLayout(toolbar_layout);

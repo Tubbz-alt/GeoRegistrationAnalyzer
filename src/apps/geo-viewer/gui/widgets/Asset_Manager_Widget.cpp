@@ -34,8 +34,8 @@ Asset_Manager_Widget::Asset_Manager_Widget(System_Configuration::ptr_t sys_confi
     Initialize_GUI();
 
     // Subscribe Listener for Asset-Manager
-    //std::function<void(std::string,std::string)> handler = std::bind(&Asset_Manager_Widget::Handle_Message, this, std::placeholders::_1, std::placeholders::_2);
-    //System_Manager::Get_Message_Service()->Subscribe( "ASSET_MANAGER", handler );
+    std::function<void(std::string,std::string)> handler = std::bind(&Asset_Manager_Widget::Handle_Message, this, std::placeholders::_1, std::placeholders::_2);
+    System_Manager::Get_Message_Service()->Subscribe( "ASSET_MANAGER", handler );
 
 }
 
@@ -66,20 +66,7 @@ void Asset_Manager_Widget::Handle_Message( const std::string& topic_name,
             int asset_id;
             sin >> asset_id;
             LOG_CLASS_TRACE("New Asset: " + std::to_string(asset_id));
-
-            // Query Asset Information
-            Asset_Base::ptr_t asset = Asset_Manager::Query_Asset(asset_id);
-
-            if( asset == nullptr )
-            {
-                LOG_CLASS_ERROR("Asset Returned for ID (" + std::to_string(asset_id) + ").");
-            }
-            else{
-                //Config_Param asset_info = asset->Get_Asset_Info();
-
-                //LOG_CLASS_TRACE(asset_info.ToString(0));
-            }
-
+            Add_Asset_Element(asset_id);
         }
 
         // Otherwise, error
@@ -98,6 +85,45 @@ void Asset_Manager_Widget::Trigger_Import_Asset_Response()
     m_import_asset_dialog->show();
 
 
+}
+
+
+/************************************/
+/*          Add Tree Element        */
+/************************************/
+void Asset_Manager_Widget::Add_Asset_Element(const int &asset_id)
+{
+    // Query Asset Information
+    Asset_Base::ptr_t asset = Asset_Manager::Query_Asset(asset_id);
+
+    if( asset == nullptr )
+    {
+        LOG_CLASS_ERROR("Asset Returned for ID (" + std::to_string(asset_id) + ").");
+    }
+    else
+    {
+        // Post Asset Information
+        Config_Param asset_info = asset->Get_Asset_Info();
+        LOG_CLASS_TRACE(asset_info.ToString(0));
+
+        bool found;
+        std::string asset_type = asset_info.Query_KV_Pair("asset.generator",found);
+        if( !found )
+        {
+            asset_type = "Unknown";
+        }
+        std::string asset_details = asset_info.Query_KV_Pair("asset.details",found);
+        if( !found )
+        {
+            asset_type = "Unknown";
+        }
+
+        // Add Widget
+        m_registered_assets[asset_id] = new QTreeWidgetItem(m_asset_widget);
+        m_registered_assets[asset_id]->setText(0, std::to_string(asset_id).c_str());
+        m_registered_assets[asset_id]->setText(1, asset_type.c_str());
+        m_registered_assets[asset_id]->setText(2, asset_details.c_str());
+    }
 }
 
 
@@ -154,7 +180,8 @@ void Asset_Manager_Widget::Build_Tree_Widget()
     // Set Horizontal Labels
     QStringList labels;
     labels.push_back("Name");
-    labels.push_back("Type");
+    labels.push_back("Asset Type");
+    labels.push_back("Details");
     m_asset_widget->setHeaderLabels(labels);
 
 

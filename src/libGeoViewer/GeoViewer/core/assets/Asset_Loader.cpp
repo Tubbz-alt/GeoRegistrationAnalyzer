@@ -11,6 +11,9 @@
 // C++ Libraries
 #include <memory>
 
+// Project Libraries
+#include "../../log.hpp"
+
 
 // Single-Copy
 static std::shared_ptr<Asset_Loader> loader_ref;
@@ -92,6 +95,10 @@ Config_Param Asset_Loader::Load_Asset_Info( const std::string&  pathname,
 Asset_Base::ptr_t Asset_Loader::Load_Asset(const Config_Param&  asset_info,
                                            Status&              status)
 {
+    // Log Entry
+    const std::string m_class_name = "Asset_Loader";
+    LOG_CLASS_ENTRY();
+
     // Initialize Status
     status = Status::SUCCESS();
     Status temp_status = Status::SUCCESS();
@@ -112,7 +119,16 @@ Asset_Base::ptr_t Asset_Loader::Load_Asset(const Config_Param&  asset_info,
     {
         for (auto generator : Get_Instance()->m_generators)
         {
-            if (generator->Get_Generator_Name() == asset_name)
+            // Check Instance
+            if( generator == nullptr )
+            {
+                status.Append(StatusType::FAILURE,
+                              StatusReason::UNINITIALIZED,
+                              "Asset-Loader is initialized yet has null generator registered.");
+            }
+
+            // Otherwise, continue
+            else if (generator->Get_Generator_Name() == asset_name)
             {
                 return generator->Load_Asset(asset_info,
                                              status);

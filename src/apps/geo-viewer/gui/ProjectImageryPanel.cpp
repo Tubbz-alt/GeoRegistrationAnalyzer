@@ -70,4 +70,14 @@ void ProjectImageryPanel::Initialize_Configuration()
                                    "esri",
                                    "#  Default Provider for the Imagery Panel",
                                    false);
+
+    m_sys_config->Add_Config_Param("system.imagery.id",
+                                   "viewer",
+                                   "#  ID of viewer for internal asset routing.",
+                                   false );
+
+    m_sys_config->Add_Config_Param("system.imagery.name",
+                                   "Viewer",
+                                   "# Name of viewer for external identification.",
+                                   false );
 }

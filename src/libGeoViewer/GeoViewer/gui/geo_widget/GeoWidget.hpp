@@ -51,6 +51,12 @@ class GeoWidget : public QWidget
         /// System Configuration
         System_Configuration::ptr_t m_sys_config;
 
+        /// Viewer Name
+        std::string m_viewer_name;
+
+        /// Viewer ID
+        std::string m_viewer_id;
+
     private:
 
         /**

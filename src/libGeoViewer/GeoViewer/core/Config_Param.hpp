@@ -15,6 +15,9 @@
 #include <string>
 #include <vector>
 
+// Qt Libraries
+#include <QJsonObject>
+
 
 /**
  * @class Config_Param
@@ -145,6 +148,31 @@ class Config_Param
 
 
         /**
+         * @brief Print to JSON String
+         * @return
+         */
+        std::string ToJsonString()const;
+
+
+        /**
+         * @brief Convert from JSON String
+         */
+        static Config_Param FromJsonString( const std::string& json_data );
+
+
+        /**
+         * @brief Convert to QJsonObject
+         */
+        QJsonObject ToQJsonObject()const;
+
+
+        /**
+         * @brief Convert from JSON Object
+         */
+        static Config_Param FromQJsonObject( const QJsonObject& json_data );
+
+
+        /**
          * @brief Write to Stream
          */
         void Write_Stream( std::ostream& fout )const;
@@ -172,6 +200,13 @@ class Config_Param
          */
         static Config_Param Load_Key_Value_File( const std::string& pathname,
                                                  bool&              status );
+
+
+        /**
+         * @brief Comparison Operator
+         */
+        bool operator == (const Config_Param& rhs )const;
+
 
 
     private:

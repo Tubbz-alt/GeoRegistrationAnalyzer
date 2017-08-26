@@ -16,6 +16,10 @@
 #include <sstream>
 #include <stdexcept>
 
+// Qt Libraries
+#include <QJsonDocument>
+#include <QStringList>
+
 
 // Project Libraries
 #include "../utility/String_Utilities.hpp"
@@ -387,6 +391,144 @@ std::string Config_Param::ToString( const int& indent )const
     return sin.str();
 }
 
+
+/*****************************************/
+/*          Write to JSON String         */
+/*****************************************/
+std::string Config_Param::ToJsonString() const
+{
+    // Create JSON Data
+    QJsonObject json_base;
+
+    // Add each internal kv pairs
+    for( auto kv_pair : m_kv_pairs )
+    {
+        json_base[kv_pair.first.c_str()] = kv_pair.second.c_str();
+    }
+
+    // Add each sub-config
+    for( auto subconf : m_sub_configs )
+    {
+        json_base[subconf.first.c_str()] = subconf.second.ToQJsonObject();
+    }
+
+
+    // Serialize
+    return QJsonDocument(json_base).toJson().toStdString();
+}
+
+
+/********************************************/
+/*          Convert from JSON String        */
+/********************************************/
+Config_Param Config_Param::FromJsonString(const std::string& json_buffer)
+{
+    // Create output container
+    Config_Param output;
+
+    // Pass to document, get object
+    QJsonDocument json_doc = QJsonDocument::fromJson(json_buffer.c_str());
+
+    // Parse if Object
+    if( json_doc.isObject())
+    {
+        QJsonObject json_data = json_doc.object();
+
+        // Iterate over keys
+        QStringList keys = json_data.keys();
+        for( int idx = 0; idx < keys.size(); idx++ )
+        {
+            // Process String
+            if( json_data[keys[idx]].isString())
+            {
+                // Add to internal kv-pair
+                output.m_kv_pairs[keys[idx].toStdString()] = json_data[keys[idx]].toString().toStdString();
+            }
+
+            // Process Object
+            else if(json_data[keys[idx]].isObject())
+            {
+                output.m_sub_configs[keys[idx].toStdString()] = Config_Param::FromQJsonObject(json_data[keys[idx]].toObject());
+            }
+
+            // Process Array
+            else
+            {
+                throw std::runtime_error("Unknown type.");
+            }
+        }
+    }
+
+    // Parse if Array
+    if(json_doc.isArray() )
+    {
+        std::cout << "Is Array" << std::endl;
+    }
+
+    return output;
+}
+
+
+/************************************/
+/*         Convert to QJson         */
+/************************************/
+QJsonObject Config_Param::ToQJsonObject()const
+{
+    // Create output object
+    QJsonObject output;
+
+    // Add each internal kv pairs
+    for( auto kv_pair : m_kv_pairs )
+    {
+        output[kv_pair.first.c_str()] = kv_pair.second.c_str();
+    }
+
+    // Add Each Sub-Module
+    for( auto subconf : m_sub_configs )
+    {
+        output[subconf.first.c_str()] = QJsonValue(subconf.second.ToQJsonObject());
+    }
+
+    return output;
+}
+
+
+/********************************************/
+/*          Convert from JSON String        */
+/********************************************/
+Config_Param Config_Param::FromQJsonObject(const QJsonObject& json_data)
+{
+    // Create output container
+    Config_Param output;
+
+    // Iterate over keys
+    QStringList keys = json_data.keys();
+    for( int idx = 0; idx < keys.size(); idx++ )
+    {
+        // Process String
+        if (json_data[keys[idx]].isString())
+        {
+            // Add to internal kv-pair
+            output.m_kv_pairs[keys[idx].toStdString()] = json_data[keys[idx]].toString().toStdString();
+        }
+
+            // Process Object
+        else if (json_data[keys[idx]].isObject())
+        {
+            output.m_sub_configs[keys[idx].toStdString()] = Config_Param::FromQJsonObject(
+                    json_data[keys[idx]].toObject());
+        }
+
+            // Process Array
+        else
+        {
+            throw std::runtime_error("Unknown type.");
+        }
+    }
+    return output;
+}
+
+
 /************************************/
 /*          Write to Stream         */
 /************************************/
@@ -559,3 +701,43 @@ Config_Param Config_Param::Load_Key_Value_File(const std::string &pathname,
     // return the output
     return output;
 }
+
+
+/****************************************/
+/*          Comparison Operator         */
+/****************************************/
+bool  Config_Param::operator==(const Config_Param &rhs) const
+{
+    std::cout << "A" << std::endl;
+    // Check the base-level attributes
+    if( m_key_name        != rhs.m_key_name ) { return false; }
+    if( m_parent_key      != rhs.m_parent_key ){ return false; }
+    if( m_change_tracking != rhs.m_change_tracking ){ return false; }
+    if( m_has_changed     != rhs.m_has_changed){return false; }
+
+    std::cout << "B" << std::endl;
+    // Check the sub-configs
+    if( m_sub_configs.size() != rhs.m_sub_configs.size()){ return false; }
+    if( !std::equal(m_sub_configs.begin(), m_sub_configs.end(), rhs.m_sub_configs.begin())){
+        return false;
+    }
+
+    std::cout << "C" << std::endl;
+    // Check the key/value pairs
+    if( m_kv_pairs.size() != rhs.m_kv_pairs.size()){ return false; }
+    if( !std::equal(m_kv_pairs.begin(), m_kv_pairs.end(), rhs.m_kv_pairs.begin())){
+        return false;
+    }
+
+    std::cout << "D" << std::endl;
+    // Check comments
+    if( m_comment_pairs.size() != rhs.m_comment_pairs.size()){ return false; }
+    if( !std::equal(m_comment_pairs.begin(), m_comment_pairs.end(), rhs.m_comment_pairs.begin())){
+        return false;
+    }
+    std::cout << "E" << std::endl;
+
+    // If all else succeeds, return true
+    return true;
+}
+

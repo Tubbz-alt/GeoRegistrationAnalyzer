@@ -1,9 +1,9 @@
 #    File:    CMakeLists.txt
 #    Author:  Marvin Smith
-#    Date:    5/12/2017
-#
-#    Purpose:  Primary Builder for ThirdParty dependencies
+#    Date:    8/25/2017
 #
 
-#   Build Google-Test
+#-----------------------------------#
+#-      Link against GoogleTest    -#
+#-----------------------------------#
 add_subdirectory(googletest)

@@ -24,7 +24,7 @@ TEST( System_Configuration, No_Config_File_Test_01 )
     // Create configuration
     int argc = 1;
     char** argv = new char*[3];
-    argv[0] = "unit-test";
+    argv[0] = "unit-tests";
 
     // Build the System Configuration
     System_Configuration config( argc, argv);
@@ -63,15 +63,15 @@ TEST( System_Configuration, Sample_Config_File_01 )
     // Create configuration
     int argc = 3;
     char** argv = new char*[3];
-    argv[0] = "unit-test";
+    argv[0] = "unit-tests";
     argv[1] = "-c";
-    argv[2] = "../data/unit-test-data/sample-config-01.cfg";
+    argv[2] = "../data/unit-tests-data/sample-config-01.cfg";
 
     // Build the System Configuration
     System_Configuration config( argc, argv);
 
     // Get the Configuration File Pathname
-    ASSERT_EQ( config.Get_Configuration_File_Pathname(), "../data/unit-test-data/sample-config-01.cfg");
+    ASSERT_EQ( config.Get_Configuration_File_Pathname(), "../data/unit-tests-data/sample-config-01.cfg");
 
     // Get the config object
     config_params = config.Get_Config_Params();

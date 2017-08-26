@@ -9,6 +9,9 @@
 // Boost Libraries
 #include <boost/filesystem.hpp>
 
+// Project Libraries
+#include "Asset_Image_ESRI.hpp"
+
 
 /********************************/
 /*          Constructor         */
@@ -59,6 +62,8 @@ Config_Param Asset_Generator_ESRI::Load_Asset_Info( const std::string&  pathname
     output.Add_KV_Pair("asset.esri.image.source.type","file");
     output.Add_KV_Pair("asset.esri.image.source.pathname", pathname);
 
+    // Construct a detail string
+    output.Add_KV_Pair("asset.details","Path: " + pathname);
 
     return output;
 }
@@ -71,5 +76,8 @@ Asset_Base::ptr_t Asset_Generator_ESRI::Load_Asset( const Config_Param& asset_in
                                                     Status&             status )
 {
     // Create Asset
+    Asset_Image_ESRI::ptr_t new_asset = std::make_shared<Asset_Image_ESRI>(asset_info);
 
+    // Return asset
+    return new_asset;
 }

@@ -20,6 +20,16 @@ GeoWidget::GeoWidget( const std::string&          base_config_profile,
    m_class_name("GeoWidget"),
    m_base_config_profile(base_config_profile)
 {
+    // Grab the viewer attributes
+    bool value_found;
+    m_viewer_name = m_sys_config->Query_Config_Param(m_base_config_profile + ".name",
+                                                     value_found);
+    if(!value_found){ m_viewer_name = "UNKNOWN"; }
+    m_viewer_id   = m_sys_config->Query_Config_Param(m_base_config_profile + ".id",
+                                                     value_found);
+    if(!value_found){ m_viewer_id = "UNKNOWN"; }
+
+
     // Initialize Config
     Update_Configuration();
 

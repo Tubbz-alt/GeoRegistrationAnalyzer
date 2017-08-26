@@ -7,7 +7,7 @@
 
 
 // Project Libraries
-#include <core/Config_Param.hpp>
+#include <GeoViewer/core/Config_Param.hpp>
 
 
 /*****************************************************/
@@ -161,4 +161,30 @@ TEST( Config_Param, Change_Tracking_01 )
     config.Add_KV_Pair( "system.logging.level", "info", "random garbage", true );
     ASSERT_TRUE(config.Has_Changed());
 
+}
+
+
+/************************************************/
+/*          Test the ToJsonString Method        */
+/************************************************/
+TEST( Config_Param, ToJsonString )
+{
+    // Create config
+    Config_Param config;
+
+    config.Add_KV_Pair("test01.value1", "expect_01");
+    config.Add_KV_Pair("test01.value2.hello", "expect_02");
+    config.Add_KV_Pair("test02.value1", "expect_03");
+    config.Add_KV_Pair("test02.value2.hello", "expect_04");
+    config.Add_KV_Pair("test03","expect_05");
+
+    std::cout << config.ToJsonString() << std::endl;
+
+    // COnvert to new COnfig Param
+    Config_Param new_config = Config_Param::FromJsonString(config.ToJsonString());
+
+    std::cout << new_config.ToJsonString() << std::endl;
+
+    ASSERT_EQ( config.ToJsonString(), new_config.ToJsonString());
+    ASSERT_TRUE( config == new_config);
 }
