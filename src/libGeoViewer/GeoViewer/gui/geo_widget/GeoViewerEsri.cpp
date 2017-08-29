@@ -90,12 +90,22 @@ void GeoViewerEsri::Create_Raster_Layer(int asset_id)
         // Add raster layer
         if( status.Not_Failure() )
         {
-            LOG_CLASS_TRACE("Creating new Raster Layer.");
-            m_raster_layer[asset_id] = new RasterLayer( esri_asset->Get_Raster(), this);
+            LOG_CLASS_TRACE("Creating new Raster Layer (ID: " + std::to_string(asset_id) + ").");
+            auto new_raster_layer = new RasterLayer( esri_asset->Get_Raster(), this);
+            m_raster_layer[asset_id] = new_raster_layer;
+            connect(new_raster_layer, &RasterLayer::doneLoading, this, [this, new_raster_layer](Error loadError){
+            
+                if( !loadError.isEmpty() )
+                {
+                    LOG_CLASS_ERROR("Error Loading Raster: " + loadError.message().toStdString());
+                }
+                else{
+                    LOG_CLASS_TRACE("Finished Loading Raster File");
+                }
+            });
 
             // Add to view
             LOG_CLASS_TRACE("Adding new Raster to MapView Operational Layers.");
-            m_map->operationalLayers()->clear();
             m_map->operationalLayers()->append(m_raster_layer[asset_id]);
             LOG_CLASS_TRACE("Finished Adding Layer.");
 
