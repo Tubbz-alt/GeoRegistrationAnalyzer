@@ -51,7 +51,7 @@ void GeoViewerCesium::Set_URL( const std::string& url )
 /*********************************/
 /*        Update the Asset       */
 /*********************************/
-void GeoViewerCesium::Update_Asset(const Asset_Image_Base::ptr_t new_asset)
+void GeoViewerCesium::Import_Asset( int asset_id )
 {
     // Log Entry
     LOG_CLASS_ENTRY();

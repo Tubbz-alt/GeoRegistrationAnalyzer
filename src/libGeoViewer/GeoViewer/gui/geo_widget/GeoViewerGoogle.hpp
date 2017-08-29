@@ -47,9 +47,9 @@ class GeoViewerGoogle : public GeoViewerBase
 
 
         /**
-         * @brief Update the Asset In View
+         * @brief Import Asset
          */
-        virtual void Update_Asset( const Asset_Image_Base::ptr_t new_asset );
+        virtual void Import_Asset( int asset_id );
 
 
     protected:

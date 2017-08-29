@@ -33,8 +33,7 @@ class TestImageryPanel : public QWidget
 
 
 
-        void Update_Geo_Viewer( const std::string&      asset_type,
-                                Asset_Image_Base::ptr_t new_asset );
+        void Update_Geo_Viewer( const int& asset_id );
 
     protected:
 

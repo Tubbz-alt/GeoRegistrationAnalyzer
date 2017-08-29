@@ -21,6 +21,8 @@
  */
 class GeoWidget : public QWidget
 {
+        Q_OBJECT
+
     public:
 
         /**
@@ -35,10 +37,19 @@ class GeoWidget : public QWidget
 
 
         /**
-         * @brief Update the widget asset
+         * @brief Handler Message
          */
-         void Update_Asset( const std::string&      asset_type,
-                            Asset_Image_Base::ptr_t new_asset );
+        void Handle_Message( const std::string& topic_name,
+                             const std::string& message );
+
+
+    public slots:
+
+        /**
+         * @brief Import new asset via Asset-Manager ID.
+         */
+        void Import_Asset_ID( const int& id );
+
 
     protected:
 

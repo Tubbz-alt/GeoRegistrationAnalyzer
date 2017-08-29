@@ -51,7 +51,7 @@ void GeoViewerGoogle::Set_URL( const std::string& url )
 /*********************************/
 /*        Update the Asset       */
 /*********************************/
-void GeoViewerGoogle::Update_Asset(const Asset_Image_Base::ptr_t new_asset)
+void GeoViewerGoogle::Import_Asset( int asset_id )
 {
     // Log Entry
     LOG_CLASS_ENTRY();

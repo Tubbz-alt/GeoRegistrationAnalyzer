@@ -12,6 +12,11 @@ set( LIB_GEO_VIEWER_SOURCES
         GeoViewer/gui/asset_info/Asset_Info_Widget_Base.cpp
         GeoViewer/gui/asset_info/Asset_Info_Widget_ESRI.cpp
         GeoViewer/gui/asset_info/Asset_Info_Widget_Factory.cpp
+        GeoViewer/gui/geo_widget/GeoViewerBase.cpp
+        GeoViewer/gui/geo_widget/GeoViewerEsri.cpp
+        GeoViewer/gui/geo_widget/GeoViewerGoogle.cpp
+        GeoViewer/gui/geo_widget/GeoViewerLocal.cpp
+        GeoViewer/gui/geo_widget/GeoWidget.cpp
         PARENT_SCOPE )
 
 #-----------------------------#
@@ -23,6 +28,11 @@ set( LIB_GEO_VIEWER_HEADERS
         GeoViewer/gui/asset_info/Asset_Info_Widget_Base.hpp
         GeoViewer/gui/asset_info/Asset_Info_Widget_ESRI.hpp
         GeoViewer/gui/asset_info/Asset_Info_Widget_Factory.hpp
+        GeoViewer/gui/geo_widget/GeoViewerBase.hpp
+        GeoViewer/gui/geo_widget/GeoViewerEsri.hpp
+        GeoViewer/gui/geo_widget/GeoViewerGoogle.hpp
+        GeoViewer/gui/geo_widget/GeoViewerLocal.hpp
+        GeoViewer/gui/geo_widget/GeoWidget.hpp
         PARENT_SCOPE )
 
 #  Add Each Sub-Project

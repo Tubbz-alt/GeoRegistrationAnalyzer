@@ -49,7 +49,7 @@ class GeoViewerCesium : public GeoViewerBase
         /**
          * @brief Update the Asset In View
          */
-        virtual void Update_Asset( const Asset_Image_Base::ptr_t new_asset );
+        virtual void Import_Asset( const Asset_Image_Base::ptr_t new_asset );
 
 
     protected:

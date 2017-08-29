@@ -21,6 +21,8 @@ std::string StatusReasonToString( const StatusReason& reason )
             return "ALREADY_INITIALIZED";
         case StatusReason::NOT_REGISTERED:
             return "NOT_REGISTERED";
+        case StatusReason::PATH_NOT_FOUND:
+            return "PATH_NOT_FOUND";
         default:
             return "UNKNOWN";
     }

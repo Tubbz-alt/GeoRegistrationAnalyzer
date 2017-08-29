@@ -84,11 +84,11 @@ void ImportAssetDialog::Import_Action()
         LOG_CLASS_TRACE("Registered New Asset with ID (" + std::to_string(asset_id) + ")");
 
         // Imply to Geo-Viewers that it should import this imagery
-        Config_Param geo_viewer_message_data;
-        geo_viewer_message_data.Add_KV_Pair("commands.import.asset_id", std::to_string(asset_id));
-        geo_viewer_message_data.Add_KV_Pair("commands.show.asset_id",std::to_string(asset_id));
+        Config_Param import_msg;
+        import_msg.Add_KV_Pair("command.name", "import");
+        import_msg.Add_KV_Pair("command.import.asset_id", std::to_string(asset_id));
 
-        System_Manager::Get_Message_Service()->Send("GEO_VIEWER","IMPORT  " + std::to_string(asset_id));
+        System_Manager::Get_Message_Service()->Send("GEO_WIDGET",import_msg.ToJsonString());
 
     }
 

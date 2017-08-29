@@ -12,6 +12,7 @@
 
 // Project Libraries
 #include "../../core/assets/Asset_Image_Local.hpp"
+#include "../../core/assets/Asset_Manager.hpp"
 #include "../../log/System_Logger.hpp"
 
 
@@ -59,10 +60,12 @@ void GeoViewerLocal::Initialize_GUI()
 /*********************************/
 /*        Update the Asset       */
 /*********************************/
-void GeoViewerLocal::Update_Asset(const Asset_Image_Base::ptr_t new_asset)
+void GeoViewerLocal::Import_Asset( int asset_id )
 {
     // Log Entry
     LOG_CLASS_ENTRY();
+
+    Asset_Base::ptr_t new_asset = Asset_Manager::Query_Asset(asset_id);
 
     // Cast Asset
     Asset_Image_Local::ptr_t asset_local = std::dynamic_pointer_cast<Asset_Image_Local>(new_asset);

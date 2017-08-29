@@ -13,6 +13,7 @@
 #include <string>
 
 // Project Libraries
+#include "../Status.hpp"
 #include "../System_Configuration.hpp"
 #include "../../comm/MessageService.hpp"
 #include "Asset_Base.hpp"
@@ -53,6 +54,16 @@ class Asset_Manager
          * @return
          */
         static Asset_Base::ptr_t Query_Asset( const int& asset_id );
+
+
+        /**
+         * @brief Query asset from manager.
+         * @param asset_id
+         * @param status
+         * @return
+         */
+        static Asset_Base::ptr_t Query_Asset( const int& asset_id,
+                                              Status&    status );
 
 
         /**

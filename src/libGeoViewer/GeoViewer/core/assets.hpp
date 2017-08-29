@@ -9,6 +9,9 @@
 // Asset Loader
 #include "assets/Asset_Loader.hpp"
 
+// ESRI Image Asset
+#include "assets/Asset_Image_ESRI.hpp"
+
 // ESRI Generator
 #include "assets/Asset_Generator_ESRI.hpp"
 

@@ -17,6 +17,7 @@
 #include <Map.h>
 #include <MapGraphicsView.h>
 #include <Basemap.h>
+#include <RasterLayer.h>
 
 
 /**
@@ -24,6 +25,11 @@
  */
 class GeoViewerEsri : public GeoViewerBase
 {
+    Q_OBJECT
+
+    signals:
+
+        void New_Asset_Ready( int );
 
     public:
 
@@ -39,10 +45,19 @@ class GeoViewerEsri : public GeoViewerBase
 
 
         /**
-         * @brief Update the Asset In View
+         * @brief Add new asset to viewer
+         *
+         * @param[in] asset_id
          */
-        virtual void Update_Asset( const Asset_Image_Base::ptr_t new_asset );
+        virtual void Import_Asset( int asset_id );
 
+
+    public slots:
+
+        /**
+         * @brief Build a new Raster Layer
+         */
+        virtual void Create_Raster_Layer( int asset_id );
 
     protected:
 
@@ -67,6 +82,9 @@ class GeoViewerEsri : public GeoViewerBase
         
         /// ESRI Basemap
         Esri::ArcGISRuntime::Basemap* m_basemap = nullptr;
+
+        /// Active Raster Layers (Key is the Asset-ID)
+        std::map<int, Esri::ArcGISRuntime::RasterLayer*> m_raster_layer;
 
 };
 

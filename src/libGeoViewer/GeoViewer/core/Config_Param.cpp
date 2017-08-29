@@ -423,6 +423,22 @@ std::string Config_Param::ToJsonString() const
 /********************************************/
 Config_Param Config_Param::FromJsonString(const std::string& json_buffer)
 {
+    // Create junk status
+    Status junk;
+    return FromJsonString(json_buffer,
+                          junk);
+}
+
+
+/********************************************/
+/*          Convert from JSON String        */
+/********************************************/
+Config_Param Config_Param::FromJsonString(const std::string& json_buffer,
+                                          Status&            status )
+{
+    // Initialize Status
+    status = Status::SUCCESS();
+
     // Create output container
     Config_Param output;
 
@@ -445,16 +461,18 @@ Config_Param Config_Param::FromJsonString(const std::string& json_buffer)
                 output.m_kv_pairs[keys[idx].toStdString()] = json_data[keys[idx]].toString().toStdString();
             }
 
-            // Process Object
+                // Process Object
             else if(json_data[keys[idx]].isObject())
             {
                 output.m_sub_configs[keys[idx].toStdString()] = Config_Param::FromQJsonObject(json_data[keys[idx]].toObject());
             }
 
-            // Process Array
+                // Process Array
             else
             {
-                throw std::runtime_error("Unknown type.");
+                status.Append( StatusType::FAILURE,
+                               StatusReason::UNKNOWN,
+                               "Unsupported QJson Type");
             }
         }
     }
@@ -708,34 +726,29 @@ Config_Param Config_Param::Load_Key_Value_File(const std::string &pathname,
 /****************************************/
 bool  Config_Param::operator==(const Config_Param &rhs) const
 {
-    std::cout << "A" << std::endl;
     // Check the base-level attributes
     if( m_key_name        != rhs.m_key_name ) { return false; }
     if( m_parent_key      != rhs.m_parent_key ){ return false; }
     if( m_change_tracking != rhs.m_change_tracking ){ return false; }
     if( m_has_changed     != rhs.m_has_changed){return false; }
 
-    std::cout << "B" << std::endl;
     // Check the sub-configs
     if( m_sub_configs.size() != rhs.m_sub_configs.size()){ return false; }
     if( !std::equal(m_sub_configs.begin(), m_sub_configs.end(), rhs.m_sub_configs.begin())){
         return false;
     }
 
-    std::cout << "C" << std::endl;
     // Check the key/value pairs
     if( m_kv_pairs.size() != rhs.m_kv_pairs.size()){ return false; }
     if( !std::equal(m_kv_pairs.begin(), m_kv_pairs.end(), rhs.m_kv_pairs.begin())){
         return false;
     }
 
-    std::cout << "D" << std::endl;
     // Check comments
     if( m_comment_pairs.size() != rhs.m_comment_pairs.size()){ return false; }
     if( !std::equal(m_comment_pairs.begin(), m_comment_pairs.end(), rhs.m_comment_pairs.begin())){
         return false;
     }
-    std::cout << "E" << std::endl;
 
     // If all else succeeds, return true
     return true;

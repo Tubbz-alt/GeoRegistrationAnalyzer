@@ -23,6 +23,7 @@ enum class StatusReason : int16_t
         UNINITIALIZED       = 2 /**< Something not initialized or allocated properly.*/,
         ALREADY_INITIALIZED = 3 /**< Already Initialized.*/,
         NOT_REGISTERED      = 4 /**< No Matching Objects Registered.*/,
+        PATH_NOT_FOUND      = 5 /**< No path found on system.*/,
 };
 
 

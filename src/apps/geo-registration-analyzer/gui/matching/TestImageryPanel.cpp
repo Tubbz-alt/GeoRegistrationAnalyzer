@@ -55,12 +55,12 @@ TestImageryPanel::TestImageryPanel( System_Configuration::ptr_t sys_config,
 /************************************************/
 /*            Update the Geo-Viewer             */
 /************************************************/
-void TestImageryPanel::Update_Geo_Viewer( const std::string&      asset_type,
-                                          Asset_Image_Base::ptr_t new_asset )
+void TestImageryPanel::Update_Geo_Viewer( const int&  asset_id )
 
 {
     // Check the current geo-viewer type
-    m_geo_widget->Update_Asset(asset_type, new_asset);
+    int asset_idd = asset_id;
+    m_geo_widget->Import_Asset_ID( asset_idd );
 
 }
 
@@ -123,24 +123,8 @@ void TestImageryPanel::Handle_Message(const std::string& topic_name,
         int asset_id           = json_obj["asset_id"].toInt(-1);
         std::string asset_type = json_obj["source"].toString().toStdString();
 
-        //  Grab the Asset
-        LOG_CLASS_TRACE( "Loading Asset ID: " + std::to_string(asset_id)
-                         + ", Source: " + asset_type);
-
-        Asset_Image_Base::ptr_t image_asset = std::dynamic_pointer_cast<Asset_Image_Base>(Asset_Manager::Query_Asset( asset_id ));
-
-        // Make sure it is valid
-        if( image_asset == nullptr )
-        {
-            LOG_CLASS_ERROR("Asset returned was null.");
-        }
-
-        else
-        {
-            // Update or reconstruct new GeoViewer
-            Update_Geo_Viewer( asset_type,
-                               image_asset );
-        }
+        // Update or reconstruct new GeoViewer
+        Update_Geo_Viewer( asset_id );
 
     }
 

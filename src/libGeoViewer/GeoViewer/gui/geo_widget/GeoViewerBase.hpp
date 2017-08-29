@@ -20,6 +20,7 @@
  */
 class GeoViewerBase : public QWidget
 {
+    Q_OBJECT
 
     public:
 
@@ -35,10 +36,11 @@ class GeoViewerBase : public QWidget
 
 
         /**
-         * @brief Update the Asset In View
+         * @brief Add new asset to viewer
+         *
+         * @param[in] asset_id
          */
-        virtual void Update_Asset( const Asset_Image_Base::ptr_t new_asset ) = 0;
-
+        virtual void Import_Asset( int asset_id ) = 0;
 
     protected:
 

@@ -78,6 +78,28 @@ Asset_Base::ptr_t Asset_Manager::Query_Asset( const int& asset_id )
 }
 
 
+/*************************************/
+/*          Query the Asset          */
+/*************************************/
+Asset_Base::ptr_t Asset_Manager::Query_Asset( const int&  asset_id,
+                                              Status&     status )
+{
+    // Initialize Status
+    status = Status::SUCCESS();
+
+    // Check if the asset exists
+    if( Get_Instance()->m_assets.find(asset_id) != Get_Instance()->m_assets.end())
+    {
+        return Get_Instance()->m_assets.find(asset_id)->second;
+    }
+
+    status.Append(StatusType::FAILURE,
+                  StatusReason::NOT_REGISTERED,
+                  "No Asset Found with ID (" + std::to_string(asset_id) + ")");
+    return nullptr;
+}
+
+
 /************************************************/
 /*          Register Message Service            */
 /************************************************/

@@ -14,6 +14,11 @@
 // Project Libraries
 #include "Asset_Image_Base.hpp"
 #include "../Config_Param.hpp"
+#include "../Status.hpp"
+
+// ESRI Libraries
+#include <Raster.h>
+#include <RasterLayer.h>
 
 
 /**
@@ -23,6 +28,9 @@ class Asset_Image_ESRI : public Asset_Image_Base
 {
     public:
 
+        /// Pointer Type
+        typedef std::shared_ptr<Asset_Image_ESRI> ptr_t;
+
         /**
          * @brief Constructor
          */
@@ -30,9 +38,26 @@ class Asset_Image_ESRI : public Asset_Image_Base
 
 
         /**
+         * @brief Check if Asset Loaded
+         */
+        inline bool Asset_Loaded()const{
+            return m_asset_loaded;
+        }
+
+
+        /**
          * @brief Load Asset
          */
-        void Load_Asset();
+        void Load_Asset( Status& status );
+
+        /**
+         * Get the embedded raster object.
+         *
+         * @return
+         */
+        inline Esri::ArcGISRuntime::Raster* Get_Raster()const{
+            return m_raster;
+        }
 
 
         /**
@@ -46,6 +71,12 @@ class Asset_Image_ESRI : public Asset_Image_Base
 
         /// Class Name
         std::string m_class_name;
+
+        /// Asset Loaded Check
+        bool m_asset_loaded;
+
+        /// Internal Raster
+        Esri::ArcGISRuntime::Raster* m_raster;
 
 }; // End of Asset_Image_ESRI Class
 

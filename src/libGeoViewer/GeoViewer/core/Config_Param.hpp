@@ -18,6 +18,9 @@
 // Qt Libraries
 #include <QJsonObject>
 
+// Project Libraries
+#include "Status.hpp"
+
 
 /**
  * @class Config_Param
@@ -158,6 +161,16 @@ class Config_Param
          * @brief Convert from JSON String
          */
         static Config_Param FromJsonString( const std::string& json_data );
+
+
+        /**
+         * @brief Convert from JSON String
+         * @param json_data
+         * @param status
+         * @return
+         */
+        static Config_Param FromJsonString( const std::string& json_data,
+                                            Status&            status );
 
 
         /**
