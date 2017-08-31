@@ -16,6 +16,7 @@ set( GEO_VIEWER_SOURCES
         gui/ProjectViewer.cpp
         gui/dialogs/import_asset/ImportAssetDialog.cpp
         gui/dialogs/import_asset/ImportAssetEasyWidget.cpp
+        gui/dialogs/import_asset/ImportAssetAdvancedWidget.cpp
         gui/toolbar/PrimaryToolbarPane.cpp
         gui/toolbar/ProjectToolbarWidget.cpp
         gui/widgets/Asset_Manager_Widget.cpp
@@ -35,6 +36,7 @@ set( GEO_VIEWER_HEADERS
         gui/ProjectViewer.hpp
         gui/dialogs/import_asset/ImportAssetDialog.hpp
         gui/dialogs/import_asset/ImportAssetEasyWidget.hpp
+        gui/dialogs/import_asset/ImportAssetAdvancedWidget.hpp
         gui/toolbar/PrimaryToolbarPane.hpp 
         gui/toolbar/ProjectToolbarWidget.hpp
         gui/widgets/Asset_Manager_Widget.hpp

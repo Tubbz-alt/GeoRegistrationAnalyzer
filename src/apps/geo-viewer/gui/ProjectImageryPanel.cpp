@@ -67,7 +67,7 @@ void ProjectImageryPanel::Initialize_Configuration()
 
     // Set Default Configuration Parameters
     m_sys_config->Add_Config_Param("system.imagery.provider",
-                                   "esri",
+                                   "local",
                                    "#  Default Provider for the Imagery Panel",
                                    false);
 

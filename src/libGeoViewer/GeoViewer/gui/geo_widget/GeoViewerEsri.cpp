@@ -101,6 +101,7 @@ void GeoViewerEsri::Create_Raster_Layer(int asset_id)
                 }
                 else{
                     LOG_CLASS_TRACE("Finished Loading Raster File");
+                    m_mapView->setViewpointCenter(new_raster_layer->fullExtent().center(), 80000);
                 }
             });
 
