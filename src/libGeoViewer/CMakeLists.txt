@@ -119,6 +119,7 @@ message("OUTPUT HEADERS: ${LIB_GEO_VIEWER_HEADERS}")
 #-       Build Library        -#
 #------------------------------#
 add_library( GeoViewer SHARED
+                $<TARGET_OBJECTS:LIB_GEO_ASSETS_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_COMM_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_CORE_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_GUI_OBJ>

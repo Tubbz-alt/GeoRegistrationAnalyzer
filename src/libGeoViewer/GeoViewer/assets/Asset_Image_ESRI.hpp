@@ -13,8 +13,8 @@
 
 // Project Libraries
 #include "Asset_Image_Base.hpp"
-#include "../Config_Param.hpp"
-#include "../Status.hpp"
+#include "../core/Config_Param.hpp"
+#include "../core/Status.hpp"
 
 // ESRI Libraries
 #include <Raster.h>

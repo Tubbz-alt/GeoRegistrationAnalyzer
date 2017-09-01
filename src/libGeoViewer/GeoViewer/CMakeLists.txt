@@ -36,6 +36,7 @@ set( LIB_GEO_VIEWER_HEADERS
         PARENT_SCOPE )
 
 #  Add Each Sub-Project
+add_subdirectory(assets)
 add_subdirectory(comm)
 add_subdirectory(core)
 add_subdirectory(io)

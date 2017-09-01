@@ -7,13 +7,14 @@
 #define GEO_VIEWER_CORE_ASSETS_ASSET_LOADER_HPP
 
 // Project Libraries
-#include "../Config_Param.hpp"
-#include "../Status.hpp"
+#include "../core/Config_Param.hpp"
+#include "../core/Status.hpp"
 #include "Asset_Base.hpp"
 #include "Asset_Generator_Base.hpp"
 
 
 // C++ Libraries
+#include <map>
 #include <string>
 
 /**
@@ -45,8 +46,9 @@ class Asset_Loader
         /**
          * @brief Load Asset Information
          */
-        static Config_Param Load_Asset_Info( const std::string&  pathname,
-                                             Status&             status );
+        static Config_Param Load_File_Asset_Info( const std::string&  pathname,
+                                                  Config_Param&       config_options,
+                                                  Status&             status );
 
 
         /**
@@ -88,8 +90,8 @@ class Asset_Loader
         /// Class Name
         std::string m_class_name;
 
-        /// List of Generators
-        std::vector<Asset_Generator_Base::ptr_t> m_generators;
+        /// List of Generators [Key is the Generator-Name]
+        std::map<std::string,Asset_Generator_Base::ptr_t> m_generators;
 
 }; // End of Asset_Loader Class
 

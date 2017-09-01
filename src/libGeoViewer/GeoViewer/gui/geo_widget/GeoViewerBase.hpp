@@ -12,7 +12,7 @@
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
-#include "../../core/assets/Asset_Image_Base.hpp"
+#include "../../assets/Asset_Image_Base.hpp"
 
 
 /**

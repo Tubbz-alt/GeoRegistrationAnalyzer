@@ -19,7 +19,7 @@
 // Project Libraries
 #include "GDAL_Utilities.hpp"
 #include "OpenCV_Utilities.hpp"
-#include "../core/assets/Asset_Manager.hpp"
+#include "../assets/Asset_Manager.hpp"
 #include "../log/System_Logger.hpp"
 
 

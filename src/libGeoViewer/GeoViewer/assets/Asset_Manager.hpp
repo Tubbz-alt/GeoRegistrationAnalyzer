@@ -13,9 +13,9 @@
 #include <string>
 
 // Project Libraries
-#include "../Status.hpp"
-#include "../System_Configuration.hpp"
-#include "../../comm/MessageService.hpp"
+#include "../core/Status.hpp"
+#include "../core/System_Configuration.hpp"
+#include "../comm/MessageService.hpp"
 #include "Asset_Base.hpp"
 
 

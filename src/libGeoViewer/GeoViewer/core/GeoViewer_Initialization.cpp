@@ -6,7 +6,7 @@
 #include "GeoViewer_Initialization.hpp"
 
 // Project Libraries
-#include "assets.hpp"
+#include "../assets.hpp"
 
 
 /******************************************/

@@ -12,7 +12,7 @@
 #include <boost/filesystem.hpp>
 
 // Project Libraries
-#include "../../utility/String_Utilities.hpp"
+#include "../utility/String_Utilities.hpp"
 
 namespace bf = boost::filesystem;
 

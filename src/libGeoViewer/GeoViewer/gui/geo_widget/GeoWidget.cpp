@@ -152,7 +152,6 @@ void GeoWidget::Initialize_GUI()
     bool value_found;
     std::string provider = m_sys_config->Query_Config_Param(m_base_config_profile + ".provider",
                                                             value_found);
-    std::cout << "Base Profile: " << m_base_config_profile << ", Loading Provider: " << provider << std::endl;
 
     // Create the layout
     QVBoxLayout* main_layout = new QVBoxLayout();

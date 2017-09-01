@@ -9,7 +9,7 @@
 #include <sstream>
 
 // Project Libraries
-#include "../../log/System_Logger.hpp"
+#include "../log/System_Logger.hpp"
 
 
 /*********************************/

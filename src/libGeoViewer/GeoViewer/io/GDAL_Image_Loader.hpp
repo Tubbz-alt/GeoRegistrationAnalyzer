@@ -11,7 +11,7 @@
 
 
 // Project Libraries
-#include "../core/assets/Asset_Image_Local.hpp"
+#include "../assets/Asset_Image_Local.hpp"
 
 
 /**

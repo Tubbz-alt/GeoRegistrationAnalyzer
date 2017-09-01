@@ -12,8 +12,8 @@
 
 // Project Libraries
 #include "Asset_Base.hpp"
-#include "../Config_Param.hpp"
-#include "../Status.hpp"
+#include "../core/Config_Param.hpp"
+#include "../core/Status.hpp"
 
 
 /**
