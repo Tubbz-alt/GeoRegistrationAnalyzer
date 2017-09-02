@@ -15,9 +15,8 @@
 
 // GeoViewer Libraries
 #include <GeoViewer/core/System_Manager.hpp>
-#include <GeoViewer/core/assets/Asset_Image_Local.hpp>
-#include <GeoViewer/core/assets/Asset_Manager.hpp>
-#include <GeoViewer/core/assets/Image_Asset_Builder.hpp>
+#include <GeoViewer/assets/local/Asset_Image_Local.hpp>
+#include <GeoViewer/assets/Asset_Manager.hpp>
 #include <GeoViewer/io/GDAL_Image_Loader.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 
@@ -92,7 +91,7 @@ void ImportProjectJob::Build_Image_Asset( const std::string& panel_type,
 
         if( list_type == "file" )
         {
-
+            /*
             std::string list_path = m_project_info.Query_KV_Pair(base_element + ".local.path_list_string", value_found);
             LOG_CLASS_TRACE("Local Asset Path List String: " + list_path);
             image_path_list = Image_Asset_Builder::Load_Path_File(list_path, success, error_msg);
@@ -100,7 +99,7 @@ void ImportProjectJob::Build_Image_Asset( const std::string& panel_type,
             if( !success )
             {
                 LOG_CLASS_ERROR(error_msg);
-            }
+            }*/
         }
 
         // Get the type

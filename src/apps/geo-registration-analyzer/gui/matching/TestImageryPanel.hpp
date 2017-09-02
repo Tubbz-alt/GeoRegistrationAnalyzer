@@ -11,7 +11,7 @@
 
 // GeoViewer Libraries
 #include <GeoViewer/core/System_Configuration.hpp>
-#include <GeoViewer/core/assets/Asset_Image_Base.hpp>
+#include <GeoViewer/assets/Asset_Image_Base.hpp>
 #include <GeoViewer/gui/geo_widget/GeoWidget.hpp>
 
 // Project Libraries

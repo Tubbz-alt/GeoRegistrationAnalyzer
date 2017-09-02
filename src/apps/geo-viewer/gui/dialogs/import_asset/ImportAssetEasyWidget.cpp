@@ -6,7 +6,7 @@
 #include "ImportAssetEasyWidget.hpp"
 
 // GeoViewer Libraries
-#include <GeoViewer/core/assets.hpp>
+#include <GeoViewer/assets.hpp>
 #include <GeoViewer/core/System_Manager.hpp>
 #include <GeoViewer/gui/asset_info/Asset_Info_Widget_Factory.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
@@ -183,8 +183,10 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
     // Process Contents
     bool successful;
     std::string error_msg;
-    Config_Param asset_info = Asset_Loader::Load_Asset_Info( asset_path,
-                                                             temp_status );
+    Config_Param special_options;
+    Config_Param asset_info = Asset_Loader::Load_File_Asset_Info( asset_path,
+                                                                  special_options,
+                                                                  temp_status );
     status.Append(temp_status);
 
     // Check Contents

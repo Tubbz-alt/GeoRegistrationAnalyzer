@@ -8,7 +8,7 @@
 #include <QApplication>
 
 // GeoViewer Libraries
-#include <GeoViewer/core/assets/Asset_Manager.hpp>
+#include <GeoViewer/assets/Asset_Manager.hpp>
 #include <GeoViewer/core/System_Manager.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 

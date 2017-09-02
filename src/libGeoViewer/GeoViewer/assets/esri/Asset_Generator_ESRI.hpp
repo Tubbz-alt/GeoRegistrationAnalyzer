@@ -12,7 +12,7 @@
 #include <string>
 
 // Project Libraries
-#include "Asset_Generator_Base.hpp"
+#include "../Asset_Generator_Base.hpp"
 #include "../core/Status.hpp"
 
 

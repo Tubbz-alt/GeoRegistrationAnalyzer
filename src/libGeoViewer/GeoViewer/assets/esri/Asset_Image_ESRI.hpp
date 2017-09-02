@@ -12,9 +12,9 @@
 #include <string>
 
 // Project Libraries
-#include "Asset_Image_Base.hpp"
-#include "../core/Config_Param.hpp"
-#include "../core/Status.hpp"
+#include "../Asset_Image_Base.hpp"
+#include "../../core/Config_Param.hpp"
+#include "../../core/Status.hpp"
 
 // ESRI Libraries
 #include <Raster.h>

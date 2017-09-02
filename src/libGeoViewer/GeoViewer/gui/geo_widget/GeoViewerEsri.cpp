@@ -14,7 +14,8 @@
 #include <Raster.h>
 
 // Project Libraries
-#include "../../core/assets.hpp"
+#include "../../assets/Asset_Manager.hpp"
+#include "../../assets/esri/Asset_Image_ESRI.hpp"
 #include "../../log/System_Logger.hpp"
 
 

@@ -6,7 +6,9 @@
 #include "GeoViewer_Initialization.hpp"
 
 // Project Libraries
-#include "../assets.hpp"
+#include "../assets/Asset_Loader.hpp"
+#include "../assets/esri/Asset_Generator_ESRI.hpp"
+#include "../assets/local/Asset_Generator_Local.hpp"
 
 
 /******************************************/
@@ -25,9 +27,13 @@ void GEOVIEWER_INITIALIZE( Status& status )
     // Add Each Generator
     if( status.Not_Failure() )
     {
-        auto config = std::make_shared<Asset_Generator_Config_ESRI>();
-        auto esri_generator = std::make_shared<Asset_Generator_ESRI>( config );
+        auto esri_config = std::make_shared<Asset_Generator_Config_ESRI>();
+        auto esri_generator = std::make_shared<Asset_Generator_ESRI>( esri_config );
         Asset_Loader::Register_Asset_Generator(esri_generator);
+
+        auto local_config = std::make_shared<Asset_Generator_Config_Local>();
+        auto local_generator = std::make_shared<Asset_Generator_Local>( local_config );
+        Asset_Loader::Register_Asset_Generator(local_generator);
     }
 
 

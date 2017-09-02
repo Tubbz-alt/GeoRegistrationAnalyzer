@@ -15,9 +15,9 @@
 
 // GeoViewer Libraries
 #include <GeoViewer/core/System_Manager.hpp>
-#include <GeoViewer/core/assets/Asset_Image_Local.hpp>
-#include <GeoViewer/core/assets/Asset_Manager.hpp>
-#include <GeoViewer/core/assets/Image_Asset_Builder.hpp>
+#include <GeoViewer/assets/local/Asset_Image_Local.hpp>
+#include <GeoViewer/assets/Asset_Manager.hpp>
+#include <GeoViewer/assets/Image_Asset_Builder.hpp>
 #include <GeoViewer/io/GDAL_Image_Loader.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 

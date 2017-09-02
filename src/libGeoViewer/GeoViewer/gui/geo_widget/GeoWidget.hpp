@@ -10,7 +10,7 @@
 #include <QWidget>
 
 // Project Libraries
-#include "../../core/assets/Asset_Image_Base.hpp"
+#include "../../assets/Asset_Image_Base.hpp"
 #include "../../core/System_Configuration.hpp"
 #include "GeoViewerBase.hpp"
 #include "GeoViewerFactory.hpp"

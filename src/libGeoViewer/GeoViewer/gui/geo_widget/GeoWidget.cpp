@@ -8,7 +8,7 @@
 // GeoViewer Libraries
 #include "../../core/Status.hpp"
 #include "../../core/System_Manager.hpp"
-#include "../../core/assets/Asset_Manager.hpp"
+#include "../../assets/Asset_Manager.hpp"
 #include "../../log/System_Logger.hpp"
 
 

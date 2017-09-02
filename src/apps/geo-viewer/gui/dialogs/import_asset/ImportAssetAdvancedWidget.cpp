@@ -6,7 +6,7 @@
 #include "ImportAssetAdvancedWidget.hpp"
 
 // GeoViewer Libraries
-#include <GeoViewer/core/assets.hpp>
+#include <GeoViewer/assets.hpp>
 #include <GeoViewer/core/System_Manager.hpp>
 #include <GeoViewer/gui/asset_info/Asset_Info_Widget_Factory.hpp>
 #include <GeoViewer/log/System_Logger.hpp>

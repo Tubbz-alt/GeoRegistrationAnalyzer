@@ -17,7 +17,7 @@
 #include <ogr_spatialref.h>
 
 // Project Libraries
-#include "Asset_Image_Base.hpp"
+#include "../Asset_Image_Base.hpp"
 
 /**
  * @class Asset_Image_Local
@@ -28,6 +28,12 @@ class Asset_Image_Local : public Asset_Image_Base
 
         /// Pointer Type
         typedef std::shared_ptr<Asset_Image_Local> ptr_t;
+
+
+        /**
+         * @brief Single Constructor
+         */
+        Asset_Image_Local( const Config_Param& asset_info );
 
 
         /**
@@ -56,6 +62,15 @@ class Asset_Image_Local : public Asset_Image_Base
          */
         inline cv::Mat Get_Image()const{
             return m_image;
+        }
+
+
+        /**
+         * @brief Set the Image Data
+         */
+        inline void Set_Image( cv::Mat& image )
+        {
+            m_image = image;
         }
 
 

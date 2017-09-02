@@ -12,7 +12,7 @@
 
 
 // GeoViewer Libraries
-#include <GeoViewer/core/assets.hpp>
+#include <GeoViewer/assets.hpp>
 #include <GeoViewer/core/System_Manager.hpp>
 #include <GeoViewer/log/System_Logger.hpp>
 

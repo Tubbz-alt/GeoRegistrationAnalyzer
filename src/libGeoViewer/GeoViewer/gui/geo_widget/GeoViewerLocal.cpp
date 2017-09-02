@@ -11,8 +11,8 @@
 
 
 // Project Libraries
-#include "../../core/assets/Asset_Image_Local.hpp"
-#include "../../core/assets/Asset_Manager.hpp"
+#include "../../assets/local/Asset_Image_Local.hpp"
+#include "../../assets/Asset_Manager.hpp"
 #include "../../log/System_Logger.hpp"
 
 

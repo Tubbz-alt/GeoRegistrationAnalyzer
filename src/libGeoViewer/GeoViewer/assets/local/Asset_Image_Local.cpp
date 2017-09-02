@@ -9,6 +9,17 @@
 /*********************************/
 /*          Constructor          */
 /*********************************/
+Asset_Image_Local::Asset_Image_Local( const Config_Param&             asset_info )
+  : Asset_Image_Base(asset_info),
+    m_class_name("Asset_Image_Local")
+{
+
+}
+
+
+/*********************************/
+/*          Constructor          */
+/*********************************/
 Asset_Image_Local::Asset_Image_Local( const Config_Param&             asset_info,
                                       cv::Mat                         image,
                                       const std::vector<cv::Point3d>& corners,

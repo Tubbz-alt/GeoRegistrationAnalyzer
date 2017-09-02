@@ -6,6 +6,10 @@
 #ifndef GEO_VIEWER_ASSETS_HPP
 #define GEO_VIEWER_ASSETS_HPP
 
+// Base Asset Type
+#include "assets/Asset_Base.hpp"
+#include "assets/Asset_Image_Base.hpp"
+
 // Asset Loader
 #include "assets/Asset_Loader.hpp"
 
