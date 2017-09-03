@@ -81,6 +81,9 @@ message("OUTPUT HEADERS: ${LIB_GEO_IMAGE_HEADERS}")
 add_library( GeoImage SHARED
         ${LIB_GEO_IMAGE_SOURCES}
         ${LIB_GEO_IMAGE_HEADERS}
+        $<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_OBJ>
+        $<TARGET_OBJECTS:LIB_GEO_IMAGE_GEOM_OBJ>
+        $<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_OBJ>
         )
 
 
@@ -104,10 +107,10 @@ add_subdirectory(unit-tests)
 #--------------------------------------#
 #-      Build Unit-Test Executable    -#
 #--------------------------------------#
-#add_executable(lib-geo-viewer-unit-tests
-#        unit-tests/lib-geo-viewer-unit-tests.cpp
-#        $<TARGET_OBJECTS:LIB_GEO_CORE_TEST_OBJ> )
+add_executable(lib-geo-image-unit-tests
+        unit-tests/lib-geo-image-unit-tests.cpp
+        $<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_TEST_OBJ> )
 
-#target_link_libraries(lib-geo-viewer-unit-tests
-#        GeoViewer
-#        ${CMAKE_BINARY_DIR}/thirdparty/googletest/googlemock/libgmock.a )
+target_link_libraries(lib-geo-image-unit-tests
+        GeoImage
+        ${CMAKE_BINARY_DIR}/thirdparty/googletest/googlemock/libgmock.a )

@@ -34,6 +34,32 @@ class CoordinateProjectedBase : public CoordinateBase
         CoordinateProjectedBase();
 
 
+        /**
+         * @brief Parameterized Constructor
+         *
+         * @param[in] x
+         * @param[in] y
+         */
+        CoordinateProjectedBase( const double& x,
+                                 const double& y );
+
+
+        /**
+         * @brief Get X in Meters
+         */
+        inline double Get_X()const{
+            return m_x;
+        }
+
+
+        /**
+         * @brief Get Y in Meters
+         */
+        inline double Get_Y()const{
+            return m_y;
+        }
+
+
     protected:
 
         /// Easting

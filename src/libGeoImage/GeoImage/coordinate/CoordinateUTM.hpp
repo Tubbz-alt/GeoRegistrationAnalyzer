@@ -35,6 +35,55 @@ class CoordinateUTM : public CoordinateProjectedBase
         CoordinateUTM();
 
 
+        /**
+         * @brief Parameterized Constructor
+         */
+        CoordinateUTM( const std::string& grid_zone,
+                       const bool&        is_northern,
+                       const double&      easting,
+                       const double&      northing );
+
+
+        /**
+         * @brief Get the Grid Zone
+         */
+        inline std::string Get_Grid_Zone()const{
+            return m_grid_zone;
+        }
+
+
+        /**
+         * @brief Check if Northern
+         */
+        inline bool Is_Northern()const{
+            return m_is_northern;
+        }
+
+
+        /**
+         * @brief Get the Easting in Meters
+         * @return
+         */
+        inline double Get_Easting_Meters()const{
+            return m_x;
+        }
+
+
+        /**
+         * @brief Get the Northing in Meters
+         * @return
+         */
+        inline double Get_Northing_Meters()const{
+            return m_y;
+        }
+
+
+        /**
+         * @brief Print to String
+         */
+        virtual std::string To_String( const int& indent = 0 )const;
+
+
     protected:
 
         /// Grid Zone

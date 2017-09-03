@@ -8,6 +8,7 @@
 
 
 // C++ Libraries
+#include <cmath>
 #include <memory>
 #include <string>
 
@@ -34,13 +35,51 @@ class CoordinateGeographic : public CoordinateBase
         CoordinateGeographic();
 
 
+        /**
+         * @brief Get the Latitude in Radians
+         */
+        inline double Get_Latitude_Radians()const{
+            return m_latitude_rad;
+        }
+
+
+        /**
+         * @brief Get the Latitude in Degrees
+         */
+        inline double Get_Latitude_Degrees()const{
+            return m_latitude_rad * M_PI / 180.0;
+        }
+
+
+        /**
+         * @brief Get the Longitude in Radians
+         */
+        inline double Get_Longitude_Radians()const{
+            return m_longitude_rad;
+        }
+
+
+        /**
+         * @brief Get the Longitude in Degrees
+         */
+        inline double Get_Longitude_Degrees()const{
+            return m_longitude_rad * M_PI / 180.0;
+        }
+
+
+        /**
+         * @brief Print to String
+         */
+        virtual std::string To_String( const int& indent = 0 )const;
+
+
     protected:
 
         /// Longitude (X)
-        double m_longitude;
+        double m_longitude_rad;
 
         /// Latitude (Y)
-        double m_latitude;
+        double m_latitude_rad;
 
     private:
 

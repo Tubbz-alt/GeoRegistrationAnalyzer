@@ -31,6 +31,12 @@ class CoordinateBase
         CoordinateBase();
 
 
+        /**
+         * @brief Print to String
+         */
+        virtual std::string To_String( const int& indent = 0 )const = 0;
+
+
     private:
 
         /// Class Name
