@@ -16,6 +16,7 @@
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
 #include "GeoViewerBase.hpp"
+#include "GeoViewerLocalWindow.hpp"
 
 
 /**
@@ -67,18 +68,8 @@ class GeoViewerLocal : public GeoViewerBase
         /// Class Name
         std::string m_class_name;
 
-        /// Graphics Scene
-        QGraphicsScene m_scene;
-
-        /// Main View
-        QGraphicsView* m_view;
-
-        /// Current Transforms
-        QTransform m_transform;
-        QTransform m_image_transform;
-
-        /// Initialization Materials
-        QGraphicsTextItem* m_warning_text;
+        /// View-Widget
+        GeoViewerLocalWindow* m_viewer_window;
 
 };
 

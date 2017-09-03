@@ -47,9 +47,12 @@ void GeoViewerLocal::Initialize_GUI()
     QVBoxLayout* main_layout = new QVBoxLayout();
 
     // Build View
-    m_view = new QGraphicsView(&m_scene, this);
-    main_layout->addWidget(m_view);
+    m_viewer_window = new GeoViewerLocalWindow(m_base_config_profile,
+                                               m_sys_config,
+                                               this);
+    main_layout->addWidget(m_viewer_window);
     main_layout->setContentsMargins(0,0,0,0);
+
 
     // Set layout
     setLayout(main_layout);
@@ -65,42 +68,7 @@ void GeoViewerLocal::Import_Asset( int asset_id )
     // Log Entry
     LOG_CLASS_ENTRY();
 
-    Asset_Base::ptr_t new_asset = Asset_Manager::Query_Asset(asset_id);
 
-    // Cast Asset
-    Asset_Image_Local::ptr_t asset_local = std::dynamic_pointer_cast<Asset_Image_Local>(new_asset);
-
-    // Grab the pixel data
-    cv::Mat image = asset_local->Get_Image();
-
-    // Compute Image Midpoint
-    int midX = image.cols/2;
-    int midY = image.rows/2;
-
-    m_image_transform.translate( -midX, -midY);
-
-    // Load the pixel data
-    QImage qt_image( image.data,
-                     image.cols, image.rows,
-                     static_cast<int>(image.step),
-                     QImage::Format_RGB888 );
-
-
-    // Push to scene
-    QGraphicsPixmapItem* new_pixmap = new QGraphicsPixmapItem(QPixmap::fromImage(qt_image));
-    new_pixmap->setTransform(m_image_transform);
-    m_scene.addItem(new_pixmap);
-
-    // If everything is okay, then remove the text
-    m_scene.removeItem(m_warning_text);
-
-    // Print the Location of the viewport
-    std::stringstream sin;
-    sin << "Viewport BBox: " << m_view->sceneRect().x() << ", " << m_view->sceneRect().y();
-    sin << " : Size: " << m_view->sceneRect().size().width() << " x " << m_view->sceneRect().size().height() << std::endl;
-    sin << "Scene BBox: " << m_scene.sceneRect().x() << ", " << m_scene.sceneRect().y();
-    sin << " : Size: " << m_scene.sceneRect().size().width() << " x " << m_scene.sceneRect().size().height() << std::endl;
-    LOG_CLASS_INFO(sin.str());
 
     // Log Exit
     LOG_CLASS_EXIT();
@@ -121,6 +89,7 @@ void GeoViewerLocal::Update_Configuration()
 /*******************************************/
 void GeoViewerLocal::Initialize_Scene()
 {
-    //m_scene.setSceneRect(QRectF(QPoint(-1, 1), QSizeF(2, 2)));
-    m_warning_text = m_scene.addText("No Dataset Loaded.");
+
+
 }
+

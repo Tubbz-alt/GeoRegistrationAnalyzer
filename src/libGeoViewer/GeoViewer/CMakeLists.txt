@@ -16,6 +16,7 @@ set( LIB_GEO_VIEWER_SOURCES
         GeoViewer/gui/geo_widget/GeoViewerEsri.cpp
         GeoViewer/gui/geo_widget/GeoViewerGoogle.cpp
         GeoViewer/gui/geo_widget/GeoViewerLocal.cpp
+        GeoViewer/gui/geo_widget/GeoViewerLocalWindow.cpp
         GeoViewer/gui/geo_widget/GeoWidget.cpp
         PARENT_SCOPE )
 
@@ -32,6 +33,7 @@ set( LIB_GEO_VIEWER_HEADERS
         GeoViewer/gui/geo_widget/GeoViewerEsri.hpp
         GeoViewer/gui/geo_widget/GeoViewerGoogle.hpp
         GeoViewer/gui/geo_widget/GeoViewerLocal.hpp
+        GeoViewer/gui/geo_widget/GeoViewerLocalWindow.hpp
         GeoViewer/gui/geo_widget/GeoWidget.hpp
         PARENT_SCOPE )
 

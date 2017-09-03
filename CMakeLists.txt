@@ -60,8 +60,4 @@ add_subdirectory(thirdparty)
 add_subdirectory(src)
 
 
-#-------------------------------------#
-#-       Add Test Dependencies       -#
-#-------------------------------------#
-#add_subdirectory(test)
 
