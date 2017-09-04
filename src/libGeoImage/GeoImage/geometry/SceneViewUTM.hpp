@@ -33,11 +33,7 @@ class SceneViewUTM : public SceneViewBase
         */
         SceneViewUTM();
 
-
-    private:
-
-        /// Class Name
-        std::string m_class_name;
+    protected:
 
         /// Center
         CoordinateUTM m_center;
@@ -47,6 +43,12 @@ class SceneViewUTM : public SceneViewBase
 
         /// Rotation in Radians
         double m_rotation_rad;
+
+    private:
+
+        /// Class Name
+        std::string m_class_name;
+
 };
 
 } // End of GEO Namespace
