@@ -13,6 +13,9 @@
 // Qt Libraries
 #include <QPainter>
 
+// GeoImage Libraries
+#include <GeoImage/geometry/SceneViewBase.hpp>
+
 // Project Libraries
 #include "../Asset_Base.hpp"
 
@@ -37,7 +40,7 @@ class Asset_Local_Base : public Asset_Base
          * @brief Destructor
          */
         virtual ~Asset_Local_Base();
-        
+
 
         /**
          * @brief Render the Layer
@@ -47,10 +50,10 @@ class Asset_Local_Base : public Asset_Base
          * @param[in]  current_timestamp
          * @param[out] status
          */
-        virtual void Render_Layer( QPainter&             painter,
-                                   SceneViewBase::ptr_t  scene_view,
-                                   const double&         current_timestamp,
-                                   Status&               status ) = 0;
+        virtual void Render_Layer( QPainter&                  painter,
+                                   GEO::SceneViewBase::ptr_t  scene_view,
+                                   const double&              current_timestamp,
+                                   Status&                    status ) = 0;
 
 
     private:

@@ -34,9 +34,9 @@ class GDAL_Image_Loader
          * @param[out] error_msg
          * @return
          */
-        static Asset_Local_Base::ptr_t  Load_Image( const std::string&  pathname,
-                                                    bool&               status,
-                                                    std::string&        error_msg );
+        static void Load_Image( const std::string&  pathname,
+
+                                Status&             status );
 
 
     private:

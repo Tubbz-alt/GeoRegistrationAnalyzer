@@ -12,7 +12,7 @@
 #include <string>
 
 // Project Libraries
-#include "../Asset_Image_Base.hpp"
+#include "../Asset_Base.hpp"
 #include "../../core/Config_Param.hpp"
 #include "../../core/Status.hpp"
 
@@ -24,7 +24,7 @@
 /**
  * @class Asset_Image_ESRI
  */
-class Asset_Image_ESRI : public Asset_Image_Base
+class Asset_Image_ESRI : public Asset_Base
 {
     public:
 

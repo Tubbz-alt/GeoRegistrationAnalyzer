@@ -10,7 +10,6 @@
 set( LIB_GEO_ASSETS_SOURCES
         Asset_Base.cpp
         Asset_Generator_Base.cpp
-        Asset_Image_Base.cpp
         Asset_Loader.cpp
         Asset_Manager.cpp
         Image_Asset_Builder.cpp
@@ -29,7 +28,6 @@ set( LIB_GEO_ASSETS_HEADERS
         ../assets.hpp
         Asset_Base.hpp
         Asset_Generator_Base.hpp
-        Asset_Image_Base.hpp
         Asset_Loader.hpp
         Asset_Manager.hpp
         Image_Asset_Builder.hpp

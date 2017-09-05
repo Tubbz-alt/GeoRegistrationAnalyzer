@@ -11,12 +11,12 @@
 #include <string>
 
 // Project Libraries
-#include "Asset_Image_Base.hpp"
+#include "../Asset_Base.hpp"
 
 /**
  * @class Asset_Image_Google
  */
-class Asset_Image_Google : public Asset_Image_Base
+class Asset_Image_Google : public Asset_Base
 {
     public:
 

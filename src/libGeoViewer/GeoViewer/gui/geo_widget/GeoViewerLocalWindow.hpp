@@ -17,6 +17,7 @@
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
+#include "local/Scene_Context.hpp"
 
 
 /**
@@ -24,6 +25,12 @@
  */
 class GeoViewerLocalWindow : public QFrame
 {
+    Q_OBJECT
+
+    signals:
+
+        void Request_Update_Scene();
+
     public:
 
         /**
@@ -37,6 +44,13 @@ class GeoViewerLocalWindow : public QFrame
                               System_Configuration::ptr_t sys_config,
                               QWidget*                    parent = nullptr );
 
+
+    protected slots:
+
+        /**
+         * @brief Render the scene
+         */
+        void Update_Scene();
 
     protected:
 
@@ -64,10 +78,10 @@ class GeoViewerLocalWindow : public QFrame
         std::string m_base_config_profile;
 
         /// Scene List
-        //std::map<int, Scene_Info> m_scene_rendering_list;
+        std::map<int, LOCAL::Scene_Context::ptr_t> m_scene_rendering_list;
 
         /// Frame-Number
-        int m_current_frame_number;
+        double m_current_timestamp;
 
         /// Current Scene View
         GEO::SceneViewBase::ptr_t m_current_scene;

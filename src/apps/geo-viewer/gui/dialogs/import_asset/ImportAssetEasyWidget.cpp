@@ -22,6 +22,7 @@
 /********************************/
 ImportAssetEasyWidget::ImportAssetEasyWidget(System_Configuration::ptr_t sys_config,
                                              QWidget*                    parent)
+  : m_sys_config(sys_config)
 {
     // Initialize the GUI
     Initialize_GUI();
@@ -181,9 +182,21 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
     m_path_label->setText( asset_path.c_str() );
 
     // Process Contents
-    bool successful;
     std::string error_msg;
     Config_Param special_options;
+
+    // Get the current generator
+    bool match_found;
+    std::string current_generator = m_sys_config->Query_Config_Param("system.imagery.provider", match_found);
+    if( !match_found )
+    {
+        LOG_CLASS_ERROR("Unable to find provider");
+    }
+
+    // Setup special options
+    special_options.Add_KV_Pair("generator", current_generator);
+
+    // Load information
     Config_Param asset_info = Asset_Loader::Load_File_Asset_Info( asset_path,
                                                                   special_options,
                                                                   temp_status );

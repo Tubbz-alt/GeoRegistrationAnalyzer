@@ -6,8 +6,11 @@
 #ifndef GEO_VIEWER_GUI_LOCAL_SCENE_CONTEXT_HPP
 #define GEO_VIEWER_GUI_LOCAL_SCENE_CONTEXT_HPP
 
+// Qt Libraries
+#include <QPainter>
+
 // GeoViewer Libraries
-#include "../../../assets.hpp"
+#include "../../../assets/local.hpp"
 
 // C++ Libraries
 #include <memory>
@@ -31,6 +34,26 @@ class Scene_Context
          */
         Scene_Context( Asset_Local_Base::ptr_t asset );
 
+
+        /**
+         * @brief Render Layer to Painter
+         */
+        virtual void Render_Layer( QPainter&                  painter,
+                                   GEO::SceneViewBase::ptr_t  scene_view,
+                                   const double&              current_timestamp,
+                                   Status&                    status );
+
+        
+        /**
+         * @brief Update Scene Pixel Data
+         * 
+         * @param scene_view 
+         * @param current_timestamp 
+         * @param status 
+         */
+        virtual void Update_Scene( GEO::SceneViewBase::ptr_t  scene_view,
+                                   const double&              current_timestamp,
+                                   Status&                    status );
 
     private:
 

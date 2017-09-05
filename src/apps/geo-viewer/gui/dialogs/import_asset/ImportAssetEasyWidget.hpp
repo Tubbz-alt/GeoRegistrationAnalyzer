@@ -95,6 +95,9 @@ class ImportAssetEasyWidget : public QWidget
         /// Class Name
         std::string m_class_name;
 
+        /// System Configuration
+        System_Configuration::ptr_t m_sys_config;
+
         /// Easy Import Layout
         QGridLayout* m_main_layout;
 

@@ -51,11 +51,6 @@ class Asset_Local_Image : public Asset_Local_Base
         virtual ~Asset_Local_Image();
 
 
-        /**
-         * @brief De-Allocate
-         */
-        void Deallocate();
-
 
         /**
          * @brief Get the Image
@@ -75,6 +70,12 @@ class Asset_Local_Image : public Asset_Local_Base
 
 
         /**
+         * @brief Load
+         */
+        virtual void Load_Asset();
+
+
+        /**
          * @brief Render the Layer
          *
          * @param[in]  painter
@@ -82,10 +83,10 @@ class Asset_Local_Image : public Asset_Local_Base
          * @param[in]  current_timestamp
          * @param[out] status
          */
-        virtual void Render_Layer( QPainter&             painter,
-                                   SceneViewBase::ptr_t  scene_view,
-                                   const double&         current_timestamp,
-                                   Status&               status );
+        virtual void Render_Layer( QPainter&                  painter,
+                                   GEO::SceneViewBase::ptr_t  scene_view,
+                                   const double&              current_timestamp,
+                                   Status&                    status );
 
 
     private:
