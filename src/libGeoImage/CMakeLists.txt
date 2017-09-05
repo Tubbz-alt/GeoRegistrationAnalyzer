@@ -28,6 +28,7 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
 #-----------------------------#
 #-      Configure Boost      -#
 #-----------------------------#
+message("Boost Root: ${BOOST_ROOT}")
 find_package( Boost
         COMPONENTS
         filesystem
@@ -45,6 +46,7 @@ endif()
 #----------------------------#
 #-      Configure GDAL      -#
 #----------------------------#
+message("GDAL Root: $ENV{GDAL_ROOT}")
 find_package( GDAL REQUIRED )
 include_directories(${GDAL_INCLUDE_DIR})
 message("-- ${Blue}GDAL Includes:${Green}${GDAL_INCLUDE_DIR}${ColorReset}")

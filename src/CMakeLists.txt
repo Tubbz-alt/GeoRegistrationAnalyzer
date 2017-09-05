@@ -14,10 +14,10 @@ add_subdirectory(libGeoImage)
 #---------------------------------#
 #-      Add the LibGeoViewer     -#
 #---------------------------------#
-add_subdirectory(libGeoViewer)
+#add_subdirectory(libGeoViewer)
 
 #-----------------------------------------#
 #-      Add Applications Directories     -#
 #-----------------------------------------#
-add_subdirectory(apps)
+#add_subdirectory(apps)
 
