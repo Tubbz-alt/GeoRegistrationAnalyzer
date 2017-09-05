@@ -100,6 +100,9 @@ include_directories(${Qt5WebEngineWidgets_INCLUDE_DIRS})
 include_directories(${Qt5WebSockets_INCLUDE_DIRS})
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 
+#  Add GeoImage Includes
+include_directories(../libGeoImage)
+
 #---------------------------------#
 #-      Define our Sources       -#
 #---------------------------------#
@@ -115,6 +118,8 @@ add_subdirectory(GeoViewer)
 
 message("OUTPUT SOURCES: ${LIB_GEO_VIEWER_SOURCES}")
 message("OUTPUT HEADERS: ${LIB_GEO_VIEWER_HEADERS}")
+
+
 #------------------------------#
 #-       Build Library        -#
 #------------------------------#

@@ -10,7 +10,11 @@
 #include <memory>
 #include <string>
 
-namespace GEO {
+// Project Libraries
+#include "../coordinate/CoordinateBase.hpp"
+
+
+namespace GEO{
 
 /**
  * @class SceneViewBase
@@ -19,10 +23,26 @@ class SceneViewBase
 {
     public:
         
+        /// Pointer Type
+        typedef std::shared_ptr<SceneViewBase> ptr_t;
+        
+
         /**
          * @brief Constructor
          */
         SceneViewBase();
+
+
+        /**
+         * @brief Get the Center Coordinate
+         */
+        virtual CoordinateBase::ptr_t Get_Center_Coordinate()const = 0;
+
+
+        /**
+         * @brief Get Transform
+         */
+
 
     private:
 

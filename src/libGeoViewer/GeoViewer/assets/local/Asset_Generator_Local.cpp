@@ -10,7 +10,7 @@
 #include <boost/filesystem.hpp>
 
 // Project Libraries
-#include "Asset_Image_Local.hpp"
+#include "Asset_Local_Image.hpp"
 
 
 /********************************/
@@ -76,7 +76,7 @@ Asset_Base::ptr_t Asset_Generator_Local::Load_Asset( const Config_Param& asset_i
                                                      Status&             status )
 {
     // Create Asset
-    Asset_Image_Local::ptr_t new_asset = std::make_shared<Asset_Image_Local>(asset_info);
+    Asset_Local_Image::ptr_t new_asset = std::make_shared<Asset_Local_Image>(asset_info);
 
     // Return asset
     return new_asset;

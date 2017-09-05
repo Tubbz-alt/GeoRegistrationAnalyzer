@@ -19,7 +19,7 @@
 // Project Libraries
 #include "GDAL_Utilities.hpp"
 #include "OpenCV_Utilities.hpp"
-#include "../assets/local/Asset_Image_Local.hpp"
+#include "../assets/local/Asset_Local_Image.hpp"
 #include "../log/System_Logger.hpp"
 
 
@@ -38,7 +38,7 @@ GDAL_Image_Loader::GDAL_Image_Loader()
 /************************************/
 /*          Load an Image           */
 /************************************/
-Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathname,
+Asset_Local_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathname,
                                                        bool&              status,
                                                        std::string&       error_msg)
 {
@@ -51,7 +51,7 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
     status = true;
     error_msg = "";
     std::string message;
-    Asset_Image_Base::ptr_t output;
+    Asset_Local_Base::ptr_t output;
 
 
     // Make sure path exists
@@ -201,10 +201,10 @@ Asset_Image_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
         // Construct Asset
         Config_Param asset_info;
         LOG_CLASS_TRACE("Building Image Asset");
-        output = std::make_shared<Asset_Image_Local>( asset_info,
-                                                      image,
-                                                      raster_info.corners,
-                                                      raster_info.proj_info );
+        //output = std::make_shared<Asset_Local_Image>( asset_info,
+        //                                              image,
+        //                                              raster_info.corners,
+        //                                              raster_info.proj_info );
 
 
         // Close the dataset

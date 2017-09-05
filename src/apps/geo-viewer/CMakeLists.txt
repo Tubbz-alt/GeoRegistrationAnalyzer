@@ -81,7 +81,8 @@ set( GEO_VIEWER_MAIN
 )
 
 #  Include libGeoViewer
-include_directories(../../libGeoViewer)
+include_directories( ../../libGeoImage
+                     ../../libGeoViewer)
 
 
 #  Add sub-projects

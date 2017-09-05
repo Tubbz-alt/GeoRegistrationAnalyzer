@@ -7,6 +7,7 @@
 
 // C++ Libraries
 #include <iomanip>
+#include <sstream>
 
 
 namespace GEO{

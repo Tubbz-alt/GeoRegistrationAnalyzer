@@ -3,8 +3,8 @@
  * @author  Marvin Smith
  * @date    5/25/2017
  */
-#ifndef CORE_ASSETS_ASSET_IMAGE_LOCAL_HPP
-#define CORE_ASSETS_ASSET_IMAGE_LOCAL_HPP
+#ifndef CORE_ASSETS_ASSET_LOCAL_IMAGE_HPP
+#define CORE_ASSETS_ASSET_LOCAL_IMAGE_HPP
 
 // C++ Libraries
 #include <memory>
@@ -17,29 +17,29 @@
 #include <ogr_spatialref.h>
 
 // Project Libraries
-#include "../Asset_Image_Base.hpp"
+#include "Asset_Local_Base.hpp"
 
 /**
  * @class Asset_Image_Local
  */
-class Asset_Image_Local : public Asset_Image_Base
+class Asset_Local_Image : public Asset_Local_Base
 {
     public:
 
         /// Pointer Type
-        typedef std::shared_ptr<Asset_Image_Local> ptr_t;
+        typedef std::shared_ptr<Asset_Local_Image> ptr_t;
 
 
         /**
          * @brief Single Constructor
          */
-        Asset_Image_Local( const Config_Param& asset_info );
+        Asset_Local_Image( const Config_Param& asset_info );
 
 
         /**
          * @brief Constructor
          */
-        Asset_Image_Local( const Config_Param&             asset_info,
+        Asset_Local_Image( const Config_Param&             asset_info,
                            cv::Mat                         image,
                            const std::vector<cv::Point3d>& corners,
                            const OGRSpatialReference&      proj_info );
@@ -48,7 +48,7 @@ class Asset_Image_Local : public Asset_Image_Base
         /**
          * @brief Destructor
          */
-        virtual ~Asset_Image_Local();
+        virtual ~Asset_Local_Image();
 
 
         /**
@@ -74,6 +74,20 @@ class Asset_Image_Local : public Asset_Image_Base
         }
 
 
+        /**
+         * @brief Render the Layer
+         *
+         * @param[in]  painter
+         * @param[in]  scene_view
+         * @param[in]  current_timestamp
+         * @param[out] status
+         */
+        virtual void Render_Layer( QPainter&             painter,
+                                   SceneViewBase::ptr_t  scene_view,
+                                   const double&         current_timestamp,
+                                   Status&               status );
+
+
     private:
 
         /// Class Name
@@ -89,6 +103,6 @@ class Asset_Image_Local : public Asset_Image_Base
         OGRSpatialReference m_proj_info;
 
 
-}; // End of Asset_Image_Local Class
+}; // End of Asset_Local_Image Class
 
 #endif

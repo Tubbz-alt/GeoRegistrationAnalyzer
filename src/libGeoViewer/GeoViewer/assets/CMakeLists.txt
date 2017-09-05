@@ -18,7 +18,8 @@ set( LIB_GEO_ASSETS_SOURCES
         esri/Asset_Image_ESRI.cpp
         googlemaps/Asset_Image_Google.cpp
         local/Asset_Generator_Local.cpp
-        local/Asset_Image_Local.cpp
+        local/Asset_Local_Base.cpp
+        local/Asset_Local_Image.cpp
     )
 
 #-----------------------------#
@@ -36,7 +37,8 @@ set( LIB_GEO_ASSETS_HEADERS
         esri/Asset_Generator_ESRI.hpp
         googlemaps/Asset_Image_Google.hpp
         local/Asset_Generator_Local.hpp
-        local/Asset_Image_Local.hpp
+        local/Asset_Local_Base.cpp
+        local/Asset_Local_Image.hpp
     )
 
 #------------------------------------#

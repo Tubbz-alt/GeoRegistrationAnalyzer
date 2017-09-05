@@ -11,6 +11,10 @@
 #include <QPainter>
 
 
+// GeoImage Libraries
+#include <GeoImage/geometry/SceneViewUTM.hpp>
+
+
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
 
@@ -59,9 +63,14 @@ class GeoViewerLocalWindow : public QFrame
         /// Base Config Profile
         std::string m_base_config_profile;
 
-        /// Scene
+        /// Scene List
+        //std::map<int, Scene_Info> m_scene_rendering_list;
 
+        /// Frame-Number
+        int m_current_frame_number;
 
+        /// Current Scene View
+        GEO::SceneViewBase::ptr_t m_current_scene;
 
 };
 

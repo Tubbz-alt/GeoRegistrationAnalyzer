@@ -6,6 +6,7 @@
 #include "MatchingImportProjectJob.hpp"
 
 // C++ Libraries
+#include <sstream>
 #include <vector>
 
 // Qt Libraries
@@ -15,7 +16,7 @@
 
 // GeoViewer Libraries
 #include <GeoViewer/core/System_Manager.hpp>
-#include <GeoViewer/assets/local/Asset_Image_Local.hpp>
+#include <GeoViewer/assets/local/Asset_Local_Base.hpp>
 #include <GeoViewer/assets/Asset_Manager.hpp>
 #include <GeoViewer/assets/Image_Asset_Builder.hpp>
 #include <GeoViewer/io/GDAL_Image_Loader.hpp>
@@ -69,7 +70,7 @@ void MatchingImportProjectJob::Build_Image_Asset( const std::string& panel_type,
     LOG_CLASS_ENTRY();
 
     // Resulting Asset
-    Asset_Image_Base::ptr_t new_asset;
+    Asset_Local_Base::ptr_t new_asset;
 
     // JSon Elements
     QJsonObject json_obj;

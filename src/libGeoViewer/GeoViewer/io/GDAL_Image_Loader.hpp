@@ -11,7 +11,7 @@
 
 
 // Project Libraries
-#include "../assets/Asset_Image_Base.hpp"
+#include "../assets/local/Asset_Local_Base.hpp"
 
 
 /**
@@ -34,7 +34,7 @@ class GDAL_Image_Loader
          * @param[out] error_msg
          * @return
          */
-        static Asset_Image_Base::ptr_t  Load_Image( const std::string&  pathname,
+        static Asset_Local_Base::ptr_t  Load_Image( const std::string&  pathname,
                                                     bool&               status,
                                                     std::string&        error_msg );
 

@@ -82,7 +82,8 @@ set( GEO_REGISTRATION_ANALYZER_MAIN
 )
 
 #  Include libGeoViewer
-include_directories(../../libGeoViewer)
+include_directories( ../../libGeoImage
+                     ../../libGeoViewer)
 
 
 #  Add sub-projects

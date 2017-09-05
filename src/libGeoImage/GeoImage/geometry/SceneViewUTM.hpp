@@ -33,10 +33,15 @@ class SceneViewUTM : public SceneViewBase
         */
         SceneViewUTM();
 
+
+        /**
+         * @brief Get the Center Coordinate
+         */
+
     protected:
 
         /// Center
-        CoordinateUTM m_center;
+        CoordinateUTM::ptr_t m_center;
 
         /// Zoom Factor
         double m_gsd;
