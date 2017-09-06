@@ -9,6 +9,11 @@
 // C++ Libraries
 #include <string>
 
+// OpenCV Libraries
+#include <opencv2/core/core.hpp>
+
+// GDAL Libraries
+#include <ogr_spatialref.h>
 
 // Project Libraries
 #include "../assets/local/Asset_Local_Base.hpp"
@@ -34,9 +39,11 @@ class GDAL_Image_Loader
          * @param[out] error_msg
          * @return
          */
-        static void Load_Image( const std::string&  pathname,
-
-                                Status&             status );
+        static void Load_Image( const std::string&         pathname,
+                                cv::Mat&                   image,
+                                std::vector<cv::Point3d>&  corners,
+                                OGRSpatialReference&       proj_info,
+                                Status&                    status );
 
 
     private:

@@ -118,7 +118,7 @@ void MatchingImportProjectJob::Build_Image_Asset( const std::string& panel_type,
                 LOG_CLASS_TRACE("Loading Image: " + fname);
 
                 // Create asset
-                new_asset = GDAL_Image_Loader::Load_Image( fname, success, error_msg);
+                //new_asset = GDAL_Image_Loader::Load_Image( fname, success, error_msg);
 
                 // Check status
                 if( !success )

@@ -130,25 +130,24 @@ int GDAL_Color_Layers_To_OpenCV_RGB_Conversion( const std::vector<GDALColorInter
 /*         Get Raster Metadata Information         */
 /***************************************************/
 GDAL_Raster_Info  Get_Raster_Information( GDALDataset* dataset,
-                                          bool&        success,
-                                          std::string& error_msg )
+                                          Status&      status )
 {
     // Create output structure
     GDAL_Raster_Info raster_info;
 
     // Initialize status
-    success = true;
-    error_msg = "";
+    status = Status::SUCCESS();
 
     // Check dataset
     if( dataset == nullptr )
     {
-        success = false;
-        error_msg = "GDALDataset is null.";
+        status.Append( StatusType::FAILURE,
+                       StatusReason::GDAL_ERROR,
+                       "GDALDataset is null.");
     }
 
     // Otherwise, grab projection information
-    else
+    if( status.Not_Failure() )
     {
         // Set projection info
         char* pszWkt = const_cast<char*>(dataset->GetProjectionRef());

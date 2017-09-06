@@ -206,9 +206,10 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
     if( !status.Not_Failure() )
     {
         // Display Error Widget
-        QString qmsg = "Error: Unsupported Dialog.\nDetails: ";
-        qmsg += status.To_Log_String().c_str();
-        auto new_panel = new QLabel(qmsg);
+        std::string msg = "Error: Unsupported Dialog.\nDetails: ";
+        msg += status.To_Log_String();
+        LOG_CLASS_ERROR( msg );
+        auto new_panel = new QLabel(QString(msg.c_str()));
         Replace_Info_Panel( new_panel );
     }
 
@@ -230,9 +231,10 @@ void ImportAssetEasyWidget::Check_Asset_Info( const std::string& asset_path )
         else
         {
             // Display Error Widget
-            QString qmsg = "Error: Unsupported Dialog.\nDetails: ";
-            qmsg += status.To_Log_String().c_str();
-            auto new_panel = new QLabel(qmsg);
+            std::string msg = "Error: Unsupported Dialog.\nDetails: ";
+            msg += status.To_Log_String();
+            LOG_CLASS_ERROR( msg );
+            auto new_panel = new QLabel(QString(msg.c_str()));
             Replace_Info_Panel( new_panel );
         }
     }

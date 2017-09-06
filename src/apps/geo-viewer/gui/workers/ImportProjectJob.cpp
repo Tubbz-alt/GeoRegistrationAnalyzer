@@ -114,6 +114,7 @@ void ImportProjectJob::Build_Image_Asset( const std::string& panel_type,
             // Load Files
             for( auto fname : image_path_list )
             {
+                /*
                 LOG_CLASS_TRACE("Loading Image: " + fname);
 
                 // Create asset
@@ -135,6 +136,7 @@ void ImportProjectJob::Build_Image_Asset( const std::string& panel_type,
                         first_asset_loaded = true;
                     }
                 }
+                 */
             }
         }
     }

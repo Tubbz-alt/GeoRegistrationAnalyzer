@@ -21,6 +21,10 @@
 #include <opencv2/core/core.hpp>
 
 
+// Project Libraries
+#include "../../core/Status.hpp"
+
+
 /**
  * @struct GDAL_Raster_Info
  */
@@ -61,7 +65,6 @@ int GDAL_Color_Layers_To_OpenCV_RGB_Conversion( const std::vector<GDALColorInter
  *
  */
 GDAL_Raster_Info  Get_Raster_Information( GDALDataset* dataset,
-                                          bool&        success,
-                                          std::string& error_msg );
+                                          Status&      status  );
 
 #endif

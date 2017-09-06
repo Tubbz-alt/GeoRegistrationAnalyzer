@@ -92,7 +92,7 @@ class Asset_Generator_Local : public Asset_Generator_Base
          * @brief Get Generator Name
          */
         inline virtual std::string Get_Generator_Name()const{
-            return "esri";
+            return "local";
         }
 
 

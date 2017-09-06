@@ -9,16 +9,17 @@
 #---------------------------------#
 set( LIB_GEO_IO_SOURCES
         GDAL_Image_Loader.cpp
-        GDAL_Utilities.cpp
-        OpenCV_Utilities.cpp)
+        OpenCV_Utilities.cpp
+        gdal/GDAL_Utilities.cpp )
 
 #-----------------------------#
 #-     Define our Headers    -#
 #-----------------------------#
 set( LIB_GEO_IO_HEADERS
+        ../io.hpp
         GDAL_Image_Loader.hpp
-        GDAL_Utilities.hpp
-        OpenCV_Utilities.hpp)
+        OpenCV_Utilities.hpp
+        gdal/GDAL_Utilities.hpp )
 
 #------------------------------------#
 #-     Build the Target Library     -#

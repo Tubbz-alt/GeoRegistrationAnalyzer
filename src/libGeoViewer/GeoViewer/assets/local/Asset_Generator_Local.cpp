@@ -11,6 +11,7 @@
 
 // Project Libraries
 #include "Asset_Local_Image.hpp"
+#include "../../log/System_Logger.hpp"
 
 
 /********************************/
@@ -49,6 +50,9 @@ bool Asset_Generator_Local::Is_Valid_Asset_Path( const std::string& asset_path,
 Config_Param Asset_Generator_Local::Load_Asset_Info( const std::string&  pathname,
                                                     Status&             status )
 {
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
     // Create output
     Config_Param output;
 
@@ -65,6 +69,8 @@ Config_Param Asset_Generator_Local::Load_Asset_Info( const std::string&  pathnam
     // Construct a detail string
     output.Add_KV_Pair("asset.details","Path: " + pathname);
 
+    // Log Exit
+    LOG_CLASS_EXIT();
     return output;
 }
 

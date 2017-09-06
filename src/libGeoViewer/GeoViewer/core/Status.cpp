@@ -156,7 +156,7 @@ void Status::operator+=(const Status &status)
 std::string Status::To_Log_String(const int &indent) const
 {
     // Create gap string
-    std::string gap(' ', indent);
+    std::string gap(indent, ' ');
 
     // Create stringstream
     std::stringstream sin;

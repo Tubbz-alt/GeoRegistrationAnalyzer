@@ -23,6 +23,8 @@ std::string StatusReasonToString( const StatusReason& reason )
             return "NOT_REGISTERED";
         case StatusReason::PATH_NOT_FOUND:
             return "PATH_NOT_FOUND";
+        case StatusReason::GDAL_ERROR:
+            return "GDAL_ERROR";
         default:
             return "UNKNOWN";
     }

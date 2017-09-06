@@ -7,6 +7,7 @@
 
 // Project Libraries
 #include "../../log.hpp"
+#include "../../io/GDAL_Image_Loader.hpp"
 
 
 /*********************************/
@@ -74,7 +75,12 @@ void Asset_Local_Image::Load_Asset()
     // Load actual asset
     if( status.Not_Failure() )
     {
-
+        GDAL_Image_Loader::Load_Image( filepath,
+                                       m_image,
+                                       m_corners,
+                                       m_proj_info,
+                                       temp_status );
+        status.Append(temp_status);
     }
 
     // Log Exit

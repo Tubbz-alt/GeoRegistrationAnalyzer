@@ -5,6 +5,9 @@
  */
 #include "GDAL_Image_Loader.hpp"
 
+// C++ Libraries
+#include <cinttypes>
+
 // Boost Libraries
 #include <boost/filesystem.hpp>
 
@@ -17,7 +20,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 // Project Libraries
-#include "GDAL_Utilities.hpp"
+#include "gdal/GDAL_Utilities.hpp"
 #include "OpenCV_Utilities.hpp"
 #include "../assets/local/Asset_Local_Image.hpp"
 #include "../log/System_Logger.hpp"
@@ -38,9 +41,11 @@ GDAL_Image_Loader::GDAL_Image_Loader()
 /************************************/
 /*          Load an Image           */
 /************************************/
-Asset_Local_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathname,
-                                                       bool&              status,
-                                                       std::string&       error_msg)
+void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
+                                    cv::Mat&                        image,
+                                    std::vector<cv::Point3d>&       corners,
+                                    OGRSpatialReference&            proj_info,
+                                    Status&                         status )
 {
     // Log Entry
     const std::string m_class_name = "GDAL_Image_Loader";
@@ -48,163 +53,166 @@ Asset_Local_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
 
 
     // Initialize status
-    status = true;
-    error_msg = "";
-    std::string message;
-    Asset_Local_Base::ptr_t output;
+    status = Status::SUCCESS();
+
+    // GDAL Components
+    GDALDriver *driver;
+    GDALDataset *dataset;
+
+    // Misc Vars
+    std::vector<cv::Mat> image_layers;
+    std::vector<GDALColorInterp> image_colors;
+    int image_rows, image_cols, channels;
+    size_t image_depth, buffer_size;
 
 
     // Make sure path exists
-    if( !bf::exists(bf::path(pathname)))
+    if (!bf::exists(bf::path(pathname)))
     {
-        status = false;
-        error_msg = "Image (" + pathname + ") does not exist.";
+        status.Append(StatusType::FAILURE,
+                      StatusReason::PATH_NOT_FOUND,
+                      "Image (" + pathname + ") does not exist.");
     }
 
-    // Otherwise, process
-    else
+    // Load Dataset
+    if (status.Not_Failure())
     {
-        // GDAL Components
-        GDALDriver*  driver;
-        GDALDataset* dataset;
-
-
         // Open the dataset
-        dataset = (GDALDataset*)GDALOpen(pathname.c_str(), GA_ReadOnly);
+        dataset = (GDALDataset *) GDALOpen(pathname.c_str(), GA_ReadOnly);
 
         // Make sure the dataset is okay
-        if( dataset == nullptr )
+        if (dataset == nullptr)
         {
-            status = false;
-            error_msg = "Unable to open gdal dataset for image (" + pathname + ")";
+            status.Append(StatusType::FAILURE,
+                          StatusReason::UNINITIALIZED,
+                          "Unable to open gdal dataset for image (" + pathname + ")");
         }
+    }
 
-
+    // Check Raster
+    if (status.Not_Failure())
+    {
         // make sure we have pixel data
-        if( status && dataset->GetRasterCount() <= 0 )
+        if (dataset->GetRasterCount() <= 0)
         {
-            status = false;
-            error_msg = "No pixel data inside dataset for image (" + pathname + ")";
+            status.Append(StatusType::FAILURE,
+                          StatusReason::GDAL_ERROR,
+                          "No pixel data inside dataset for image (" + pathname + ")");
         }
+    }
 
-        // Grab the driver
-        if( status )
+    // Check Driver
+    if( status.Not_Failure() )
+    {
+        driver = dataset->GetDriver();
+        if (driver == nullptr)
         {
-            driver = dataset->GetDriver();
-
-            if( driver == nullptr )
-            {
-                status = false;
-                error_msg = "No driver available for image (" + pathname + ")";
-            }
+            status.Append(StatusType::FAILURE,
+                          StatusReason::GDAL_ERROR,
+                          "No driver available for image (" + pathname + ")");
         }
+    }
 
+    // Get Image Information
+    if( status.Not_Failure() )
+    {
         // Get Image Size
-        int image_rows, image_cols, channels;
-        size_t image_depth, buffer_size;
-        cv::Mat image;
-        std::vector<cv::Mat> image_layers;
-        std::vector<GDALColorInterp> image_colors;
+        image_rows = dataset->GetRasterYSize();
+        image_cols = dataset->GetRasterXSize();
+        channels = dataset->GetRasterCount();
+        image_depth = GDAL_Data_Type_To_Bytes(dataset->GetRasterBand(1)->GetRasterDataType());
 
+        // Compute full size
+        buffer_size = image_rows * image_cols * channels * image_depth;
 
-        if( status )
-        {
-            image_rows = dataset->GetRasterYSize();
-            image_cols = dataset->GetRasterXSize();
-            channels = dataset->GetRasterCount();
-            image_depth = GDAL_Data_Type_To_Bytes(dataset->GetRasterBand(1)->GetRasterDataType());
+        LOG_CLASS_TRACE("Creating Image.  Cols: " + std::to_string(image_cols)
+                        + ", Rows: " + std::to_string(image_rows));
 
-            // Compute full size
-            buffer_size = image_rows * image_cols * channels * image_depth;
+        // Allocate Asset Memory
+        image = cv::Mat(image_rows,
+                        image_cols,
+                        CV_8UC4,
+                        cv::Scalar(0, 0, 0, 255));
 
-            std::string m_class_name;
-            message = "Creating Image.  Cols: " + std::to_string(image_cols) + ", Rows: " + std::to_string(image_rows);
-            LOG_CLASS_TRACE(message);
-
-            // Allocate Asset Memory
-            image = cv::Mat(image_rows,
-                            image_cols,
-                            CV_8UC3,
-                            cv::Scalar(0, 0, 0, 255));
-
-            // Allocate temporary working memory
-            image_layers.resize(channels);
-
-        }
+        // Allocate temporary working memory
+        image_layers.resize(channels);
 
         // Process Memory
-        if( status )
+        LOG_CLASS_TRACE("Reading Raster Information");
+
+        char *temp_row = new char[image_rows * image_depth];
+
+        // Iterate over each raster band
+        for (int b = 1; b <= dataset->GetRasterCount(); b++)
         {
-            // Log Start
-            LOG_CLASS_TRACE("Reading Raster Information");
+            // Grab the band
+            GDALRasterBand *band = dataset->GetRasterBand(b);
+            GDALDataType gdal_type = band->GetRasterDataType();
+            GDALColorInterp gdal_color = band->GetColorInterpretation();
+            image_colors.push_back(gdal_color);
 
-            char* temp_row = new char[image_rows * image_depth];
+            // Allocate layer
+            uint64_t offset = 0;
+            int cv_type = GDAL_Data_Type_To_OpenCV_Type(gdal_type);
 
-            // Iterate over each raster band
-            for( int b=1; b<= dataset->GetRasterCount(); b++ )
+            std::stringstream sin;
+            sin << "Loading Band: " << b << ", GDAL Type: " << GDALGetDataTypeName(gdal_type);
+            sin << ", OpenCV Type: " << OpenCV_Depth_Type_To_String(cv_type) << ", GDAL Color: ";
+            sin << GDALGetColorInterpretationName(gdal_color);
+            LOG_CLASS_TRACE(sin.str());
+
+            // Create temp mat for layer
+            image_layers[b - 1] = cv::Mat(cv::Size(image_rows,
+                                                   image_cols),
+                                          cv_type);
+
+            // Iterate over each row
+            for (int r = 0; r < image_rows; r++)
             {
-                // Grab the band
-                GDALRasterBand*  band = dataset->GetRasterBand(b);
-                GDALDataType gdal_type = band->GetRasterDataType();
-                GDALColorInterp gdal_color = band->GetColorInterpretation();
-                image_colors.push_back(gdal_color);
+                // Read the data
+                band->RasterIO(GF_Read, 0, r, image_cols, 1,
+                               image_layers[b - 1].data + offset, image_cols, 1,
+                               gdal_type, 0, 0);
 
-                // Allocate layer
-                uint64_t offset = 0;
-                int cv_type = GDAL_Data_Type_To_OpenCV_Type(gdal_type);
-
-                message  = "Loading Band: " + std::to_string(b) + ", GDAL Type: " + GDALGetDataTypeName(gdal_type);
-                message += ", OpenCV Type: " + OpenCV_Depth_Type_To_String(cv_type) + ", GDAL Color: " + GDALGetColorInterpretationName(gdal_color);
-                LOG_CLASS_TRACE(message);
-
-                image_layers[b-1] = cv::Mat(image_rows,
-                                            image_cols,
-                                            cv_type);
-
-                // Iterate over each row
-                for( int r=0; r<image_rows; r++ )
-                {
-                    // Read the data
-                    band->RasterIO( GF_Read, 0, r, image_cols, 1,
-                                    image_layers[b-1].data + offset, image_cols, 1,
-                                    gdal_type, 0, 0);
-
-                    // Increment offset
-                    offset += image_cols * image_depth;
-                }
-
+                // Increment offset
+                offset += image_cols * image_depth;
             }
 
             // clean up
-            delete [] temp_row;
+            delete[] temp_row;
             temp_row = nullptr;
         }
+    }
 
-        LOG_CLASS_TRACE("Merging Image Layers");
+    if( status.Not_Failure() )
+    {
         // Merge Layers
-        cv::merge( image_layers, image);
+        LOG_CLASS_TRACE("Merging Image Layers");
+        cv::merge(image_layers, image);
 
         // Compute Conversion
         bool skip_conversion;
-        int color_conversion = GDAL_Color_Layers_To_OpenCV_RGB_Conversion( image_colors, skip_conversion );
+        int color_conversion = GDAL_Color_Layers_To_OpenCV_RGB_Conversion(image_colors,
+                                                                          skip_conversion);
 
         // Convert Color
-        if( !skip_conversion ) {
-            cv::cvtColor(image, image, color_conversion);
+        if (!skip_conversion)
+        {
+            cv::cvtColor(image,
+                         image,
+                         color_conversion);
         }
 
         // Get raster info
         LOG_CLASS_TRACE("Getting Raster Information");
-        GDAL_Raster_Info raster_info = Get_Raster_Information(dataset, status, error_msg);
-
+        GDAL_Raster_Info raster_info = Get_Raster_Information(dataset,
+                                                              status);
 
         // Construct Asset
         Config_Param asset_info;
         LOG_CLASS_TRACE("Building Image Asset");
-        //output = std::make_shared<Asset_Local_Image>( asset_info,
-        //                                              image,
-        //                                              raster_info.corners,
-        //                                              raster_info.proj_info );
+        corners   = raster_info.corners;
+        proj_info = raster_info.proj_info;
 
 
         // Close the dataset
@@ -212,10 +220,5 @@ Asset_Local_Base::ptr_t GDAL_Image_Loader::Load_Image( const std::string& pathna
         if( dataset != nullptr ) {
             GDALClose(dataset);
         }
-
     }
-
-
-    // return asset
-    return output;
 }

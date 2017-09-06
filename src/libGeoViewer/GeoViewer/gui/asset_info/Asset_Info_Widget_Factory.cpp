@@ -8,6 +8,7 @@
 // Project Libraries
 #include "../../log/System_Logger.hpp"
 #include "Asset_Info_Widget_ESRI.hpp"
+#include "Asset_Info_Widget_Local.hpp"
 
 /********************************************/
 /*          Create Asset Info Widget        */
@@ -24,23 +25,29 @@ Asset_Info_Widget_Base* Asset_Info_Widget_Factory::Create(const Config_Param& as
     status = Status::SUCCESS();
     Status temp_status = Status::SUCCESS();
 
-    Asset_Info_Widget_Base* output = nullptr;
+    Asset_Info_Widget_Base *output = nullptr;
 
     // Get the Asset Name
     bool match_found;
     std::string asset_name = asset_info.Query_KV_Pair("asset.generator", match_found);
-    if( !match_found )
+    if (!match_found)
     {
-        status.Append( StatusType::FAILURE,
-                       StatusReason::NOT_REGISTERED,
-                       "No Matching asset info found (\"asset.generator\") Found.");
+        status.Append(StatusType::FAILURE,
+                      StatusReason::NOT_REGISTERED,
+                      "No Matching asset info found (\"asset.generator\") Found.");
     }
 
     // Check if ESRI
-    if( status.Not_Failure() && asset_name == "esri" )
+    if (status.Not_Failure() && asset_name == "esri")
     {
-        output = new Asset_Info_Widget_ESRI( asset_info,
-                                             parent );
+        output = new Asset_Info_Widget_ESRI(asset_info,
+                                            parent);
+    }
+
+        // Check if Local
+    else if (status.Not_Failure() && asset_name == "local")
+    {
+        output = new Asset_Info_Widget_Local(asset_info, parent);
     }
 
     // Otherwise, unregistered
