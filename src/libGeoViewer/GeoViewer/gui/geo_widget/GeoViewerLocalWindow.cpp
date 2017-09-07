@@ -10,6 +10,8 @@
 
 
 // Project Libraries
+#include "../../assets/Asset_Manager.hpp"
+#include "../../assets/local/Asset_Local_Base.hpp"
 #include "../../log.hpp"
 
 
@@ -25,13 +27,56 @@ GeoViewerLocalWindow::GeoViewerLocalWindow( const std::string&          base_con
     m_base_config_profile(base_config_profile),
     m_current_timestamp(0)
 {
+    // Build the Render Worker
+    m_render_worker = std::make_shared<LOCAL::RenderWorker>(base_config_profile,
+                                                            sys_config);
 
     // Initialize the Frame
     Initialize_Frame();
 
     // Connect signals and slots
-    connect(this, SIGNAL(Request_Update_Scene()), this, SLOT(Update_Scene()));
+    connect(this, SIGNAL(Request_Update_Scene()),
+            this, SLOT(Update_Scene()));
 
+}
+
+
+/************************************/
+/*          Import new asset        */
+/************************************/
+void GeoViewerLocalWindow::Import_Asset(int asset_id)
+{
+    // Log Entry
+    LOG_CLASS_TRACE("Start of Method. New ID: " + std::to_string(asset_id));
+
+    // Init Status
+    Status status = Status::SUCCESS();
+    Status temp_status;
+
+    // Get the asset
+    Asset_Base::ptr_t asset = Asset_Manager::Query_Asset(asset_id, status );
+
+    if( asset == nullptr || !status.Not_Failure() )
+    {
+        LOG_CLASS_ERROR("Unable to Import Asset. " + status.To_Log_String());
+    }
+
+    // If no errors, then continue
+    if( status.Not_Failure() )
+    {
+        // Cast to Local Type
+        Asset_Local_Base::ptr_t local_asset = std::dynamic_pointer_cast<Asset_Local_Base>(asset);
+
+        // Add asset to the render worker
+        m_render_worker->
+        m_scene_rendering_list.push_back(std::make_shared<LOCAL::Scene_Context>(local_asset));
+
+        // Notify to Update Scene
+        emit Request_Update_Scene();
+    }
+
+    // Log Exit
+    LOG_CLASS_EXIT();
 }
 
 
@@ -53,9 +98,9 @@ void GeoViewerLocalWindow::Update_Scene()
         // Iterate over layers
         for( auto scene_context : m_scene_rendering_list )
         {
-            scene_context.second->Update_Scene(m_current_scene,
-                                               m_current_timestamp,
-                                               temp_status);
+            scene_context->second->Update_Scene(m_current_scene,
+                                                m_current_timestamp,
+                                                temp_status);
             status.Append(temp_status);
         }
     }

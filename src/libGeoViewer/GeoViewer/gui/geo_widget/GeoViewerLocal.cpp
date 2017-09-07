@@ -68,7 +68,8 @@ void GeoViewerLocal::Import_Asset( int asset_id )
     // Log Entry
     LOG_CLASS_ENTRY();
 
-
+    // Push to viewer window
+    m_viewer_window->Import_Asset(asset_id);
 
     // Log Exit
     LOG_CLASS_EXIT();

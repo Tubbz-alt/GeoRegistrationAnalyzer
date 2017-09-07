@@ -9,6 +9,8 @@
 #---------------------------------#
 set( LIB_GEO_GUI_SOURCES
         geo_widget/GeoViewerFactory.cpp
+        geo_widget/local/RenderWorker.cpp
+        geo_widget/local/Scene_Context.cpp
 )
 
 #-----------------------------#
@@ -16,6 +18,8 @@ set( LIB_GEO_GUI_SOURCES
 #-----------------------------#
 set( LIB_GEO_GUI_HEADERS
         geo_widget/GeoViewerFactory.hpp
+        geo_widget/local/RenderWorker.hpp
+        geo_widget/local/Scene_Context.hpp
 )
 
 #------------------------------------#

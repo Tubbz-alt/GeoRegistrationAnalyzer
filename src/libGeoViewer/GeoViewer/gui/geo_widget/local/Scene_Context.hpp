@@ -65,6 +65,8 @@ class Scene_Context
 
 }; // End of Scene_Context Class
 
+
+
 } // End of LOCAL Namespace
 
 

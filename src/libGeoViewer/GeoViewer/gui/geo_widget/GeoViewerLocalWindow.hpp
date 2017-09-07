@@ -6,6 +6,10 @@
 #ifndef GEO_VIEWER_GUI_GEO_VIEWER_LOCAL_WINDOW_HPP
 #define GEO_VIEWER_GUI_GEO_VIEWER_LOCAL_WINDOW_HPP
 
+// C++ Libraries
+#include <deque>
+
+
 // Qt Libraries
 #include <QFrame>
 #include <QPainter>
@@ -17,6 +21,7 @@
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
+#include "local/RenderWorker.hpp"
 #include "local/Scene_Context.hpp"
 
 
@@ -44,6 +49,14 @@ class GeoViewerLocalWindow : public QFrame
                               System_Configuration::ptr_t sys_config,
                               QWidget*                    parent = nullptr );
 
+
+    public slots:
+
+        /**
+         * @brief Import new asset by its ID
+         * @param asset_id
+         */
+        void Import_Asset( int asset_id );
 
     protected slots:
 
@@ -77,8 +90,8 @@ class GeoViewerLocalWindow : public QFrame
         /// Base Config Profile
         std::string m_base_config_profile;
 
-        /// Scene List
-        std::map<int, LOCAL::Scene_Context::ptr_t> m_scene_rendering_list;
+        /// Render Worker
+        LOCAL::RenderWorker::ptr_t  m_render_worker;
 
         /// Frame-Number
         double m_current_timestamp;
