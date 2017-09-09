@@ -225,34 +225,44 @@ void GeoViewerLocalWindow::paintEvent(QPaintEvent *event)
 /************************************/
 void GeoViewerLocalWindow::resizeEvent(QResizeEvent *event)
 {
-    int width_multiple = 8;
-    int height_multiple = 2;
-
-    // Force the width of this window to be a multiple of 8
-    // pixels.  This improves graphics efficiency, and makes
-    // the drawing actually work across a remote X display.
-
-    int allowed_width = width_multiple*(width()/width_multiple);
-    int allowed_height = height_multiple*(height()/height_multiple);
-
-    if((allowed_height != m_current_scene->Get_Draw_Size().height) ||
-        (allowed_width != m_current_scene->Get_Draw_Size().width))
+    // Skip and log error if no scene
+    if( m_current_scene != nullptr )
     {
-        // Create a new drawing rectangle
-        cv::Size new_size(allowed_width, allowed_height);
-        m_current_scene->Set_Draw_Size(new_size);
+        int width_multiple = 8;
+        int height_multiple = 2;
 
-        // Notify viewer that image bounds have changed
-        Bounds_Changed();
+        // Force the width of this window to be a multiple of 8
+        // pixels.  This improves graphics efficiency, and makes
+        // the drawing actually work across a remote X display.
 
-        // defer the actual redraw until we've settled down a little
-        //m_redraw_timer.start(300);
-        //m_redraw_timer.setSingleShot(true);
-        QWidget::resizeEvent(event); // pass the resize event up to the parent
+        int allowed_width = width_multiple * (width() / width_multiple);
+        int allowed_height = height_multiple * (height() / height_multiple);
 
-        //m_initialized = true;
+        if ((allowed_height != m_current_scene->Get_Draw_Size().height) ||
+            (allowed_width != m_current_scene->Get_Draw_Size().width))
+        {
+            // Create a new drawing rectangle
+            cv::Size new_size(allowed_width, allowed_height);
+            m_current_scene->Set_Draw_Size(new_size);
 
+            // Notify viewer that image bounds have changed
+            Bounds_Changed();
+
+            // defer the actual redraw until we've settled down a little
+            //m_redraw_timer.start(300);
+            //m_redraw_timer.setSingleShot(true);
+
+
+            //m_initialized = true;
+
+        }
     }
+    else
+    {
+        LOG_CLASS_DEBUG("Skipping Resize as no scene available.");
+    }
+
+    QWidget::resizeEvent(event); // pass the resize event up to the parent
 }
 
 
