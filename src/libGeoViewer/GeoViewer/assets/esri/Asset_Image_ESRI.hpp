@@ -7,6 +7,9 @@
 #define GEO_VIEWER_CORE_ASSETS_ASSET_IMAGE_ESRI_HPP
 
 
+// Skip if ArcGIS SDK Disabled
+#ifdef USE_ArcGIS_SDK
+
 // C++ Libraries
 #include <memory>
 #include <string>
@@ -79,5 +82,8 @@ class Asset_Image_ESRI : public Asset_Base
         Esri::ArcGISRuntime::Raster* m_raster;
 
 }; // End of Asset_Image_ESRI Class
+
+
+#endif // End of USE_ArcGIS_SDK
 
 #endif

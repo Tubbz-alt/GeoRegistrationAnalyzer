@@ -7,6 +7,9 @@
 #define GEO_VIEWER_CORE_ASSETS_ASSET_GENERATOR_ESRI_HPP
 
 
+ // Skip if ArcGIS SDK Disabled
+#ifdef USE_ArcGIS_SDK
+
 // C++ Libraries
 #include <memory>
 #include <string>
@@ -102,5 +105,8 @@ class Asset_Generator_ESRI : public Asset_Generator_Base
         std::string m_class_name;
 
 }; // End of Asset_Generator_ESRI Class
+
+#endif // End of USE_ArcGIS_SDK
+
 
 #endif

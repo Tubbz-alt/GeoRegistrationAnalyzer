@@ -15,6 +15,7 @@
 
 // Project Libraries
 #include "Log_Handler_Base.hpp"
+#include "Log_Severity.hpp"
 #include "../core/System_Configuration.hpp"
 
 

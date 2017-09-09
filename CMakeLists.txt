@@ -42,11 +42,29 @@ if(NOT WIN32)
 endif()
 
 
+#------------------------------------#
+#-    Define some project options	-#
+#------------------------------------#
+option( SKIP_UNIT_TESTS "Skip building and running unit tests." OFF )
+option( USE_ArcGIS_SDK "Use the ArcGIS Qt SDK and Enable Support" ON )
+if(USE_ArcGIS_SDK)
+	message("Using the ArcGIS Qt SDK")
+	add_definitions(-DUSE_ArcGIS_SDK)
+endif()
+
+
 #-------------------------------------#
 #-     Add Manual CMake Scripts      -#
 #-------------------------------------#
 LIST( APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
+
+#-------------------------------------#
+#-    Add Global OS-Specific Stuff   -#
+#-------------------------------------#
+if( WIN32 )
+	add_definitions(-DNOGDI)
+endif()
 
 #-------------------------------------#
 #-    Add ThirdParty Dependencies    -#

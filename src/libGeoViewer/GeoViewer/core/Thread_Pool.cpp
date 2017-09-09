@@ -8,7 +8,7 @@
 
 // C++ Standard Libraries
 #include <iostream>
-#include <unistd.h>
+//#include <unistd.h>
 
 
 
@@ -75,7 +75,7 @@ Thread_Pool::~Thread_Pool(){
 /**************************************/
 /*      Get Remaining Work Jobs       */
 /**************************************/
-int Thread_Pool::Get_Remaining_Work()
+uint64_t Thread_Pool::Get_Remaining_Work()
 {
     return m_queue.Size();
 }
@@ -187,7 +187,7 @@ void Thread_Pool::Wait_Until_Pool_Empty( bool& status )
 }
 
 
-#include <sched.h>
+//#include <sched.h>
 
 /***********************************************/
 /*              Execute the Thread             */
@@ -265,7 +265,7 @@ void Thread_Pool::Assign_Work( Worker_Thread::ptr_t new_thread )
 /********************************************/
 /*      Get the list of running threads     */
 /********************************************/
-int Thread_Pool::Get_Current_Running_Threads()
+uint64_t Thread_Pool::Get_Current_Running_Threads()
 {
     return m_threads.size();
 }

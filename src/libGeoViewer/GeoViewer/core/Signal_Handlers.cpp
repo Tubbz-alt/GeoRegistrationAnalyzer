@@ -5,9 +5,15 @@
  */
 #include "Signal_Handlers.hpp"
 
+#include <iostream>
+
+
+/************************************/
+/*             UNIX ONLY!           */
+/************************************/
+#ifndef _WINDOWS
 
 #include <execinfo.h>
-#include <iostream>
 
 
 /***********************************************/
@@ -35,3 +41,13 @@ void Stack_Trace_Signal_Handler( int sig )//, const char* app_name )
 
     exit(0);
 }
+
+#else
+
+void Stack_Trace_Signal_Handler(int sig)//, const char* app_name )
+{
+	std::cout << "NOT IMPLMENETED IN WINDOWS YET" << std::endl;
+	exit(0);
+}
+
+#endif

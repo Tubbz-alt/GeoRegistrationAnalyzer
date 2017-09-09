@@ -6,6 +6,9 @@
 #include "Asset_Generator_ESRI.hpp"
 
 
+ // Skip if ArcGIS SDK Disabled
+#ifdef USE_ArcGIS_SDK
+
 // Boost Libraries
 #include <boost/filesystem.hpp>
 
@@ -81,3 +84,5 @@ Asset_Base::ptr_t Asset_Generator_ESRI::Load_Asset( const Config_Param& asset_in
     // Return asset
     return new_asset;
 }
+
+#endif // End of USE_ArcGIS_SDK

@@ -57,7 +57,9 @@ void GeoViewerGoogle::Import_Asset( int asset_id )
     LOG_CLASS_ENTRY();
 
     // Log Not Supported
-    LOG_CLASS_ERROR("Not Supported Yet.");
+    //LOG_CLASS_ERROR("Not Supported Yet.");
+    System_Logger::Log_Class( ::LogSeverity::ERROR, m_class_name, __FILE__, __func__, __LINE__, "Not Supported Yet.");
+	
     throw std::runtime_error("Not Supported Yet");
 }
 

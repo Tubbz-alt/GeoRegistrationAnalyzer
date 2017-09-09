@@ -56,7 +56,7 @@ class RenderWorker : public QObject
          * @brief Get the number of scene
          * @return
          */
-        inline int Get_Scene_Count()const{
+        inline uint64_t Get_Scene_Count()const{
             return m_scene_render_list.size();
         }
 

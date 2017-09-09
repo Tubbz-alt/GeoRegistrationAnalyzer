@@ -6,6 +6,9 @@
 #include "GeoViewerEsri.hpp"
 
 
+ // Skip if ArcGIS SDK Disabled
+#ifdef USE_ArcGIS_SDK
+
 // Qt Libraries
 #include <QVBoxLayout>
 
@@ -153,3 +156,4 @@ void GeoViewerEsri::Update_Configuration()
 
 }
 
+#endif // End of USE_ArcGIS_SDK

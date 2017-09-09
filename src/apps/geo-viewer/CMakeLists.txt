@@ -61,16 +61,16 @@ include_directories(${Qt5Widgets_INCLUDE_DIRS})
 #----------------------------------#
 #-      Configure ArcGIS SDK      -#
 #----------------------------------#
-find_package( ArcGIS_SDK REQUIRED )
+#find_package( ArcGIS_SDK REQUIRED )
 
-if( ARCGIS_SDK_FOUND )
-    message("ArcGIS SDK Found")
-    message("  - Includes: ${ARCGIS_SDK_INCLUDES}")
-    message("  - Libraries: ${ARCGIS_SDK_LIBRARIES}")
-else()
-    message( FATAL_ERROR "Could Not Find ArcGIS SDK")
-endif()
-include_directories(${ARCGIS_SDK_INCLUDES})
+#if( ARCGIS_SDK_FOUND )
+#    message("ArcGIS SDK Found")
+#    message("  - Includes: ${ARCGIS_SDK_INCLUDES}")
+#    message("  - Libraries: ${ARCGIS_SDK_LIBRARIES}")
+#else()
+#    message( FATAL_ERROR "Could Not Find ArcGIS SDK")
+#endif()
+#include_directories(${ARCGIS_SDK_INCLUDES})
 
 
 #------------------------------------------#

@@ -23,8 +23,21 @@ SET( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../../bin )
 SET( LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../../lib )
 
 
-#  Set FPIC
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
+#  Create Optional Library List
+set( EXTRA_LIBRARIES "" )
+
+
+#-----------------------------------#
+#-     Add OS-Specific Features    -#
+#-----------------------------------#
+if(UNIX)
+	set( EXTRA_LIBRARIES
+			${EXTRA_LIBRARIES}
+			"pthread")
+
+	#  Set FPIC
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
+endif()
 
 
 #-----------------------------#
@@ -60,17 +73,22 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 #----------------------------------#
 #-      Configure ArcGIS SDK      -#
 #----------------------------------#
-find_package( ArcGIS_SDK REQUIRED )
+if( USE_ArcGIS_SDK )
+    find_package( ArcGIS_SDK REQUIRED )
 
-if( ARCGIS_SDK_FOUND )
-    message("ArcGIS SDK Found")
-    message("  - Includes: ${ARCGIS_SDK_INCLUDES}")
-    message("  - Libraries: ${ARCGIS_SDK_LIBRARIES}")
-else()
-    message( FATAL_ERROR "Could Not Find ArcGIS SDK")
+    if( ARCGIS_SDK_FOUND )
+        message("ArcGIS SDK Found")
+        message("  - Includes: ${ARCGIS_SDK_INCLUDES}")
+	    message("  - Libraries: ${ARCGIS_SDK_LIBRARIES}")
+	else()
+	    message( FATAL_ERROR "Could Not Find ArcGIS SDK")
+	endif()
+	include_directories(${ARCGIS_SDK_INCLUDES})
+
+	set( EXTRA_LIBRARIES 
+	          ${EXTRA_LIBRARIES}
+			  "${ARCGIS_SDK_LIBRARIES}")
 endif()
-include_directories(${ARCGIS_SDK_INCLUDES})
-
 
 #---------------------------#
 #-      Configure Qt5      -#
@@ -138,8 +156,7 @@ add_library( GeoViewer SHARED
 
 
 target_link_libraries( GeoViewer
-                       pthread
-                       ${ARCGIS_SDK_LIBRARIES}
+                       ${EXTRA_LIBRARIES}
                        ${Boost_LIBRARIES}
                        ${GDAL_LIBRARY}
                        ${OpenCV_LIBS}
@@ -154,20 +171,22 @@ target_link_libraries( GeoViewer
 #-------------------------------#
 #-      Build Unit-Tests      --#
 #-------------------------------#
-include_directories("${PROJECT_SOURCE_DIR}/../../thirdparty/googletest/googletest/include")
-include_directories(.)
+if( NOT SKIP_UNIT_TESTS )	
+	include_directories("${PROJECT_SOURCE_DIR}/../../thirdparty/googletest/googletest/include")
+	include_directories(.)
 
-#  Add Unit-Test Code
-add_subdirectory(unit-tests)
+	#  Add Unit-Test Code
+	add_subdirectory(unit-tests)
 
-#--------------------------------------#
-#-      Build Unit-Test Executable    -#
-#--------------------------------------#
-add_executable(lib-geo-viewer-unit-tests
-                  unit-tests/lib-geo-viewer-unit-tests.cpp
-                  $<TARGET_OBJECTS:LIB_GEO_CORE_TEST_OBJ> )
+	#--------------------------------------#
+	#-      Build Unit-Test Executable    -#
+	#--------------------------------------#
+	add_executable(lib-geo-viewer-unit-tests
+		              unit-tests/lib-geo-viewer-unit-tests.cpp
+			          $<TARGET_OBJECTS:LIB_GEO_CORE_TEST_OBJ> )
 
-target_link_libraries(lib-geo-viewer-unit-tests
-                        GeoViewer
-                        GeoImage
-                        ${CMAKE_BINARY_DIR}/thirdparty/googletest/googlemock/libgmock.a )
+	target_link_libraries(lib-geo-viewer-unit-tests
+		                    GeoViewer
+			                GeoImage
+				            ${CMAKE_BINARY_DIR}/thirdparty/googletest/googlemock/libgmock.a )
+endif()

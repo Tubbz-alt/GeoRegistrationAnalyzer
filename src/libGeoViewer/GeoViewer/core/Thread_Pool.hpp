@@ -13,7 +13,6 @@
 #include <memory>
 #include <mutex>
 #include <thread>
-#include <semaphore.h>
 #include <string>
 #include <vector>
 
@@ -150,7 +149,7 @@ class Thread_Pool{
          *
          * @return Number of running work threads.
          */
-        int Get_Remaining_Work();
+		uint64_t Get_Remaining_Work();
         
         /**
          * @brief Check if still running
@@ -165,7 +164,7 @@ class Thread_Pool{
          *
          * @return max number of threads.
          */
-        inline int Get_Max_Queue_Size()const{
+        inline uint64_t Get_Max_Queue_Size()const{
             return m_threads.size();
         }
 
@@ -182,7 +181,7 @@ class Thread_Pool{
          *
          * @param[out] number of threads currently running
          */
-        int Get_Current_Running_Threads() ;
+		uint64_t Get_Current_Running_Threads() ;
 
 
         /**

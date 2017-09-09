@@ -28,11 +28,13 @@ GeoViewerBase*  GeoViewerFactory::Create( const std::string&          base_confi
     }
 
     // Construct the Esri Viewer
+	#ifdef USE_ArcGIS_SDK
     else if( window_name == "esri" )
     {
         widget = new GeoViewerEsri(base_config_profile,
                                    sys_config);
     }
+	#endif
 
     // Construct the Local Viewer
     else if( window_name == "local" )

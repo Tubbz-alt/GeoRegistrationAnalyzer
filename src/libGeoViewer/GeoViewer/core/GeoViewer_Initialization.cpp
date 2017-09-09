@@ -27,9 +27,12 @@ void GEOVIEWER_INITIALIZE( Status& status )
     // Add Each Generator
     if( status.Not_Failure() )
     {
+		// Build only if using the ArcGIS SDK
+		#ifdef USE_ArcGIS_SDK
         auto esri_config = std::make_shared<Asset_Generator_Config_ESRI>();
         auto esri_generator = std::make_shared<Asset_Generator_ESRI>( esri_config );
         Asset_Loader::Register_Asset_Generator(esri_generator);
+		#endif // End of USE_ArcGIS_SDK
 
         auto local_config = std::make_shared<Asset_Generator_Config_Local>();
         auto local_generator = std::make_shared<Asset_Generator_Local>( local_config );

@@ -21,14 +21,27 @@ SET( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../../bin )
 SET( LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../../lib )
 
 
-#  Set FPIC
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
+#  Create Optional Library List
+set( EXTRA_LIBRARIES "" )
 
+
+#-----------------------------------#
+#-     Add OS-Specific Features    -#
+#-----------------------------------#
+if(UNIX)
+	set( EXTRA_LIBRARIES
+			${EXTRA_LIBRARIES}
+			"pthread")
+
+	#  Set FPIC
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" )
+endif()
 
 #-----------------------------#
 #-      Configure Boost      -#
 #-----------------------------#
 message("Boost Root: ${BOOST_ROOT}")
+set( Boost_USE_STATIC_LIBS OFF )
 find_package( Boost
         COMPONENTS
         filesystem
@@ -89,7 +102,7 @@ add_library( GeoImage SHARED
 
 
 target_link_libraries( GeoImage
-        pthread
+        ${EXTRA_LIBRARIES}
         ${Boost_LIBRARIES}
         ${GDAL_LIBRARY}
         ${OpenCV_LIBS}
@@ -99,19 +112,21 @@ target_link_libraries( GeoImage
 #-------------------------------#
 #-      Build Unit-Tests      --#
 #-------------------------------#
-include_directories("${PROJECT_SOURCE_DIR}/../../thirdparty/googletest/googletest/include")
-include_directories(.)
+if( NOT SKIP_UNIT_TESTS )
+	include_directories("${PROJECT_SOURCE_DIR}/../../thirdparty/googletest/googletest/include")
+	include_directories(.)
 
-#  Add Unit-Test Code
-add_subdirectory(unit-tests)
+	#  Add Unit-Test Code
+	add_subdirectory(unit-tests)
 
-#--------------------------------------#
-#-      Build Unit-Test Executable    -#
-#--------------------------------------#
-add_executable(lib-geo-image-unit-tests
-        unit-tests/lib-geo-image-unit-tests.cpp
-        $<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_TEST_OBJ> )
+	#--------------------------------------#
+	#-      Build Unit-Test Executable    -#
+	#--------------------------------------#
+	add_executable(lib-geo-image-unit-tests
+		    unit-tests/lib-geo-image-unit-tests.cpp
+			$<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_TEST_OBJ> )
 
-target_link_libraries(lib-geo-image-unit-tests
-        GeoImage
-        ${CMAKE_BINARY_DIR}/thirdparty/googletest/googlemock/libgmock.a )
+	target_link_libraries(lib-geo-image-unit-tests
+		    GeoImage
+			${CMAKE_BINARY_DIR}/thirdparty/googletest/googlemock/libgmock.a )
+endif()

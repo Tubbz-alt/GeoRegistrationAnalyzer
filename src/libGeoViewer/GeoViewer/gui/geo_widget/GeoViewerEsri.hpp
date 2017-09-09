@@ -6,6 +6,8 @@
 #ifndef GEOVIEWER_GEOVIEWER_ESRI_HPP
 #define GEOVIEWER_GEOVIEWER_ESRI_HPP
 
+ // Skip if ArcGIS SDK Disabled
+#ifdef USE_ArcGIS_SDK
 
 // Qt Libraries
 #include <QWidget>
@@ -87,5 +89,7 @@ class GeoViewerEsri : public GeoViewerBase
         std::map<int, Esri::ArcGISRuntime::RasterLayer*> m_raster_layer;
 
 };
+
+#endif // End of #ifdef USE_ArcGIS_SDK
 
 #endif

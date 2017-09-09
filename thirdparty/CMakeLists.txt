@@ -6,4 +6,6 @@
 #-----------------------------------#
 #-      Link against GoogleTest    -#
 #-----------------------------------#
-add_subdirectory(googletest)
+if( NOT SKIP_UNIT_TESTS )
+	add_subdirectory(googletest)
+endif()

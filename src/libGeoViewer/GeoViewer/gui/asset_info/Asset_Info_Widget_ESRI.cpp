@@ -50,7 +50,7 @@ Asset_Info_Widget_ESRI::~Asset_Info_Widget_ESRI()
 void Asset_Info_Widget_ESRI::Update_Table_Data()
 {
     // Resize the number of rows
-    m_info_table->setRowCount(m_asset_info_list.size());
+    m_info_table->setRowCount((int)m_asset_info_list.size());
 
     // Build Table
     int counter = 0;
@@ -73,7 +73,6 @@ void Asset_Info_Widget_ESRI::Initialize_GUI()
     // Misc Args
     m_valid_asset = false;
     m_asset_status = "No Data Given";
-    bool value_found;
 
     // Get all entries for asset
     auto conf_list = m_asset_info.Get_Config_List();

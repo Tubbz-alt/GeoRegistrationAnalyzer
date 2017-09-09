@@ -5,6 +5,9 @@
  */
 #include "Asset_Image_ESRI.hpp"
 
+ // Skip if ArcGIS SDK Disabled
+#ifdef USE_ArcGIS_SDK
+
 // C++ Libraries
 #include <sstream>
 
@@ -74,3 +77,6 @@ std::string Asset_Image_ESRI::To_Log_String(const int &offset) const
 
     return sin.str();
 }
+
+
+#endif // End of USE_ArcGIS_SDK

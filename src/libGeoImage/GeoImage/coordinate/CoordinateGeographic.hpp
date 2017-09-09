@@ -7,6 +7,12 @@
 #define GEOIMAGE_COORDINATE_COORDINATE_GEOGRAPHIC_HPP
 
 
+// Windows Garbage
+#ifdef _WINDOWS
+#define _USE_MATH_DEFINES
+#include <math.h>
+#endif
+
 // C++ Libraries
 #include <cmath>
 #include <memory>
