@@ -83,13 +83,39 @@ class Asset_Local_Image : public Asset_Local_Base
          * @param[in]  current_timestamp
          * @param[out] status
          */
-        virtual void Render_Layer( QPainter&                  painter,
-                                   GEO::SceneViewBase::ptr_t  scene_view,
-                                   const double&              current_timestamp,
-                                   Status&                    status );
+        virtual void Render_Layer( QPainter&             painter,
+                                   SceneViewBase::ptr_t  scene_view,
+                                   const double&         current_timestamp,
+                                   Status&               status );
+
+
+        /**
+         * @brief Load the asset's scene information
+         *
+         * @param[in] default_projection
+         * @param[in] status
+         */
+        virtual SceneViewBase::ptr_t  Create_Scene_View( const OGRSpatialReference&  default_projection,
+                                                         Status&                     status )const override;
+
+
+        /**
+         * @brief Get the Image Center
+         * @return
+         */
+        virtual GEO::CoordinateBase::ptr_t Get_Image_Center_Coordinate( Status& status )const;
 
 
     private:
+
+
+        /**
+         *
+         * @param status
+         * @return
+         */
+        double Compute_Initial_GSD( Status& status )const;
+
 
         /// Class Name
         std::string m_class_name;

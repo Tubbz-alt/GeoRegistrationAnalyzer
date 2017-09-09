@@ -13,14 +13,13 @@
 // Qt Libraries
 #include <QFrame>
 #include <QPainter>
-
-
-// GeoImage Libraries
-#include <GeoImage/geometry/SceneViewUTM.hpp>
+#include <QThread>
+#include <QTimer>
 
 
 // Project Libraries
 #include "../../core/System_Configuration.hpp"
+#include "../../geometry/SceneViewUTM.hpp"
 #include "local/RenderWorker.hpp"
 #include "local/Scene_Context.hpp"
 
@@ -50,6 +49,18 @@ class GeoViewerLocalWindow : public QFrame
                               QWidget*                    parent = nullptr );
 
 
+        /**
+         * @brief Destructor
+         */
+        virtual ~GeoViewerLocalWindow();
+
+
+        /**
+         * @brief Set the Scene View Target
+         */
+        //void Set_Scene_Target();
+
+
     public slots:
 
         /**
@@ -58,12 +69,6 @@ class GeoViewerLocalWindow : public QFrame
          */
         void Import_Asset( int asset_id );
 
-    protected slots:
-
-        /**
-         * @brief Render the scene
-         */
-        void Update_Scene();
 
     protected:
 
@@ -73,7 +78,39 @@ class GeoViewerLocalWindow : public QFrame
          */
         void paintEvent( QPaintEvent* event );
 
+
+        /**
+         * @brief Resize Window Event
+         * @param event
+         */
+        void resizeEvent( QResizeEvent* event );
+
+    protected slots:
+
+        /**
+         * @brief Trigger to notify ui that scene has finished building
+         *
+         * Triggers a paint.
+         * @param success
+         */
+        void Update_Scene_Completed( bool success );
+
     private:
+
+
+        /**
+         * @brief Window Bounds have Changed
+         */
+        void Bounds_Changed();
+
+
+        /**
+         * @brief Get the default projection from the config
+         *
+         * @return
+         */
+        OGRSpatialReference Get_Default_Projection();
+
 
         /**
          * @brief Configure Window
@@ -93,11 +130,23 @@ class GeoViewerLocalWindow : public QFrame
         /// Render Worker
         LOCAL::RenderWorker::ptr_t  m_render_worker;
 
+        /// Rendering Thread
+        QThread m_render_thread;
+
         /// Frame-Number
         double m_current_timestamp;
 
         /// Current Scene View
-        GEO::SceneViewBase::ptr_t m_current_scene;
+        SceneViewBase::ptr_t m_current_scene;
+
+        /// Painting Mutex Lock
+        QMutex m_paint_mutex;
+
+        /// Current Projection (WKT)
+        std::string m_current_projection;
+
+        /// Projection Loaded
+        bool m_projection_loaded;
 
 };
 

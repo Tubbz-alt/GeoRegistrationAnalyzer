@@ -25,6 +25,10 @@ std::string StatusReasonToString( const StatusReason& reason )
             return "PATH_NOT_FOUND";
         case StatusReason::GDAL_ERROR:
             return "GDAL_ERROR";
+        case StatusReason ::UNKNOWN_PROJECTION:
+            return "UNKNOWN_PROJECTION";
+        case StatusReason::NO_GEO_INFORMATION:
+            return "NO_GEO_INFORMATION";
         default:
             return "UNKNOWN";
     }

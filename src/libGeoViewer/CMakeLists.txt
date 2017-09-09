@@ -127,6 +127,7 @@ add_library( GeoViewer SHARED
                 $<TARGET_OBJECTS:LIB_GEO_ASSETS_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_COMM_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_CORE_OBJ>
+                $<TARGET_OBJECTS:LIB_GEO_GEOM_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_GUI_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_IO_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_LOG_OBJ>
@@ -168,4 +169,5 @@ add_executable(lib-geo-viewer-unit-tests
 
 target_link_libraries(lib-geo-viewer-unit-tests
                         GeoViewer
+                        GeoImage
                         ${CMAKE_BINARY_DIR}/thirdparty/googletest/googlemock/libgmock.a )

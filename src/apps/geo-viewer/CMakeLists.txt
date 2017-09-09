@@ -103,6 +103,7 @@ add_executable( geo-viewer
 #   Link the libraries
 target_link_libraries( geo-viewer
                        GeoViewer
+                       GeoImage
                        Qt5::WebEngine
                        Qt5::WebEngineWidgets
                        Qt5::WebSockets

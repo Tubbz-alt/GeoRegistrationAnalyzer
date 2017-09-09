@@ -11,12 +11,6 @@ add_subdirectory(coordinate)
 
 
 #------------------------------------#
-#-       Add Geometry Library       -#
-#------------------------------------#
-add_subdirectory(geometry)
-
-
-#------------------------------------#
 #-        Add Image Library         -#
 #------------------------------------#
 add_subdirectory(image)

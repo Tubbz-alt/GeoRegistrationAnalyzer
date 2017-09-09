@@ -5,8 +5,6 @@
  */
 #include "SceneViewBase.hpp"
 
-namespace GEO {
-
 /********************************/
 /*          Constructor         */
 /********************************/
@@ -16,4 +14,12 @@ SceneViewBase::SceneViewBase()
 }
 
 
-} // End of GEO Namespace
+/********************************/
+/*          Constructor         */
+/********************************/
+SceneViewBase::SceneViewBase( const OGRSpatialReference& projection )
+ :  m_projection(projection),
+    m_class_name("SceneViewBase")
+{
+}
+

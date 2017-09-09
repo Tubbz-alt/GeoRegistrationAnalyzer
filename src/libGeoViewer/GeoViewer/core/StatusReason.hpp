@@ -25,6 +25,8 @@ enum class StatusReason : int16_t
         NOT_REGISTERED      = 4 /**< No Matching Objects Registered.*/,
         PATH_NOT_FOUND      = 5 /**< No path found on system.*/,
         GDAL_ERROR          = 6 /**< Error with GDAL Processing.*/,
+        UNKNOWN_PROJECTION  = 7 /**< Unknown or unsupported projection type.*/,
+        NO_GEO_INFORMATION  = 8 /**< Missing Geo-Information*/,
 };
 
 

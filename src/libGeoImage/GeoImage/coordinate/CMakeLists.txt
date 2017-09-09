@@ -10,6 +10,7 @@
 #---------------------------------#
 set( LIB_GEO_IMAGE_COORD_SOURCES
         CoordinateBase.cpp
+        CoordinateFactory.cpp
         CoordinateGeographic.cpp
         CoordinateProjectedBase.cpp
         CoordinateUTM.cpp)
@@ -19,6 +20,7 @@ set( LIB_GEO_IMAGE_COORD_SOURCES
 #-----------------------------#
 set( LIB_GEO_IMAGE_COORD_HEADERS
         CoordinateBase.hpp
+        CoordinateFactory.hpp
         CoordinateGeographic.hpp
         CoordinateProjectedBase.hpp
         CoordinateUTM.hpp)

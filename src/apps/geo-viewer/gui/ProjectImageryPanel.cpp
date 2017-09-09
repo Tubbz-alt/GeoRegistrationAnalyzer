@@ -80,4 +80,10 @@ void ProjectImageryPanel::Initialize_Configuration()
                                    "Viewer",
                                    "# Name of viewer for external identification.",
                                    false );
+
+    // Set the Default Projection
+    m_sys_config->Add_Config_Param("system.imagery.projection",
+                                   "EPSG:32613",
+                                   "# Default Projection for Viewer",
+                                   false );
 }

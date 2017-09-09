@@ -105,6 +105,7 @@ add_executable( geo-registration-analyzer
 #   Link the libraries
 target_link_libraries( geo-registration-analyzer
         GeoViewer
+        GeoImage
         Qt5::WebEngine
         Qt5::WebEngineWidgets
         Qt5::WebSockets

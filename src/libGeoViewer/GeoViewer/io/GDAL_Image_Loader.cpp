@@ -54,6 +54,7 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
 
     // Initialize status
     status = Status::SUCCESS();
+    Status temp_status = Status::SUCCESS();
 
     // GDAL Components
     GDALDriver *driver;
@@ -206,19 +207,20 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
         // Get raster info
         LOG_CLASS_TRACE("Getting Raster Information");
         GDAL_Raster_Info raster_info = Get_Raster_Information(dataset,
-                                                              status);
+                                                              temp_status);
+        status.Append(temp_status);
+
 
         // Construct Asset
         Config_Param asset_info;
         LOG_CLASS_TRACE("Building Image Asset");
-        corners   = raster_info.corners;
+        corners = raster_info.corners;
         proj_info = raster_info.proj_info;
+    }
 
-
-        // Close the dataset
-        LOG_CLASS_TRACE("Closing Dataset");
-        if( dataset != nullptr ) {
-            GDALClose(dataset);
-        }
+    // Close the dataset
+    LOG_CLASS_TRACE("Closing Dataset");
+    if( dataset != nullptr ) {
+        GDALClose(dataset);
     }
 }

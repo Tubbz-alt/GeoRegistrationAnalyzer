@@ -19,6 +19,18 @@ std::string OpenCV_Depth_Type_To_String( const int& cv_type )
             return "CV_8UC2";
         case CV_8UC3:
             return "CV_8UC3";
+        case CV_16UC1:
+            return "CV_16UC1";
+        case CV_16UC2:
+            return "CV_16UC2";
+        case CV_16UC3:
+            return "CV_16UC3";
+        case CV_16SC1:
+            return "CV_16SC1";
+        case CV_16SC2:
+            return "CV_16SC2";
+        case CV_16SC3:
+            return "CV_16SC3";
         default:
             return "UNKNOWN (value: " + std::to_string(cv_type) + ")";
     }

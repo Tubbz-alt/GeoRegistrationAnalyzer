@@ -84,6 +84,9 @@ Asset_Base::ptr_t Asset_Generator_Local::Load_Asset( const Config_Param& asset_i
     // Create Asset
     Asset_Local_Image::ptr_t new_asset = std::make_shared<Asset_Local_Image>(asset_info);
 
+    // Load data
+    new_asset->Load_Asset();
+
     // Return asset
     return new_asset;
 }

@@ -11,6 +11,8 @@
 
 // GeoViewer Libraries
 #include "../../../assets/local.hpp"
+#include "../../../core/System_Configuration.hpp"
+
 
 // C++ Libraries
 #include <memory>
@@ -32,16 +34,16 @@ class Scene_Context
         /**
          * @brief Constructor
          */
-        Scene_Context( Asset_Local_Base::ptr_t asset );
+        Scene_Context( const std::string&           base_config_profile,
+                       System_Configuration::ptr_t  sys_config,
+                       Asset_Local_Base::ptr_t      asset );
 
 
         /**
          * @brief Render Layer to Painter
          */
-        virtual void Render_Layer( QPainter&                  painter,
-                                   GEO::SceneViewBase::ptr_t  scene_view,
-                                   const double&              current_timestamp,
-                                   Status&                    status );
+        virtual void Paint_Scene( QPainter&                  painter,
+                                  Status&                    status );
 
         
         /**
@@ -51,14 +53,20 @@ class Scene_Context
          * @param current_timestamp 
          * @param status 
          */
-        virtual void Update_Scene( GEO::SceneViewBase::ptr_t  scene_view,
-                                   const double&              current_timestamp,
-                                   Status&                    status );
+        virtual void Update_Scene( SceneViewBase::ptr_t  scene_view,
+                                   const double&         current_timestamp,
+                                   Status&               status );
 
     private:
 
         /// Class Name
         std::string m_class_name;
+
+        /// Base Config Profile
+        std::string m_base_config_profile;
+
+        /// System Configuration
+        System_Configuration::ptr_t m_sys_config;
 
         /// Registered Asset
         Asset_Local_Base::ptr_t m_asset;

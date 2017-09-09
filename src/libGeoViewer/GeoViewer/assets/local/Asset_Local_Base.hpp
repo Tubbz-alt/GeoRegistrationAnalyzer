@@ -10,14 +10,15 @@
 #include <memory>
 #include <string>
 
+// GDAL Libraries
+#include <ogr_spatialref.h>
+
 // Qt Libraries
 #include <QPainter>
 
-// GeoImage Libraries
-#include <GeoImage/geometry/SceneViewBase.hpp>
-
 // Project Libraries
 #include "../Asset_Base.hpp"
+#include "../../geometry/SceneViewBase.hpp"
 
 /**
  * @class Asset_Local_Base
@@ -50,10 +51,17 @@ class Asset_Local_Base : public Asset_Base
          * @param[in]  current_timestamp
          * @param[out] status
          */
-        virtual void Render_Layer( QPainter&                  painter,
-                                   GEO::SceneViewBase::ptr_t  scene_view,
-                                   const double&              current_timestamp,
-                                   Status&                    status ) = 0;
+        virtual void Render_Layer( QPainter&             painter,
+                                   SceneViewBase::ptr_t  scene_view,
+                                   const double&         current_timestamp,
+                                   Status&               status ) = 0;
+
+
+        /**
+         * @brief Load the asset's scene information
+         */
+        virtual SceneViewBase::ptr_t  Create_Scene_View( const OGRSpatialReference&  default_projection,
+                                                         Status&                     status )const = 0;
 
 
     private:

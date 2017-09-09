@@ -7,8 +7,12 @@
 
 // Project Libraries
 #include "../../log.hpp"
+#include "../../geometry/SceneViewUTM.hpp"
 #include "../../io/GDAL_Image_Loader.hpp"
 
+
+// GeoImage Libraries
+#include <GeoImage/coordinate/CoordinateFactory.hpp>
 
 /*********************************/
 /*          Constructor          */
@@ -91,10 +95,10 @@ void Asset_Local_Image::Load_Asset()
 /*************************************/
 /*        Render Imagery Layer       */
 /*************************************/
-void Asset_Local_Image::Render_Layer( QPainter&                  painter,
-                                      GEO::SceneViewBase::ptr_t  scene_view,
-                                      const double&              current_timestamp,
-                                      Status&                    status )
+void Asset_Local_Image::Render_Layer( QPainter&             painter,
+                                      SceneViewBase::ptr_t  scene_view,
+                                      const double&         current_timestamp,
+                                      Status&               status )
 {
     // Initialize Status
     status = Status::SUCCESS();
@@ -108,3 +112,163 @@ void Asset_Local_Image::Render_Layer( QPainter&                  painter,
 }
 
 
+/****************************************/
+/*          Create Scene View           */
+/****************************************/
+SceneViewBase::ptr_t  Asset_Local_Image::Create_Scene_View( const OGRSpatialReference&  default_projection,
+                                                            Status&                     status )const
+{
+    // Initialize Status
+    status = Status::SUCCESS();
+    Status temp_status;
+
+    // Create empty scene
+    SceneViewBase::ptr_t scene;
+    GEO::CoordinateBase::ptr_t centroid;
+    SceneViewUTM::ptr_t utm_scene;
+    double gsd;
+
+    // Check the coordinate type (UTM)
+    if( default_projection.GetUTMZone() != 0 )
+    {
+        // Get center of scene projection
+        centroid = Get_Image_Center_Coordinate(temp_status);
+        status.Append(temp_status);
+
+
+        if (status.Not_Failure())
+        {
+            // Build the new scene
+            scene = std::make_shared<SceneViewUTM>(default_projection);
+
+            // cast to utm
+            utm_scene = std::dynamic_pointer_cast<SceneViewUTM>(scene);
+
+            // Compute GSD
+            gsd = Compute_Initial_GSD(temp_status);
+            status.Append(temp_status);
+        }
+
+        if (status.Not_Failure())
+        {
+            // Update the UTM Scene
+            utm_scene->Set_Center_Coordinate(centroid);
+            utm_scene->Set_GSD(gsd);
+            utm_scene->Set_Rotation_Radians(0);
+
+        }
+
+        if( status.Not_Failure() )
+        {
+            // Log Creation
+            LOG_CLASS_TRACE("Create new initial scene.\n" + utm_scene->To_Log_String());
+        }
+    }
+
+    // If here, then we have no support for this projection
+    else
+    {
+        status.Append(StatusType::FAILURE,
+                      StatusReason::UNKNOWN_PROJECTION,
+                      "Unknown Projection Info");
+    }
+
+    // return the scene
+    return scene;
+}
+
+
+/********************************************************/
+/*          Compute the IMage Center Coordinate         */
+/********************************************************/
+GEO::CoordinateBase::ptr_t Asset_Local_Image::Get_Image_Center_Coordinate(Status &status) const
+{
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
+    // Initialize status
+    status = Status::SUCCESS();
+
+    // Create output coordinate
+    GEO::CoordinateBase::ptr_t output;
+    cv::Point3d center;
+
+    // Make sure we have corners
+    if( m_corners.size() < 4 )
+    {
+        status.Append(StatusType::FAILURE,
+                      StatusReason::NO_GEO_INFORMATION,
+                      "Asset contains no corner information");
+    }
+
+    // If no errors, compute center
+    if( status.Not_Failure() )
+    {
+        center = m_corners[0];
+        for( auto i = 1; i<m_corners.size(); i++ )
+        {
+            center.x += m_corners[i].x;
+            center.y += m_corners[i].y;
+            center.z += m_corners[i].z;
+        }
+        center.x /= m_corners.size();
+        center.y /= m_corners.size();
+        center.z /= m_corners.size();
+    }
+
+    // Create Coordinate from Centroid
+    if( status.Not_Failure() )
+    {
+        output = GEO::CoordinateFactory::Create(m_proj_info,
+                                                center);
+    }
+
+    // Return coordinate
+    return output;
+}
+
+
+/************************************/
+/*          Compute the GSD         */
+/************************************/
+double Asset_Local_Image::Compute_Initial_GSD( Status& status)const
+{
+    // Log Entry
+    LOG_CLASS_ENTRY();
+
+    // Initialize status
+    status = Status::SUCCESS();
+
+    double gsd = 0;
+
+    // COmpute max image dimension
+    int max_length = std::max( m_image.rows, m_image.cols);
+
+    // Compute distance of that max
+    cv::Point3d minPnt = m_corners[0];
+    cv::Point3d maxPnt = m_corners[0];
+
+    for( int i=1; i<m_corners.size(); i++ )
+    {
+        minPnt.x = std::min(minPnt.x, m_corners[i].x);
+        minPnt.y = std::min(minPnt.y, m_corners[i].y);
+        minPnt.z = std::min(minPnt.z, m_corners[i].z);
+
+        maxPnt.x = std::max(maxPnt.x, m_corners[i].x);
+        maxPnt.y = std::max(maxPnt.y, m_corners[i].y);
+        maxPnt.z = std::max(maxPnt.z, m_corners[i].z);
+    }
+
+    // Pick a side to use
+    if( m_image.rows > m_image.cols )
+    {
+        gsd = std::fabs(maxPnt.y - minPnt.y) / max_length;
+    }
+    else
+    {
+        gsd = std::fabs(maxPnt.x - minPnt.x) / max_length;
+    }
+
+    // Return gsd
+    return gsd;
+}

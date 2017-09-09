@@ -18,6 +18,8 @@ set( LIB_GEO_VIEWER_SOURCES
         GeoViewer/gui/geo_widget/GeoViewerGoogle.cpp
         GeoViewer/gui/geo_widget/GeoViewerLocal.cpp
         GeoViewer/gui/geo_widget/GeoViewerLocalWindow.cpp
+        GeoViewer/gui/geo_widget/local/RenderWorker.cpp
+        GeoViewer/gui/geo_widget/local/Scene_Context.cpp
         GeoViewer/gui/geo_widget/GeoWidget.cpp
         PARENT_SCOPE )
 
@@ -36,6 +38,8 @@ set( LIB_GEO_VIEWER_HEADERS
         GeoViewer/gui/geo_widget/GeoViewerGoogle.hpp
         GeoViewer/gui/geo_widget/GeoViewerLocal.hpp
         GeoViewer/gui/geo_widget/GeoViewerLocalWindow.hpp
+        GeoViewer/gui/geo_widget/local/RenderWorker.hpp
+        GeoViewer/gui/geo_widget/local/Scene_Context.hpp
         GeoViewer/gui/geo_widget/GeoWidget.hpp
         PARENT_SCOPE )
 
@@ -44,6 +48,7 @@ add_subdirectory(assets)
 add_subdirectory(comm)
 add_subdirectory(core)
 add_subdirectory(io)
+add_subdirectory(geometry)
 add_subdirectory(gui)
 add_subdirectory(log)
 add_subdirectory(utility)
