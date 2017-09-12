@@ -76,6 +76,17 @@ class Asset_Local_Image : public Asset_Local_Base
 
 
         /**
+         *
+         * @param scene_view
+         * @param current_timestamp
+         * @param status
+         */
+        virtual void Update_Scene(SceneViewBase::ptr_t scene_view,
+                                  const double&        current_timestamp,
+                                  Status&              status);
+
+
+        /**
          * @brief Render the Layer
          *
          * @param[in]  painter
@@ -84,8 +95,6 @@ class Asset_Local_Image : public Asset_Local_Base
          * @param[out] status
          */
         virtual void Render_Layer( QPainter&             painter,
-                                   SceneViewBase::ptr_t  scene_view,
-                                   const double&         current_timestamp,
                                    Status&               status );
 
 
@@ -128,6 +137,8 @@ class Asset_Local_Image : public Asset_Local_Base
 
         /// Projection Information
         OGRSpatialReference m_proj_info;
+
+        cv::Mat m_working_image;
 
 
 }; // End of Asset_Local_Image Class

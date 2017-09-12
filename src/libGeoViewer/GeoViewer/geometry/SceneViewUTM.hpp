@@ -69,6 +69,7 @@ class SceneViewUTM : public SceneViewBase
          */
         inline virtual void Set_GSD( const double& gsd ){
             m_gsd = gsd;
+            Update_Transforms();
         }
 
 
@@ -93,6 +94,7 @@ class SceneViewUTM : public SceneViewBase
          */
         inline void Set_Rotation_Radians( const double& rotation_rad ){
             m_rotation_rad = rotation_rad;
+            Update_Transforms();
         }
 
 
@@ -100,6 +102,13 @@ class SceneViewUTM : public SceneViewBase
          * @brief Update Transforms
          */
         virtual void Update_Transforms();
+
+
+        /**
+         * @brief Get the Scene to World Transform
+         * @return
+         */
+        virtual cv::Mat Get_Scene_To_World_Transform()const;
 
 
         /**
@@ -125,6 +134,9 @@ class SceneViewUTM : public SceneViewBase
         /// Class Name
         std::string m_class_name;
 
+        /// Image Transform
+        cv::Mat m_pix2scene;
+        cv::Mat m_scene2world;
 };
 
 

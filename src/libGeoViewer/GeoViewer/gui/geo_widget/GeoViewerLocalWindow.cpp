@@ -132,6 +132,19 @@ void GeoViewerLocalWindow::Import_Asset(int asset_id)
             m_current_scene = local_asset->Create_Scene_View(default_projection,
                                                              temp_status);
             status.Append(temp_status);
+
+            // Update the image size
+            if( status.Not_Failure() )
+            {
+                m_current_scene->Set_Draw_Size(cv::Size(width(),
+                                                        height()));
+            }
+
+            // Update the scene in the render-worker
+            if( status.Not_Failure() )
+            {
+                m_render_worker->Set_Scene_View(m_current_scene);
+            }
         }
 
             // Otherwise, if the asset wants us to zoom to feature
@@ -306,92 +319,8 @@ void GeoViewerLocalWindow::Update_Scene_Completed(bool success)
 /********************************************/
 void GeoViewerLocalWindow::Bounds_Changed()
 {
-    /*
-    // Update the SceneView Object
-    m_current_scene->Update_Transforms();
-
-    m_xformUtm2Pix.reset();
-    if(m_viewType == ViewTransformer::VIEWTYPE_PTZ) {
-        double fov = m_res*m_drawSize.width()*PI/180.0f;
-        double view_size_x = 2.0 * tan((double)fov/2.0f);
-        m_xformUtm2Pix.translate(m_drawSize.width()/2., m_drawSize.height()/2.);
-        m_xformUtm2Pix.scale(m_drawSize.width() / view_size_x, -m_drawSize.width() / view_size_x);
-    } else if(m_viewType == ViewTransformer::VIEWTYPE_PANO) {
-        m_xformUtm2Pix.translate(m_drawSize.width()/2., m_drawSize.height()/2.);
-        m_xformUtm2Pix.scale(1.0/m_res, -1.0/m_res);
-        m_xformUtm2Pix.translate(-m_utmCenter.x(), -m_utmCenter.y());
-    } else if(m_viewType == ViewTransformer::VIEWTYPE_CYLINDER) {
-        m_xformUtm2Pix.translate(m_drawSize.width()/2., m_drawSize.height()/2.);
-        m_xformUtm2Pix.scale(1.0/m_res, -1.0/m_res);
-        m_xformUtm2Pix.translate(-m_utmCenter.x(), -m_utmCenter.y());
-    } else if(m_viewType == ViewTransformer::VIEWTYPE_FISHEYE) {
-        m_xformUtm2Pix.translate(m_drawSize.width()/2., m_drawSize.height()/2.);
-        m_xformUtm2Pix.scale(m_drawSize.width() / 2.0, -m_drawSize.height() / 2.0);
-    } else { // ortho and vcam the same
-        m_xformUtm2Pix.reset();
-        m_xformUtm2Pix.translate(m_drawSize.width()/2., m_drawSize.height()/2.);
-        m_xformUtm2Pix.scale(1.0/m_res, -1.0/m_res);
-        m_xformUtm2Pix.translate(-m_utmCenter.x(), -m_utmCenter.y());
-    }
-
-    boost::shared_ptr< Condor > r = m_sessionData->GetPrimaryLayer();
-
-    if(m_viewType == ViewTransformer::VIEWTYPE_VCAM) {
-        SensorModelTransformer::ptr_t t = r->GetTransformer(m_frameNum, true);
-        Pose p = t->GetBasePose();
-        double yaw, pitch, roll;
-        p.rot.ConvertToEulerZXZ(yaw, pitch, roll);
-        m_vt.reset(new ViewTransformerProjectiveView(-yaw, pitch, -roll));
-        m_vt->SetOffset(p.x, p.y, p.z);
-    } else if(m_viewType == ViewTransformer::VIEWTYPE_ORTHO)
-        m_vt.reset(new ViewTransformerUTM(m_utmZone, m_utmCenter.x(), m_utmCenter.y()));
-    else if(m_viewType == ViewTransformer::VIEWTYPE_PTZ) {
-        double el = m_utmCenter.y()*PI/180.0f;
-        double az = m_utmCenter.x()*PI/180.0f;
-        SensorModelTransformer::ptr_t t = r->GetTransformer(m_frameNum, true);
-        Pose p = t->GetBasePose();
-        m_vt.reset(new ViewTransformerProjectiveView(az, el, 0.0));
-        m_vt->SetOffset(p.x, p.y, p.z);
-    } else if(m_viewType == ViewTransformer::VIEWTYPE_CYLINDER) {
-        SensorModelTransformer::ptr_t t = r->GetTransformer(m_frameNum, true);
-        Pose p = t->GetBasePose();
-        m_vt.reset(new ViewTransformerCylinderView());
-        m_vt->SetOffset(p.x, p.y, p.z);
-    } else if(m_viewType == ViewTransformer::VIEWTYPE_FISHEYE) {
-        SensorModelTransformer::ptr_t t = r->GetTransformer(m_frameNum, true);
-        Pose p = t->GetBasePose();
-        m_vt.reset(new ViewTransformerFisheye);
-        m_vt->SetOffset(p.x, p.y, p.z);
-    } else if(m_viewType == ViewTransformer::VIEWTYPE_PANO) {
-        //SensorModelTransformer::ptr_t t = r->GetTransformer(m_frameNum, true);
-        //Pose p = t->GetBasePose();
-        Pose p;
-        p.x = 304555.2;
-        p.y = 3775134.8;
-        p.z = 15.17;
-        sprintf(p.utmZone, "11S");
-        m_vt.reset(new ViewTransformerSphericalView());
-        m_vt->SetOffset(p.x, p.y, p.z);
-    }
-
-    m_xformPix2Utm = m_xformUtm2Pix.inverted();
-
-    updateOverlayWidgets();
-
-    Box2d pixbox(0, 0, m_drawSize.width(), m_drawSize.height());
-    Polygon2d imagePoly = pixbox.ConvertToPolygon2d(5);
-    QTransform &q=m_xformPix2Utm;
-    CMatrix3x3 raster2view(q.m11(), q.m21(), q.m31(),
-                           q.m12(), q.m22(), q.m32(),
-                           q.m13(), q.m23(), q.m33());
-    Polygon2d viewPoly = imagePoly.Transform(raster2view);
-    viewPoly.correct();
-
-    double res = m_res;
-    QPointF sizePt(m_drawSize.width()*m_res, m_drawSize.height()*m_res);
-    QRectF bounds(m_utmCenter - sizePt/2, m_utmCenter + sizePt/2);
-    emit boundsChanged(bounds);
-    emit regionChanged(viewPoly, m_vt);*/
+    // Notify to Update Scene
+    emit Request_Update_Scene();
 }
 
 

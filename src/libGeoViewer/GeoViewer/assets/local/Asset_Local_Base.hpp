@@ -43,6 +43,10 @@ class Asset_Local_Base : public Asset_Base
         virtual ~Asset_Local_Base();
 
 
+        virtual void Update_Scene(SceneViewBase::ptr_t scene_view,
+                                  const double&        current_timestamp,
+                                  Status&              status) = 0;
+
         /**
          * @brief Render the Layer
          *
@@ -52,8 +56,6 @@ class Asset_Local_Base : public Asset_Base
          * @param[out] status
          */
         virtual void Render_Layer( QPainter&             painter,
-                                   SceneViewBase::ptr_t  scene_view,
-                                   const double&         current_timestamp,
                                    Status&               status ) = 0;
 
 

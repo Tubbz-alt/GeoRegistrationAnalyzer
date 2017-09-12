@@ -56,7 +56,7 @@ int GDAL_Data_Type_To_OpenCV_Type( const GDALDataType& gdal_type );
 /**
  * @brief Convert GDAL Color Interpretations to OpenCV Color Conversion
  */
-int GDAL_Color_Layers_To_OpenCV_RGB_Conversion( const std::vector<GDALColorInterp>& image_colors,
+int GDAL_Color_Layers_To_OpenCV_RGBA_Conversion( const std::vector<GDALColorInterp>& image_colors,
                                                 bool&                               skip_conversion );
 
 

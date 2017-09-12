@@ -19,7 +19,8 @@
 /*********************************/
 Asset_Local_Image::Asset_Local_Image( const Config_Param&  asset_info )
   : Asset_Local_Base(asset_info),
-    m_class_name("Asset_Local_Image")
+    m_class_name("Asset_Local_Image"),
+    m_working_image(cv::Size(1,1),CV_8UC4)
 {
 
 }
@@ -36,7 +37,8 @@ Asset_Local_Image::Asset_Local_Image(const Config_Param&             asset_info,
      m_class_name("Asset_Local_Image"),
      m_image(image),
      m_corners(corners),
-     m_proj_info(proj_info)
+     m_proj_info(proj_info),
+     m_working_image(cv::Size(1,1),CV_8UC4)
 {
 
 }
@@ -92,12 +94,48 @@ void Asset_Local_Image::Load_Asset()
 }
 
 
+/**************************************/
+/*        Update Working Image        */
+/**************************************/
+void Asset_Local_Image::Update_Scene(SceneViewBase::ptr_t  scene_view,
+                                     const double&         current_timestamp,
+                                     Status&               status)
+{
+    // Initialize status
+    status = Status::SUCCESS();
+
+    // Check if scene requires re-rendering working image
+    bool rewarp_image = true;
+
+    // If re-render is needed, first check resize
+    if( scene_view->Get_Draw_Size().width  != m_working_image.cols ||
+        scene_view->Get_Draw_Size().height != m_working_image.rows )
+    {
+        LOG_CLASS_DEBUG("Reallocating Working Image. Size: " + std::to_string(m_working_image.cols)
+                        + " Cols, " + std::to_string(m_working_image.rows) + " Rows");
+        m_working_image = cv::Mat(scene_view->Get_Draw_Size(), CV_8UC4);
+        rewarp_image = true;
+    }
+
+    // Get Transform
+    cv::Mat dest_to_source = cv::Mat::eye(3,3,CV_64FC1);
+
+    // If needed, re-warp
+    if( rewarp_image )
+    {
+        cv::warpPerspective( m_image,
+                             m_working_image,
+                             dest_to_source,
+                             m_working_image.size());
+    }
+
+}
+
+
 /*************************************/
 /*        Render Imagery Layer       */
 /*************************************/
 void Asset_Local_Image::Render_Layer( QPainter&             painter,
-                                      SceneViewBase::ptr_t  scene_view,
-                                      const double&         current_timestamp,
                                       Status&               status )
 {
     // Initialize Status
@@ -105,9 +143,22 @@ void Asset_Local_Image::Render_Layer( QPainter&             painter,
 
     // Determine if Scene has changed and requires redraw
 
+    // Get bbox
+    QRect target_bbox(QPoint(0,0), QSize(m_working_image.cols,
+                                         m_working_image.rows));
+
+    // Create pixel map
+    QImage working_image((const uchar*)m_working_image.data,
+                         m_working_image.cols,
+                         m_working_image.rows,
+                         m_working_image.step,
+                         QImage::Format_RGBA8888);
+    working_image.bits();
 
     // Copy Raster to Scene Painter
-
+    painter.drawPixmap(target_bbox,
+                       QPixmap::fromImage(working_image),
+                       working_image.rect());
 
 }
 

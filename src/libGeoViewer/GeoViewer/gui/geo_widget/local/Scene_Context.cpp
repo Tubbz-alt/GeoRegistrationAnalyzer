@@ -37,9 +37,12 @@ void Scene_Context::Paint_Scene( QPainter&  painter,
 
     // Initialize the status
     status = Status::SUCCESS();
+    Status temp_status;
 
     // 
-
+    m_asset->Render_Layer(painter,
+                          temp_status);
+    status.Append(temp_status);
 
     // Log Exit
     LOG_CLASS_EXIT();
@@ -58,13 +61,17 @@ void Scene_Context::Update_Scene( SceneViewBase::ptr_t scene_view,
 
     // Initialize the status
     status = Status::SUCCESS();
+    Status temp_status;
+
 
     LOG_CLASS_TRACE("Scene: " + scene_view->To_Log_String());
     LOG_CLASS_TRACE("Time: " + std::to_string(current_timestamp));
 
-    // Check the current bounds of the scene
-    //scene_view->Get_Scene_Bou
-
+    // Update Image
+    m_asset->Update_Scene( scene_view,
+                           current_timestamp,
+                           temp_status);
+    status.Append(temp_status);
 
     // Log Exit
     LOG_CLASS_EXIT();

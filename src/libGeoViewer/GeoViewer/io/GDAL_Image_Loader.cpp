@@ -193,8 +193,8 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
 
         // Compute Conversion
         bool skip_conversion;
-        int color_conversion = GDAL_Color_Layers_To_OpenCV_RGB_Conversion(image_colors,
-                                                                          skip_conversion);
+        int color_conversion = GDAL_Color_Layers_To_OpenCV_RGBA_Conversion(image_colors,
+                                                                           skip_conversion);
 
         // Convert Color
         if (!skip_conversion)
@@ -202,6 +202,16 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
             cv::cvtColor(image,
                          image,
                          color_conversion);
+        }
+
+        // Downsample if needed
+        cv::Mat temp_img;
+        if( image.depth() == CV_16U ||
+            image.depth() == CV_16S )
+        {
+            LOG_CLASS_TRACE("Converting from 16-bit to 8-bit");
+            image.convertTo(temp_img, CV_8U );
+            image = temp_img;
         }
 
         // Get raster info

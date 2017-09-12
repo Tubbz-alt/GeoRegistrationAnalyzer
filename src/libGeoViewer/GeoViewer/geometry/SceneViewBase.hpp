@@ -74,6 +74,7 @@ class SceneViewBase
          */
         virtual void Set_Draw_Size(const cv::Size &draw_size){
             m_draw_size = draw_size;
+            Update_Transforms();
         }
 
 
@@ -81,6 +82,13 @@ class SceneViewBase
          * @brief Update Transform Data
          */
         virtual void Update_Transforms() = 0;
+
+
+        /**
+         * @brief Get the Scene-to-World Transform
+         * @return
+         */
+        virtual cv::Mat Get_Scene_To_World_Transform()const = 0;
 
 
         /**
