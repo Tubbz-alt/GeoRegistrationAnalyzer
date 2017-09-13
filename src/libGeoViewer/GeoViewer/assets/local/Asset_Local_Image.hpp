@@ -83,7 +83,7 @@ class Asset_Local_Image : public Asset_Local_Base
          */
         virtual void Update_Scene(SceneViewBase::ptr_t scene_view,
                                   const double&        current_timestamp,
-                                  Status&              status);
+                                  Status&              status) override;
 
 
         /**
@@ -95,7 +95,7 @@ class Asset_Local_Image : public Asset_Local_Base
          * @param[out] status
          */
         virtual void Render_Layer( QPainter&             painter,
-                                   Status&               status );
+                                   Status&               status ) override;
 
 
         /**
@@ -126,6 +126,12 @@ class Asset_Local_Image : public Asset_Local_Base
         double Compute_Initial_GSD( Status& status )const;
 
 
+        /**
+         * @brief Project Imagery
+         */
+        void Project_Imagery( Status& status );
+
+
         /// Class Name
         std::string m_class_name;
 
@@ -139,6 +145,7 @@ class Asset_Local_Image : public Asset_Local_Base
         OGRSpatialReference m_proj_info;
 
         cv::Mat m_working_image;
+        cv::Mat m_working_roi;
 
 
 }; // End of Asset_Local_Image Class

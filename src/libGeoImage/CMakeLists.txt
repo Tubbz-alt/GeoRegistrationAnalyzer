@@ -97,7 +97,6 @@ add_library( GeoImage SHARED
         ${LIB_GEO_IMAGE_SOURCES}
         ${LIB_GEO_IMAGE_HEADERS}
         $<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_OBJ>
-        $<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_OBJ>
         )
 
 

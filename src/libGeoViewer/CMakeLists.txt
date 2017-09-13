@@ -156,7 +156,8 @@ add_library( GeoViewer SHARED
 
 
 target_link_libraries( GeoViewer
-                       ${EXTRA_LIBRARIES}
+                       GeoImage
+					   ${EXTRA_LIBRARIES}
                        ${Boost_LIBRARIES}
                        ${GDAL_LIBRARY}
                        ${OpenCV_LIBS}

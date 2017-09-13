@@ -14,6 +14,10 @@
 // GeoImage Libraries
 #include <GeoImage/coordinate/CoordinateFactory.hpp>
 
+// OpenCV Libraries
+#include <opencv2/highgui/highgui.hpp>
+
+
 /*********************************/
 /*          Constructor          */
 /*********************************/
@@ -87,6 +91,9 @@ void Asset_Local_Image::Load_Asset()
                                        m_proj_info,
                                        temp_status );
         status.Append(temp_status);
+
+        LOG_CLASS_DEBUG("Image Info: " + std::to_string(m_image.cols)
+                        + " cols x " + std::to_string(m_image.rows) + " rows.");
     }
 
     // Log Exit
@@ -103,32 +110,30 @@ void Asset_Local_Image::Update_Scene(SceneViewBase::ptr_t  scene_view,
 {
     // Initialize status
     status = Status::SUCCESS();
+    Status temp_status;
 
-    // Check if scene requires re-rendering working image
-    bool rewarp_image = true;
+    // If we need to project
+    Project_Imagery( temp_status );
+    status.Append(temp_status);
 
-    // If re-render is needed, first check resize
-    if( scene_view->Get_Draw_Size().width  != m_working_image.cols ||
-        scene_view->Get_Draw_Size().height != m_working_image.rows )
+    // Check the Scene
+    if( scene_view == nullptr )
     {
-        LOG_CLASS_DEBUG("Reallocating Working Image. Size: " + std::to_string(m_working_image.cols)
-                        + " Cols, " + std::to_string(m_working_image.rows) + " Rows");
-        m_working_image = cv::Mat(scene_view->Get_Draw_Size(), CV_8UC4);
-        rewarp_image = true;
+        LOG_CLASS_ERROR("Scene-View Object is Null.");
     }
 
-    // Get Transform
-    cv::Mat dest_to_source = cv::Mat::eye(3,3,CV_64FC1);
+    // Update the ROI
+    cv::Point tl_corner;
+    cv::Size2i box_size( scene_view->Get_Draw_Size().width,
+                       scene_view->Get_Draw_Size().height);
 
-    // If needed, re-warp
-    if( rewarp_image )
-    {
-        cv::warpPerspective( m_image,
-                             m_working_image,
-                             dest_to_source,
-                             m_working_image.size());
-    }
+    cv::Rect bbox_rect(tl_corner, box_size);
+    m_working_roi = m_working_image(bbox_rect);
 
+    cv::imshow("Window", m_working_image);
+    cv::waitKey(0);
+    cv::imshow("TempWindow", m_working_roi );
+    cv::waitKey(0);
 }
 
 
@@ -144,14 +149,14 @@ void Asset_Local_Image::Render_Layer( QPainter&             painter,
     // Determine if Scene has changed and requires redraw
 
     // Get bbox
-    QRect target_bbox(QPoint(0,0), QSize(m_working_image.cols,
-                                         m_working_image.rows));
+    QRect target_bbox(QPoint(0,0), QSize(m_working_roi.cols,
+                                         m_working_roi.rows));
 
     // Create pixel map
-    QImage working_image((const uchar*)m_working_image.data,
-                         m_working_image.cols,
-                         m_working_image.rows,
-                         m_working_image.step,
+    QImage working_image((const uchar*)m_working_roi.data,
+                         m_working_roi.cols,
+                         m_working_roi.rows,
+                         m_working_roi.step,
                          QImage::Format_RGBA8888);
     working_image.bits();
 
@@ -322,4 +327,39 @@ double Asset_Local_Image::Compute_Initial_GSD( Status& status)const
 
     // Return gsd
     return gsd;
+}
+
+
+/************************************/
+/*          Project Imagery         */
+/************************************/
+void Asset_Local_Image::Project_Imagery( Status& status )
+{
+    // Initialize Status
+    status = Status::SUCCESS();
+
+    // Check if scene requires re-rendering working image
+    bool reproject_image = true;
+
+    // Check if we need reproject
+    if( reproject_image )
+    {
+        m_working_image = cv::Mat(m_image.size(), CV_8UC4);
+        LOG_CLASS_DEBUG("Reallocating Working Image. Size: "
+                        + std::to_string(m_working_image.cols)
+                        + " Cols, " + std::to_string(m_working_image.rows) + " Rows");
+    }
+
+    // Get Transform
+    cv::Mat dest_to_source = cv::Mat::eye(3,3,CV_64FC1);
+
+    // If needed, re-warp
+    if( reproject_image )
+    {
+        cv::warpPerspective( m_image,
+                             m_working_image,
+                             dest_to_source,
+                             m_working_image.size());
+    }
+
 }

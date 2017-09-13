@@ -59,6 +59,8 @@ class CoordinateProjectedBase : public CoordinateBase
             return m_y;
         }
 
+    virtual std::string To_String( const int& indent = 0 ) const = 0;
+
 
     protected:
 

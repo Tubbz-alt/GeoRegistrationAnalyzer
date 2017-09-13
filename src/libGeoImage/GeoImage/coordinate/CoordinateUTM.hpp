@@ -84,6 +84,7 @@ class CoordinateUTM : public CoordinateProjectedBase
         virtual std::string To_String( const int& indent = 0 )const;
 
 
+
     protected:
 
         /// Grid Zone
