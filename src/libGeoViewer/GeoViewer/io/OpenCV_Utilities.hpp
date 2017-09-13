@@ -18,4 +18,12 @@
 std::string OpenCV_Depth_Type_To_String( const int& cv_type );
 
 
+/**
+ * @brief Convert ColorConversionCode to string (COLOR_RGBA2YUV)
+ * @param cv_type
+ * @return
+ */
+std::string OpenCV_ColorConversionCodeToString( const int& cv_type );
+
+
 #endif

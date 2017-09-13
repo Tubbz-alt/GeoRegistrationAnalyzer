@@ -199,6 +199,7 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
         // Convert Color
         if (!skip_conversion)
         {
+            LOG_CLASS_TRACE("Converting Color: " + OpenCV_ColorConversionCodeToString(color_conversion));
             cv::cvtColor(image,
                          image,
                          color_conversion);
@@ -210,7 +211,7 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
             image.depth() == CV_16S )
         {
             LOG_CLASS_TRACE("Converting from 16-bit to 8-bit");
-            image.convertTo(temp_img, CV_8U );
+            image.convertTo(temp_img, CV_8UC4 );
             image = temp_img;
         }
 

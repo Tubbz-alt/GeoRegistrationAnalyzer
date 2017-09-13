@@ -130,10 +130,13 @@ void Asset_Local_Image::Update_Scene(SceneViewBase::ptr_t  scene_view,
     cv::Rect bbox_rect(tl_corner, box_size);
     m_working_roi = m_working_image(bbox_rect);
 
-    cv::imshow("Window", m_working_image);
-    cv::waitKey(0);
-    cv::imshow("TempWindow", m_working_roi );
-    cv::waitKey(0);
+    LOG_CLASS_TRACE("ROI Size: " + std::to_string(m_working_roi.cols) + " cols x "
+                    + std::to_string(m_working_roi.rows) + " rows");
+    cv::Mat tmp;
+    cv::cvtColor( m_working_image, tmp, cv::COLOR_RGBA2BGRA);
+    cv::imwrite("temp.png", tmp);
+    cv::cvtColor( m_working_roi, tmp, cv::COLOR_RGBA2BGRA);
+    cv::imwrite("roi.png", tmp);
 }
 
 

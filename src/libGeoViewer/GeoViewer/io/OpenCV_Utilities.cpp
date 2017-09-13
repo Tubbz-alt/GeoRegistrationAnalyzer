@@ -5,6 +5,8 @@
  */
 #include "OpenCV_Utilities.hpp"
 
+//OpenCV Libraries
+#include <opencv2/imgproc/imgproc.hpp>
 
 /*********************************************************/
 /*          Convert OpenCV Depth Type to String          */
@@ -33,6 +35,24 @@ std::string OpenCV_Depth_Type_To_String( const int& cv_type )
             return "CV_16SC3";
         default:
             return "UNKNOWN (value: " + std::to_string(cv_type) + ")";
+    }
+    return "UNKNOWN";
+}
+
+
+/************************************************************/
+/*      Convert OpenCV Color-Conversion Code to String      */
+/************************************************************/
+std::string OpenCV_ColorConversionCodeToString( const int& cv_type )
+{
+    switch(cv_type)
+    {
+        case cv::COLOR_GRAY2RGBA:
+            return "COLOR_GRAY2RGBA";
+        case cv::COLOR_RGB2RGBA:
+            return "COLOR_RGB2RGBA";
+        default:
+            return "UNKNOWN";
     }
     return "UNKNOWN";
 }
