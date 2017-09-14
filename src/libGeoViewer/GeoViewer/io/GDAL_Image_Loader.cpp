@@ -211,8 +211,8 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
             image.depth() == CV_16S )
         {
             LOG_CLASS_TRACE("Converting from 16-bit to 8-bit");
-            image.convertTo(temp_img, CV_8UC4 );
-            image = temp_img;
+            image.convertTo(temp_img, CV_8UC4, 1.0/256.0);
+            image = temp_img.clone();
         }
 
         // Get raster info
@@ -220,6 +220,7 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
         GDAL_Raster_Info raster_info = Get_Raster_Information(dataset,
                                                               temp_status);
         status.Append(temp_status);
+        cv::imwrite("post-color-image.png", image);
 
 
         // Construct Asset
