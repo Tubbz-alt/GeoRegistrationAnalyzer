@@ -9,3 +9,5 @@
 add_subdirectory(core)
 
 add_subdirectory(io)
+
+add_subdirectory(UNIT_TEST_ONLY)

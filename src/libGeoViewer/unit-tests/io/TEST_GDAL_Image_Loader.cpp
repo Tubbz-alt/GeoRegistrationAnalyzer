@@ -35,5 +35,5 @@ TEST( GDAL_Image_Loader, Load_Image_GeoTiff_16_RGBA )
                                    status );
 
     // Check image info
-
+    ASSERT_EQ( status.Get_Status_Type(), StatusType::SUCCESS );
 }

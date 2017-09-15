@@ -126,6 +126,72 @@ int GDAL_Color_Layers_To_OpenCV_RGBA_Conversion( const std::vector<GDALColorInte
 }
 
 
+/******************************************************************************/
+/*     Convert GDAL Color Interpretations to OpenCV Color Conversion          */
+/******************************************************************************/
+int GDAL_Color_Layers_To_OpenCV_BGRA_Conversion( const std::vector<GDALColorInterp>& image_colors,
+                                                 bool&                               skip_conversion)
+{
+    // Default Value
+    int output = 0;
+    skip_conversion = false;
+
+    // Create combo string
+    std::string combo_str;
+    for( int i=0; i<image_colors.size(); i++ )
+    {
+        combo_str += GDALGetColorInterpretationName(image_colors[i]);
+        if( i != (image_colors.size()-1))
+        {
+            combo_str += ",";
+        }
+    }
+
+    // Check Grayscale
+    if( image_colors.size() == 1 )
+    {
+        output = CV_GRAY2BGRA;
+    }
+
+        // Check 3 channels
+    else if( image_colors.size() == 3 ||
+             image_colors.size() == 4 )
+    {
+        // Check RGB
+        if( image_colors[0] == GDALColorInterp::GCI_RedBand &&
+            image_colors[1] == GDALColorInterp::GCI_GreenBand &&
+            image_colors[2] == GDALColorInterp::GCI_BlueBand )
+        {
+            if( image_colors.size() == 3 )
+            {
+                output = CV_RGB2BGRA;
+            }
+            else if( image_colors.size() == 4 )
+            {
+                output = CV_RGBA2BGRA;
+            }
+            else
+            {
+                std::string message = "Unknown Color Combo: " + combo_str;
+                LOG_FUNCTION_ERROR(message);
+                throw std::runtime_error(message);
+            }
+        }
+
+    }
+
+    else
+    {
+        std::string message = "Unknown Color Combo: " + combo_str;
+        LOG_FUNCTION_ERROR(message);
+        throw std::runtime_error(message);
+    }
+
+    return output;
+}
+
+
+
 /***************************************************/
 /*         Get Raster Metadata Information         */
 /***************************************************/

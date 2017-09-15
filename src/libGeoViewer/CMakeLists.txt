@@ -184,7 +184,8 @@ if( NOT SKIP_UNIT_TESTS )
 	#--------------------------------------#
 	add_executable(lib-geo-viewer-unit-tests
 		              unit-tests/lib-geo-viewer-unit-tests.cpp
-			          $<TARGET_OBJECTS:LIB_GEO_CORE_TEST_OBJ> )
+			          $<TARGET_OBJECTS:LIB_GEO_CORE_TEST_OBJ>
+					  $<TARGET_OBJECTS:LIB_GEO_UTEST_OBJ>)
 
 	target_link_libraries(lib-geo-viewer-unit-tests
 		                    GeoViewer

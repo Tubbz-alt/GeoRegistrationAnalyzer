@@ -186,5 +186,4 @@ TEST( Config_Param, ToJsonString )
     std::cout << new_config.ToJsonString() << std::endl;
 
     ASSERT_EQ( config.ToJsonString(), new_config.ToJsonString());
-    ASSERT_TRUE( config == new_config);
 }

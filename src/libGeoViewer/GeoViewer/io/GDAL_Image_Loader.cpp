@@ -190,10 +190,11 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
         // Merge Layers
         LOG_CLASS_TRACE("Merging Image Layers");
         cv::merge(image_layers, image);
+        cv::imwrite("post-merge.png", image);
 
         // Compute Conversion
         bool skip_conversion;
-        int color_conversion = GDAL_Color_Layers_To_OpenCV_RGBA_Conversion(image_colors,
+        int color_conversion = GDAL_Color_Layers_To_OpenCV_BGRA_Conversion(image_colors,
                                                                            skip_conversion);
 
         // Convert Color
