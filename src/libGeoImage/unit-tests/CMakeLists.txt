@@ -7,4 +7,4 @@
 #-    Add Subdirectories    -#
 #----------------------------#
 add_subdirectory(coordinate)
-
+add_subdirectory(core)

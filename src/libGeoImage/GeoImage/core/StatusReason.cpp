@@ -5,14 +5,13 @@
  */
 #include "StatusReason.hpp"
 
+namespace GEO {
 
 /*********************************************/
 /*      Convert Status Reason To String      */
 /*********************************************/
-std::string StatusReasonToString( const StatusReason& reason )
-{
-    switch(reason)
-    {
+std::string StatusReasonToString(const StatusReason &reason) {
+    switch (reason) {
         case StatusReason::UNINITIALIZED:
             return "UNINITIALIZED";
         case StatusReason::NO_ERRORS:
@@ -25,7 +24,7 @@ std::string StatusReasonToString( const StatusReason& reason )
             return "PATH_NOT_FOUND";
         case StatusReason::GDAL_ERROR:
             return "GDAL_ERROR";
-        case StatusReason ::UNKNOWN_PROJECTION:
+        case StatusReason::UNKNOWN_PROJECTION:
             return "UNKNOWN_PROJECTION";
         case StatusReason::NO_GEO_INFORMATION:
             return "NO_GEO_INFORMATION";
@@ -36,3 +35,5 @@ std::string StatusReasonToString( const StatusReason& reason )
     // Default to Unknown
     return "UNKNOWN";
 }
+
+} // End of GEO Namespace

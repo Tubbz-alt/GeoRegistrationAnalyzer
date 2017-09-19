@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 
+namespace GEO {
 
 /**
  * @class GeoImage
@@ -32,10 +33,16 @@ class GeoImage
          * @brief Parameterized Constructor
          */
 
+    private:
+
+        /// Class Name
+        std::string m_class_name;
+
+        /// Memory Pointer
 
 
 }; // End of GeoImage Class
 
-
+} // End of GEO Namespace
 
 #endif

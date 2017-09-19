@@ -66,7 +66,7 @@ message("-- ${Blue}GDAL Includes:${Green}${GDAL_INCLUDE_DIR}${ColorReset}")
 #------------------------------#
 #-      Configure OpenCV      -#
 #------------------------------#
-find_package( OpenCV REQUIRED core highgui imgproc )
+find_package( OpenCV REQUIRED core highgui imgcodecs imgproc )
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 
@@ -134,8 +134,6 @@ set( LIB_GEO_VIEWER_HEADERS )
 #  Add Sources
 add_subdirectory(GeoViewer)
 
-message("OUTPUT SOURCES: ${LIB_GEO_VIEWER_SOURCES}")
-message("OUTPUT HEADERS: ${LIB_GEO_VIEWER_HEADERS}")
 
 
 #------------------------------#
@@ -149,7 +147,6 @@ add_library( GeoViewer SHARED
                 $<TARGET_OBJECTS:LIB_GEO_GUI_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_IO_OBJ>
                 $<TARGET_OBJECTS:LIB_GEO_LOG_OBJ>
-                $<TARGET_OBJECTS:LIB_GEO_UTIL_OBJ>
                 ${LIB_GEO_VIEWER_SOURCES}
                 ${LIB_GEO_VIEWER_HEADERS}
 )
@@ -185,6 +182,7 @@ if( NOT SKIP_UNIT_TESTS )
 	add_executable(lib-geo-viewer-unit-tests
 		              unit-tests/lib-geo-viewer-unit-tests.cpp
 			          $<TARGET_OBJECTS:LIB_GEO_CORE_TEST_OBJ>
+					  $<TARGET_OBJECTS:LIB_GEO_IO_TEST_OBJ>
 					  $<TARGET_OBJECTS:LIB_GEO_UTEST_OBJ>)
 
 	target_link_libraries(lib-geo-viewer-unit-tests

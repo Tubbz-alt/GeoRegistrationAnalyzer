@@ -122,21 +122,17 @@ void Asset_Local_Image::Update_Scene(SceneViewBase::ptr_t  scene_view,
         LOG_CLASS_ERROR("Scene-View Object is Null.");
     }
 
-    // Update the ROI
-    cv::Point tl_corner;
+    // Create the Working Image ROI
+    cv::Point tl_corner(0,0);
     cv::Size2i box_size( scene_view->Get_Draw_Size().width,
-                       scene_view->Get_Draw_Size().height);
-
+                         scene_view->Get_Draw_Size().height);
     cv::Rect bbox_rect(tl_corner, box_size);
+
+    // Build the Working Image
     m_working_roi = m_working_image(bbox_rect);
 
     LOG_CLASS_TRACE("ROI Size: " + std::to_string(m_working_roi.cols) + " cols x "
                     + std::to_string(m_working_roi.rows) + " rows");
-    cv::Mat tmp;
-    cv::cvtColor( m_working_image, tmp, cv::COLOR_RGBA2BGRA);
-    cv::imwrite("temp.png", tmp);
-    cv::cvtColor( m_working_roi, tmp, cv::COLOR_RGBA2BGRA);
-    cv::imwrite("roi.png", tmp);
 }
 
 

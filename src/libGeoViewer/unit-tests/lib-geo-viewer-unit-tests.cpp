@@ -5,6 +5,12 @@
  */
 #include <gtest/gtest.h>
 
+// Project Libraries
+#include "UNIT_TEST_ONLY/Test_Options.hpp"
+
+// GDAL Libraries
+#include <gdal.h>
+
 
 /**
  * @brief Start Unit-Tests
@@ -15,6 +21,10 @@
 int main( int argc, char* argv[] )
 {
     // Parse Command-Line Options
+    Test_Options options(argc, argv);
+
+    // Init GDAL
+    GDALAllRegister();
 
     printf("Running main() from gtest_main.cc\n");
     testing::InitGoogleTest(&argc, argv);

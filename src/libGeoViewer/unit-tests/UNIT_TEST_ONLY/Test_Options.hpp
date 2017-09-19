@@ -9,6 +9,8 @@
 // C++ Libraries
 #include <string>
 
+// GeoViewer Libraries
+#include <GeoViewer/log/System_Logger.hpp>
 
 /**
  * @class Test_Options
@@ -38,6 +40,12 @@ class Test_Options
 
         /// Class Name
         std::string m_class_name;
+
+        /// Application Name
+        std::string m_application_name;
+
+        /// Log Severity
+        LogSeverity m_log_severity;
 
 
 }; // End of Test_Options Class

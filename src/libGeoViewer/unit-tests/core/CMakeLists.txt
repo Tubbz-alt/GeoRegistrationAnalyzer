@@ -7,7 +7,7 @@
 #-     Build the Core Module      -#
 #----------------------------------#
 SET( LIB_GEO_CORE_TESTS
-    TEST_Config_Param.cpp
+    TEST_System_Configuration.cpp
 )
 
 

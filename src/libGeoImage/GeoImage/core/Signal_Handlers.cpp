@@ -8,6 +8,8 @@
 #include <iostream>
 
 
+namespace GEO {
+
 /************************************/
 /*             UNIX ONLY!           */
 /************************************/
@@ -19,10 +21,10 @@
 /***********************************************/
 /*      Stack Trace Signal Handler Method      */
 /***********************************************/
-void Stack_Trace_Signal_Handler( int sig )//, const char* app_name )
+void Stack_Trace_Signal_Handler(int sig)//, const char* app_name )
 {
     int i, trace_size = 0;
-    char **messages = (char **)NULL;
+    char **messages = (char **) NULL;
     void *stack_traces[16];
 
     trace_size = backtrace(stack_traces, 16);
@@ -32,8 +34,7 @@ void Stack_Trace_Signal_Handler( int sig )//, const char* app_name )
        our handler) and also skip the last frame as it's (always?) junk. */
     // for (i = 3; i < (trace_size - 1); ++i)
     // we'll use this for now so you can see what's going on
-    for (i = 0; i < trace_size; ++i)
-    {
+    for (i = 0; i < trace_size; ++i) {
         std::cout << messages[i] << std::endl;
 
     }
@@ -46,8 +47,10 @@ void Stack_Trace_Signal_Handler( int sig )//, const char* app_name )
 
 void Stack_Trace_Signal_Handler(int sig)//, const char* app_name )
 {
-	std::cout << "NOT IMPLMENETED IN WINDOWS YET" << std::endl;
-	exit(0);
+    std::cout << "NOT IMPLMENETED IN WINDOWS YET" << std::endl;
+    exit(0);
 }
 
 #endif
+
+} // End of GEO Namespace

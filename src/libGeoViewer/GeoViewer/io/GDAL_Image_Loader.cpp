@@ -129,12 +129,6 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
         LOG_CLASS_TRACE("Creating Image.  Cols: " + std::to_string(image_cols)
                         + ", Rows: " + std::to_string(image_rows));
 
-        // Allocate Asset Memory
-        image = cv::Mat(image_rows,
-                        image_cols,
-                        CV_8UC4,
-                        cv::Scalar(0, 0, 0, 255));
-
         // Allocate temporary working memory
         image_layers.resize(channels);
 
@@ -163,8 +157,8 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
             LOG_CLASS_TRACE(sin.str());
 
             // Create temp mat for layer
-            image_layers[b - 1] = cv::Mat(cv::Size(image_rows,
-                                                   image_cols),
+            image_layers[b - 1] = cv::Mat(cv::Size(image_cols,
+                                                   image_rows),
                                           cv_type);
 
             // Iterate over each row
@@ -190,11 +184,10 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
         // Merge Layers
         LOG_CLASS_TRACE("Merging Image Layers");
         cv::merge(image_layers, image);
-        cv::imwrite("post-merge.png", image);
 
         // Compute Conversion
         bool skip_conversion;
-        int color_conversion = GDAL_Color_Layers_To_OpenCV_BGRA_Conversion(image_colors,
+        int color_conversion = GDAL_Color_Layers_To_OpenCV_RGBA_Conversion(image_colors,
                                                                            skip_conversion);
 
         // Convert Color
@@ -221,7 +214,6 @@ void GDAL_Image_Loader::Load_Image( const std::string&              pathname,
         GDAL_Raster_Info raster_info = Get_Raster_Information(dataset,
                                                               temp_status);
         status.Append(temp_status);
-        cv::imwrite("post-color-image.png", image);
 
 
         // Construct Asset

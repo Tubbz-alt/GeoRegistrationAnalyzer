@@ -12,14 +12,16 @@
 #include <string>
 #include <vector>
 
+namespace GEO {
+
 /**
  * @enum StringDirection
  */
 enum class StringDirection : uint8_t
 {
-    LEFT  = 1,
+    LEFT = 1,
     RIGHT = 2,
-    BOTH  = 3,
+    BOTH = 3,
 }; // End of StringDirection Enum Class
 
 
@@ -32,9 +34,9 @@ enum class StringDirection : uint8_t
  *
  * @return Resulting string.
  */
-std::string String_Trim( const std::string&     data,
-                         const std::string&     strip_patterns,
-                         const StringDirection& strip_direction);
+std::string String_Trim(const std::string &data,
+                        const std::string &strip_patterns,
+                        const StringDirection &strip_direction);
 
 /**
  * @brief Trim a string.
@@ -44,8 +46,8 @@ std::string String_Trim( const std::string&     data,
  *
  * @return Trimmed string.
  */
-std::string String_Trim( const std::string&     data,
-                         const StringDirection& strip_direction);
+std::string String_Trim(const std::string &data,
+                        const StringDirection &strip_direction);
 
 
 /**
@@ -56,8 +58,8 @@ std::string String_Trim( const std::string&     data,
  *
  * @return Trimmed string.
  */
-std::string String_Trim( const std::string&     data,
-                         const std::string&     strip_pattern );
+std::string String_Trim(const std::string &data,
+                        const std::string &strip_pattern);
 
 
 /**
@@ -67,7 +69,7 @@ std::string String_Trim( const std::string&     data,
  *
  * @return Resulting string.
  */
-std::string String_Trim( const std::string&     data );
+std::string String_Trim(const std::string &data);
 
 
 /**
@@ -78,7 +80,9 @@ std::string String_Trim( const std::string&     data );
  *
  * @return List of strings.
  */
-std::vector<std::string> String_Split( const std::string& data,
-                                       const std::string& pattern = " ");
+std::vector<std::string> String_Split(const std::string&  data,
+                                      const std::string&  pattern = " ");
+
+} // End of GEO Namespace
 
 #endif

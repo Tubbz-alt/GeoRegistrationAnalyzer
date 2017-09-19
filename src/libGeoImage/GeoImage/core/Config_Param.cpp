@@ -26,42 +26,41 @@
 
 namespace bf=boost::filesystem;
 
+namespace GEO {
+
+
 /********************************/
 /*          Constructor         */
 /********************************/
 Config_Param::Config_Param()
-  : m_class_name("Config_Param"),
-    m_key_name(""),
-    m_parent_key(""),
-    m_change_tracking(false),
-    m_has_changed(false)
-{
+        : m_class_name("Config_Param"),
+          m_key_name(""),
+          m_parent_key(""),
+          m_change_tracking(false),
+          m_has_changed(false) {
 }
 
 /********************************/
 /*          Constructor         */
 /********************************/
-Config_Param::Config_Param(const std::string&  key_name,
-                           const std::string&  parent_key,
-                           const bool&         change_tracking )
-  : m_class_name("Config_Param"),
-    m_key_name(key_name),
-    m_parent_key(parent_key),
-    m_change_tracking(change_tracking),
-    m_has_changed(false)
-{
+Config_Param::Config_Param(const std::string &key_name,
+                           const std::string &parent_key,
+                           const bool &change_tracking)
+        : m_class_name("Config_Param"),
+          m_key_name(key_name),
+          m_parent_key(parent_key),
+          m_change_tracking(change_tracking),
+          m_has_changed(false) {
 }
 
 
 /*******************************/
 /*      Get the Parent Key     */
 /*******************************/
-std::string Config_Param::Get_Parent_Key()const
-{
+std::string Config_Param::Get_Parent_Key() const {
     std::string parent_key;
 
-    if( m_parent_key != "")
-    {
+    if (m_parent_key != "") {
         parent_key = m_parent_key + ".";
     }
     parent_key += m_key_name;
@@ -73,8 +72,7 @@ std::string Config_Param::Get_Parent_Key()const
 /****************************************/
 /*          Get the Sub Config          */
 /****************************************/
-std::map<std::string,Config_Param> Config_Param::Get_Sub_Configs()const
-{
+std::map<std::string, Config_Param> Config_Param::Get_Sub_Configs() const {
     // Check if null
     return m_sub_configs;
 }
@@ -83,20 +81,18 @@ std::map<std::string,Config_Param> Config_Param::Get_Sub_Configs()const
 /*************************************************************/
 /*              Get the Configuration File List              */
 /*************************************************************/
-std::map<std::string,std::string> Config_Param::Get_Config_List()const
-{
+std::map<std::string, std::string> Config_Param::Get_Config_List() const {
     // Output maps
-    std::map<std::string,std::string> sub_output;
-    std::map<std::string,std::string> output;
+    std::map<std::string, std::string> sub_output;
+    std::map<std::string, std::string> output;
 
     // Get the parent key
     std::string parent_key = Get_Parent_Key();
     std::string full_key;
 
     // Iterate over kv pairs
-    for( auto it = m_kv_pairs.begin(); it != m_kv_pairs.end(); it++ )
-    {
-        if( parent_key != "" ){
+    for (auto it = m_kv_pairs.begin(); it != m_kv_pairs.end(); it++) {
+        if (parent_key != "") {
             full_key = parent_key + ".";
         }
         full_key += it->first;
@@ -104,12 +100,11 @@ std::map<std::string,std::string> Config_Param::Get_Config_List()const
     }
 
     // Iterate over sub-configs
-    for( auto it = m_sub_configs.begin(); it != m_sub_configs.end(); it++ )
-    {
+    for (auto it = m_sub_configs.begin(); it != m_sub_configs.end(); it++) {
         sub_output = it->second.Get_Config_List();
 
         // Merge the lists
-        output.insert( sub_output.begin(), sub_output.end());
+        output.insert(sub_output.begin(), sub_output.end());
     }
 
     // return full list
@@ -120,9 +115,8 @@ std::map<std::string,std::string> Config_Param::Get_Config_List()const
 /*************************************************/
 /*          Query for a Key/Value Pair           */
 /*************************************************/
-std::string  Config_Param::Query_KV_Pair(const std::string& key_name,
-                                         bool&              value_found )const
-{
+std::string Config_Param::Query_KV_Pair(const std::string &key_name,
+                                        bool &value_found) const {
     // Default values
     std::string output = "";
     value_found = false;
@@ -132,23 +126,19 @@ std::string  Config_Param::Query_KV_Pair(const std::string& key_name,
 
 
     // Check if valid subkeys
-    if( keys.size() > 1 )
-    {
+    if (keys.size() > 1) {
         // Check if sub-config exists
-        if( m_sub_configs.find(keys[0]) != m_sub_configs.end() )
-        {
+        if (m_sub_configs.find(keys[0]) != m_sub_configs.end()) {
             std::string subkey = Pop_Key_Front(key_name);
             output = m_sub_configs.find(keys[0])->second.Query_KV_Pair(subkey,
-                                                                       value_found );
+                                                                       value_found);
         }
     }
 
-    // Otherwise if the base key
-    else if( keys.size() == 1 )
-    {
+        // Otherwise if the base key
+    else if (keys.size() == 1) {
         // Check if the key exists
-        if( m_kv_pairs.find(keys[0]) != m_kv_pairs.end() )
-        {
+        if (m_kv_pairs.find(keys[0]) != m_kv_pairs.end()) {
             output = m_kv_pairs.find(keys[0])->second;
             value_found = true;
         }
@@ -161,11 +151,10 @@ std::string  Config_Param::Query_KV_Pair(const std::string& key_name,
 /*************************************************/
 /*          Query for a Key/Value Pair           */
 /*************************************************/
-void Config_Param::Query_KV_Pair(const std::string& key_name,
-                                 std::string&       value_name,
-                                 const std::string& default_value,
-                                 const bool&        write_if_not_found)
-{
+void Config_Param::Query_KV_Pair(const std::string &key_name,
+                                 std::string &value_name,
+                                 const std::string &default_value,
+                                 const bool &write_if_not_found) {
 
     // split the key
     std::vector<std::string> keys = Parse_Key(key_name);
@@ -175,11 +164,9 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
 
 
     // Check if valid subkeys
-    if( keys.size() > 1 )
-    {
+    if (keys.size() > 1) {
         // Check if sub-config exists
-        if( m_sub_configs.find(keys[0]) != m_sub_configs.end() )
-        {
+        if (m_sub_configs.find(keys[0]) != m_sub_configs.end()) {
             std::string subkey = Pop_Key_Front(key_name);
             m_sub_configs[keys[0]].Query_KV_Pair(subkey,
                                                  value_name,
@@ -187,16 +174,14 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
                                                  write_if_not_found);
         }
 
-        // Otherwise, check if we need to add
-        else if( write_if_not_found )
-        {
+            // Otherwise, check if we need to add
+        else if (write_if_not_found) {
             std::string subkey = Pop_Key_Front(key_name);
             m_sub_configs[keys[0]] = Config_Param(keys[0], Get_Parent_Key(), m_change_tracking);
-            m_sub_configs[keys[0]].Add_KV_Pair( subkey, value_name, "");
+            m_sub_configs[keys[0]].Add_KV_Pair(subkey, value_name, "");
 
             // Detect if we are tracking changes.
-            if( m_change_tracking )
-            {
+            if (m_change_tracking) {
                 m_has_changed = true;
             }
         }
@@ -204,22 +189,18 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
 
     }
 
-    // Otherwise if the base key
-    else if( keys.size() == 1 )
-    {
+        // Otherwise if the base key
+    else if (keys.size() == 1) {
         // Check if the key exists
-        if( m_kv_pairs.find(keys[0]) != m_kv_pairs.end() )
-        {
+        if (m_kv_pairs.find(keys[0]) != m_kv_pairs.end()) {
             value_name = m_kv_pairs[keys[0]];
         }
 
-        // Otherwise, check if we need to add
-        else if( write_if_not_found )
-        {
+            // Otherwise, check if we need to add
+        else if (write_if_not_found) {
             m_kv_pairs[keys[0]] = default_value;
 
-            if( m_change_tracking )
-            {
+            if (m_change_tracking) {
                 m_has_changed = true;
             }
         }
@@ -230,31 +211,27 @@ void Config_Param::Query_KV_Pair(const std::string& key_name,
 /**************************************/
 /*          Add Key/Value Pair        */
 /**************************************/
-void Config_Param::Add_KV_Pair( const std::string&  key_name,
-                                const std::string&  value_name,
-                                const std::string&  comment_name,
-                                const bool&         override )
-{
+void Config_Param::Add_KV_Pair(const std::string &key_name,
+                               const std::string &value_name,
+                               const std::string &comment_name,
+                               const bool &override) {
     // Parse Key
     std::vector<std::string> keys = Parse_Key(key_name);
 
     // Check if valid subkeys
-    if (keys.size() > 1)
-    {
+    if (keys.size() > 1) {
         // Pop the keyname
         std::string subkey = Pop_Key_Front(key_name);
 
         // Make sure the key exists, if not, add
-        if (m_sub_configs.find(keys[0]) == m_sub_configs.end())
-        {
+        if (m_sub_configs.find(keys[0]) == m_sub_configs.end()) {
 
             // Add new key
             m_sub_configs[keys[0]] = Config_Param(keys[0],
                                                   Get_Parent_Key(),
                                                   m_change_tracking);
 
-            if( m_change_tracking )
-            {
+            if (m_change_tracking) {
                 m_has_changed = true;
             }
         }
@@ -266,14 +243,11 @@ void Config_Param::Add_KV_Pair( const std::string&  key_name,
                                            override);
     }
 
-    // Check if one valid key
-    else if (keys.size() == 1)
-    {
+        // Check if one valid key
+    else if (keys.size() == 1) {
         // Check if key exists
-        if (m_kv_pairs.find(keys[0]) != m_kv_pairs.end())
-        {
-            if (override)
-            {
+        if (m_kv_pairs.find(keys[0]) != m_kv_pairs.end()) {
+            if (override) {
                 m_kv_pairs[keys[0]] = value_name;
                 m_comment_pairs[keys[0]] = comment_name;
 
@@ -285,14 +259,12 @@ void Config_Param::Add_KV_Pair( const std::string&  key_name,
 
         }
 
-        // If no matching key is found
-        else
-        {
+            // If no matching key is found
+        else {
             m_kv_pairs[keys[0]] = value_name;
             m_comment_pairs[keys[0]] = comment_name;
 
-            if( m_change_tracking )
-            {
+            if (m_change_tracking) {
                 m_has_changed = true;
             }
         }
@@ -303,17 +275,16 @@ void Config_Param::Add_KV_Pair( const std::string&  key_name,
 /************************************/
 /*          Parse the Key           */
 /************************************/
-std::vector<std::string>  Config_Param::Parse_Key(const std::string &key_name)
+std::vector<std::string> Config_Param::Parse_Key(const std::string& key_name)
 {
     // Create output list
     std::vector<std::string> output;
 
     // Split the string
-    boost::split(output,key_name,boost::is_any_of("."));
+    boost::split(output, key_name, boost::is_any_of("."));
 
     // Check empty strings
-    if( output.size() == 1 && output[0] == "")
-    {
+    if (output.size() == 1 && output[0] == "") {
         output.clear();
     }
 
@@ -325,25 +296,20 @@ std::vector<std::string>  Config_Param::Parse_Key(const std::string &key_name)
 /******************************/
 /*        Subtract Key        */
 /******************************/
-std::string Config_Param::Pop_Key_Front( const std::string& key_name )
+std::string Config_Param::Pop_Key_Front(const std::string& key_name)
 {
     // Remaining Key
     std::string rem_key = "";
 
 
     // Check if subkey is inside key-name
-    if( key_name.size() > 0 )
-    {
+    if (key_name.size() > 0) {
         std::vector<std::string> keylist = Parse_Key(key_name);
-        if( keylist.size() > 1)
-        {
-            rem_key = key_name.substr(keylist[0].size()+1);
-        }
-        else if( keylist.size() == 1 )
-        {
+        if (keylist.size() > 1) {
+            rem_key = key_name.substr(keylist[0].size() + 1);
+        } else if (keylist.size() == 1) {
             rem_key = key_name;
-        }
-        else{
+        } else {
             throw std::runtime_error("Unknown condition");
         }
     }
@@ -354,10 +320,10 @@ std::string Config_Param::Pop_Key_Front( const std::string& key_name )
 /****************************/
 /*      Print to String     */
 /****************************/
-std::string Config_Param::ToString( const int& indent )const
+std::string Config_Param::ToString(const int& indent) const
 {
     // create indent
-    std::string gap( indent, ' ');
+    std::string gap(indent, ' ');
 
     // Create stream
     std::stringstream sin;
@@ -369,12 +335,11 @@ std::string Config_Param::ToString( const int& indent )const
 
     // Print Internal key/value pairs
     sin << gap << " - Internal Key/Value Pairs" << std::endl;
-    for( auto it = m_kv_pairs.cbegin(); it != m_kv_pairs.end(); it++ )
-    {
+    for (auto it = m_kv_pairs.cbegin(); it != m_kv_pairs.end(); it++) {
         std::string key = it->first;
         std::string val = it->second;
         std::string com = "";
-        if( m_comment_pairs.find(key) != m_comment_pairs.end()){
+        if (m_comment_pairs.find(key) != m_comment_pairs.end()) {
             com = m_comment_pairs.find(key)->second;
         }
 
@@ -383,8 +348,7 @@ std::string Config_Param::ToString( const int& indent )const
 
     // Print Sub-Configs
     sin << gap << " - Internal Sub-Configurations" << std::endl;
-    for( auto cf = m_sub_configs.begin(); cf != m_sub_configs.end(); cf++ )
-    {
+    for (auto cf = m_sub_configs.begin(); cf != m_sub_configs.end(); cf++) {
         sin << cf->second.ToString(indent + 4);
     }
 
@@ -401,14 +365,12 @@ std::string Config_Param::ToJsonString() const
     QJsonObject json_base;
 
     // Add each internal kv pairs
-    for( auto kv_pair : m_kv_pairs )
-    {
+    for (auto kv_pair : m_kv_pairs) {
         json_base[kv_pair.first.c_str()] = kv_pair.second.c_str();
     }
 
     // Add each sub-config
-    for( auto subconf : m_sub_configs )
-    {
+    for (auto subconf : m_sub_configs) {
         json_base[subconf.first.c_str()] = subconf.second.ToQJsonObject();
     }
 
@@ -433,8 +395,8 @@ Config_Param Config_Param::FromJsonString(const std::string& json_buffer)
 /********************************************/
 /*          Convert from JSON String        */
 /********************************************/
-Config_Param Config_Param::FromJsonString(const std::string& json_buffer,
-                                          Status&            status )
+Config_Param Config_Param::FromJsonString(const std::string&  json_buffer,
+                                          Status&             status)
 {
     // Initialize Status
     status = Status::SUCCESS();
@@ -446,40 +408,35 @@ Config_Param Config_Param::FromJsonString(const std::string& json_buffer,
     QJsonDocument json_doc = QJsonDocument::fromJson(json_buffer.c_str());
 
     // Parse if Object
-    if( json_doc.isObject())
-    {
+    if (json_doc.isObject()) {
         QJsonObject json_data = json_doc.object();
 
         // Iterate over keys
         QStringList keys = json_data.keys();
-        for( int idx = 0; idx < keys.size(); idx++ )
-        {
+        for (int idx = 0; idx < keys.size(); idx++) {
             // Process String
-            if( json_data[keys[idx]].isString())
-            {
+            if (json_data[keys[idx]].isString()) {
                 // Add to internal kv-pair
                 output.m_kv_pairs[keys[idx].toStdString()] = json_data[keys[idx]].toString().toStdString();
             }
 
                 // Process Object
-            else if(json_data[keys[idx]].isObject())
-            {
-                output.m_sub_configs[keys[idx].toStdString()] = Config_Param::FromQJsonObject(json_data[keys[idx]].toObject());
+            else if (json_data[keys[idx]].isObject()) {
+                output.m_sub_configs[keys[idx].toStdString()] = Config_Param::FromQJsonObject(
+                        json_data[keys[idx]].toObject());
             }
 
                 // Process Array
-            else
-            {
-                status.Append( StatusType::FAILURE,
-                               StatusReason::UNKNOWN,
-                               "Unsupported QJson Type");
+            else {
+                status.Append(StatusType::FAILURE,
+                              StatusReason::UNKNOWN,
+                              "Unsupported QJson Type");
             }
         }
     }
 
     // Parse if Array
-    if(json_doc.isArray() )
-    {
+    if (json_doc.isArray()) {
         std::cout << "Is Array" << std::endl;
     }
 
@@ -490,20 +447,18 @@ Config_Param Config_Param::FromJsonString(const std::string& json_buffer,
 /************************************/
 /*         Convert to QJson         */
 /************************************/
-QJsonObject Config_Param::ToQJsonObject()const
+QJsonObject Config_Param::ToQJsonObject() const
 {
     // Create output object
     QJsonObject output;
 
     // Add each internal kv pairs
-    for( auto kv_pair : m_kv_pairs )
-    {
+    for (auto kv_pair : m_kv_pairs) {
         output[kv_pair.first.c_str()] = kv_pair.second.c_str();
     }
 
     // Add Each Sub-Module
-    for( auto subconf : m_sub_configs )
-    {
+    for (auto subconf : m_sub_configs) {
         output[subconf.first.c_str()] = QJsonValue(subconf.second.ToQJsonObject());
     }
 
@@ -514,32 +469,28 @@ QJsonObject Config_Param::ToQJsonObject()const
 /********************************************/
 /*          Convert from JSON String        */
 /********************************************/
-Config_Param Config_Param::FromQJsonObject(const QJsonObject& json_data)
+Config_Param Config_Param::FromQJsonObject(const QJsonObject &json_data)
 {
     // Create output container
     Config_Param output;
 
     // Iterate over keys
     QStringList keys = json_data.keys();
-    for( int idx = 0; idx < keys.size(); idx++ )
-    {
+    for (int idx = 0; idx < keys.size(); idx++) {
         // Process String
-        if (json_data[keys[idx]].isString())
-        {
+        if (json_data[keys[idx]].isString()) {
             // Add to internal kv-pair
             output.m_kv_pairs[keys[idx].toStdString()] = json_data[keys[idx]].toString().toStdString();
         }
 
             // Process Object
-        else if (json_data[keys[idx]].isObject())
-        {
+        else if (json_data[keys[idx]].isObject()) {
             output.m_sub_configs[keys[idx].toStdString()] = Config_Param::FromQJsonObject(
                     json_data[keys[idx]].toObject());
         }
 
             // Process Array
-        else
-        {
+        else {
             throw std::runtime_error("Unknown type.");
         }
     }
@@ -553,24 +504,20 @@ Config_Param Config_Param::FromQJsonObject(const QJsonObject& json_data)
 void Config_Param::Write_Stream(std::ostream &fout) const
 {
     // Iterate over key/value pairs
-    for( auto p : m_kv_pairs )
-    {
+    for (auto p : m_kv_pairs) {
         // Find key and value
         std::string key = p.first;
         std::string val = p.second;
         std::string full_key;
-        if( m_parent_key != "" ){
+        if (m_parent_key != "") {
             full_key = m_parent_key + "." + m_key_name + "." + key;
-        }
-        else
-        {
+        } else {
             full_key = m_key_name + "." + key;
         }
 
         // Find the comment
         std::string com;
-        if( m_comment_pairs.find(key) != m_comment_pairs.end())
-        {
+        if (m_comment_pairs.find(key) != m_comment_pairs.end()) {
             com = m_comment_pairs.find(key)->second;
         }
 
@@ -581,8 +528,7 @@ void Config_Param::Write_Stream(std::ostream &fout) const
     }
 
     // Iterate over sub-configs
-    for( auto p = m_sub_configs.begin(); p != m_sub_configs.end(); p++ )
-    {
+    for (auto p = m_sub_configs.begin(); p != m_sub_configs.end(); p++) {
         p->second.Write_Stream(fout);
     }
 }
@@ -591,12 +537,11 @@ void Config_Param::Write_Stream(std::ostream &fout) const
 /***************************************/
 /*    Set the Change Tracking Mode     */
 /***************************************/
-void Config_Param::Set_Change_Tracking( const bool& change_tracking )
+void Config_Param::Set_Change_Tracking(const bool &change_tracking)
 {
     m_change_tracking = change_tracking;
 
-    for( auto it = m_sub_configs.begin(); it != m_sub_configs.end(); it++ )
-    {
+    for (auto it = m_sub_configs.begin(); it != m_sub_configs.end(); it++) {
         it->second.Set_Change_Tracking(m_change_tracking);
     }
 
@@ -605,15 +550,14 @@ void Config_Param::Set_Change_Tracking( const bool& change_tracking )
 /*************************************/
 /*      Check if we have changed     */
 /*************************************/
-bool Config_Param::Has_Changed()const {
+bool Config_Param::Has_Changed() const
+{
 
     bool output = m_has_changed;
 
     // Otherwise, check children
-    for (auto p = m_sub_configs.begin(); p != m_sub_configs.end(); p++ )
-    {
-        if( !output )
-        {
+    for (auto p = m_sub_configs.begin(); p != m_sub_configs.end(); p++) {
+        if (!output) {
             output |= p->second.Has_Changed();
         }
     }
@@ -626,79 +570,68 @@ bool Config_Param::Has_Changed()const {
 /*          Parse a Key/Value File         */
 /*******************************************/
 Config_Param Config_Param::Load_Key_Value_File(const std::string &pathname,
-                                               bool&              status )
+                                               bool &status)
 {
     // Create output object
     Config_Param output;
     status = true;
 
     // Check if the file exists
-    if( !bf::exists(bf::path(pathname)))
-    {
+    if (!bf::exists(bf::path(pathname))) {
         status = false;
         std::cerr << "Config File (" << pathname << ") Does Not Exist." << std::endl;
     }
 
         // Otherwise, process
-    else
-    {
+    else {
         // Open the file
         std::ifstream fin;
         fin.open(pathname.c_str());
 
         // Read the first line
         std::string line, trimmed_line;
-        std::getline( fin, line);
+        std::getline(fin, line);
 
         // Misc Params
         bool comment_set = false;
         std::string comment_str;
 
 
-        while( fin.good() )
-        {
+        while (fin.good()) {
             // Trim the string
             trimmed_line = String_Trim(line);
 
             // Skip if Empty
-            if( trimmed_line.size() <= 0 )
-            {
+            if (trimmed_line.size() <= 0) {
             }
 
                 // Check if comment
-            else if( trimmed_line[0] == '#' )
-            {
+            else if (trimmed_line[0] == '#') {
                 // Check if a comment has already been created
-                if(comment_set)
-                {
+                if (comment_set) {
                     comment_str = trimmed_line;
                 }
 
                     // Otherwise, set again
-                else
-                {
+                else {
                     comment_set = true;
                     comment_str = trimmed_line;
                 }
             }
 
                 // Otherwise, check for param
-            else
-            {
+            else {
                 // Split based on equal operator
-                std::vector<std::string> comps = String_Split( trimmed_line,
-                                                               "=");
+                std::vector<std::string> comps = String_Split(trimmed_line,
+                                                              "=");
 
                 // Check if enough comps
-                if( comps.size() < 2 )
-                {
+                if (comps.size() < 2) {
                     std::cerr << "Warning: Line (" << trimmed_line << ") does not have enough components" << std::endl;
                     status = false;
-                }
-                else
-                {
+                } else {
                     // Add the kv pair
-                    output.Add_KV_Pair( comps[0], comps[1], comment_str, false);
+                    output.Add_KV_Pair(comps[0], comps[1], comment_str, false);
 
                     // Clear any comments
                     comment_set = false;
@@ -708,7 +641,7 @@ Config_Param Config_Param::Load_Key_Value_File(const std::string &pathname,
             }
 
             // Get next line
-            getline( fin, line);
+            getline(fin, line);
 
         } // End of while(fin.good)
 
@@ -724,29 +657,29 @@ Config_Param Config_Param::Load_Key_Value_File(const std::string &pathname,
 /****************************************/
 /*          Comparison Operator         */
 /****************************************/
-bool  Config_Param::operator==(const Config_Param &rhs) const
+bool Config_Param::operator==(const Config_Param &rhs) const
 {
     // Check the base-level attributes
-    if( m_key_name        != rhs.m_key_name ) { return false; }
-    if( m_parent_key      != rhs.m_parent_key ){ return false; }
-    if( m_change_tracking != rhs.m_change_tracking ){ return false; }
-    if( m_has_changed     != rhs.m_has_changed){return false; }
+    if (m_key_name != rhs.m_key_name) { return false; }
+    if (m_parent_key != rhs.m_parent_key) { return false; }
+    if (m_change_tracking != rhs.m_change_tracking) { return false; }
+    if (m_has_changed != rhs.m_has_changed) { return false; }
 
     // Check the sub-configs
-    if( m_sub_configs.size() != rhs.m_sub_configs.size()){ return false; }
-    if( !std::equal(m_sub_configs.begin(), m_sub_configs.end(), rhs.m_sub_configs.begin())){
+    if (m_sub_configs.size() != rhs.m_sub_configs.size()) { return false; }
+    if (!std::equal(m_sub_configs.begin(), m_sub_configs.end(), rhs.m_sub_configs.begin())) {
         return false;
     }
 
     // Check the key/value pairs
-    if( m_kv_pairs.size() != rhs.m_kv_pairs.size()){ return false; }
-    if( !std::equal(m_kv_pairs.begin(), m_kv_pairs.end(), rhs.m_kv_pairs.begin())){
+    if (m_kv_pairs.size() != rhs.m_kv_pairs.size()) { return false; }
+    if (!std::equal(m_kv_pairs.begin(), m_kv_pairs.end(), rhs.m_kv_pairs.begin())) {
         return false;
     }
 
     // Check comments
-    if( m_comment_pairs.size() != rhs.m_comment_pairs.size()){ return false; }
-    if( !std::equal(m_comment_pairs.begin(), m_comment_pairs.end(), rhs.m_comment_pairs.begin())){
+    if (m_comment_pairs.size() != rhs.m_comment_pairs.size()) { return false; }
+    if (!std::equal(m_comment_pairs.begin(), m_comment_pairs.end(), rhs.m_comment_pairs.begin())) {
         return false;
     }
 
@@ -754,3 +687,4 @@ bool  Config_Param::operator==(const Config_Param &rhs) const
     return true;
 }
 
+} // End of GEO Namespace

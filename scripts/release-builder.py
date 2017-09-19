@@ -94,6 +94,10 @@ def Build_Release_Structure( options ):
                 options.install_base_path + '/bin/geo-viewer')
     shutil.copy(options.build_dir + '/bin/geo-registration-analyzer',
                 options.install_base_path + '/bin/geo-registration-analyzer')
+    shutil.copy(options.build_dir + '/bin/lib-geo-image-unit-tests',
+                options.install_base_path + '/bin/lib-geo-image-unit-tests')
+    shutil.copy(options.build_dir + '/bin/lib-geo-viewer-unit-tests',
+                options.install_base_path + '/bin/lib-geo-viewer-unit-tests')
 
 
 #-----------------------------------#

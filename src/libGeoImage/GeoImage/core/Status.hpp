@@ -3,8 +3,8 @@
  * @author  Marvin Smith
  * @date    6/3/2017
  */
-#ifndef LIB_GEO_VIEWER_CORE_STATUS_HPP
-#define LIB_GEO_VIEWER_CORE_STATUS_HPP
+#ifndef LIB_GEO_IMAGE_CORE_STATUS_HPP
+#define LIB_GEO_IMAGE_CORE_STATUS_HPP
 
 // C++ Libraries
 #include <cinttypes>
@@ -16,16 +16,17 @@
 // Project Libraries
 #include "StatusReason.hpp"
 
+namespace GEO {
 
 /**
  * @enum StatusType
  */
 enum class StatusType : int8_t
 {
-        UNKNOWN = 0 /**< This should be an error condition.*/,
-        SUCCESS = 1 /**< No errors or failures*/,
-        WARNING = 2 /**< Minor issues*/,
-        FAILURE = 3 /**< Fail state.*/,
+    UNKNOWN = 0 /**< This should be an error condition.*/,
+    SUCCESS = 1 /**< No errors or failures*/,
+    WARNING = 2 /**< Minor issues*/,
+    FAILURE = 3 /**< Fail state.*/,
 };
 
 
@@ -34,7 +35,7 @@ enum class StatusType : int8_t
  * @param status_type
  * @return
  */
-std::string StatusTypeToString( const StatusType& status_type );
+std::string StatusTypeToString(const StatusType &status_type);
 
 
 /**
@@ -42,7 +43,7 @@ std::string StatusTypeToString( const StatusType& status_type );
  * @param status_type
  * @return
  */
-StatusType StringToStatusType( const std::string& status_type );
+StatusType StringToStatusType(const std::string &status_type);
 
 
 /**
@@ -61,13 +62,13 @@ class Status
         /**
          * @brief Parameterized Constructor
          */
-        Status( const StatusType&   status_type,
-                const StatusReason& status_reason,
-                const std::string&  status_details )
-           : m_class_name("Status"),
-             m_status_type(status_type),
-             m_status_reason(status_reason),
-             m_status_details(status_details)
+        Status(const StatusType &status_type,
+               const StatusReason &status_reason,
+               const std::string &status_details)
+            : m_class_name("Status"),
+              m_status_type(status_type),
+              m_status_reason(status_reason),
+              m_status_details(status_details)
         {
         }
 
@@ -75,12 +76,12 @@ class Status
         /**
          * @brief
          */
-        inline StatusType Get_Status_Type()const{
+        inline StatusType Get_Status_Type() const {
             return m_status_type;
         }
 
 
-        inline StatusReason Get_Status_Reason()const{
+        inline StatusReason Get_Status_Reason() const {
             return m_status_reason;
         }
 
@@ -90,7 +91,7 @@ class Status
          *
          * @return
          */
-        inline std::string Get_Status_Details()const{
+        inline std::string Get_Status_Details() const {
             return m_status_details;
         }
 
@@ -98,27 +99,27 @@ class Status
         /**
          * @brief Append Status
          */
-        void Append( const Status& new_status );
+        void Append(const Status &new_status);
 
 
         /**
          * @brief Append Status Components
          */
-        void Append( const StatusType&    status_type,
-                     const StatusReason&  status_reason,
-                     const std::string&   status_details );
+        void Append(const StatusType &status_type,
+                    const StatusReason &status_reason,
+                    const std::string &status_details);
 
 
         /**
          * @brief Append Operator
          */
-        void operator += ( const Status& status );
+        void operator+=(const Status &status);
 
 
         /**
          * @brief Check if not a failure
          */
-        inline bool Not_Failure()const{
+        inline bool Not_Failure() const {
             return (m_status_type == StatusType::SUCCESS ||
                     m_status_type == StatusType::WARNING);
         }
@@ -127,29 +128,29 @@ class Status
         /**
          * @brief Check if not a success
          */
-        inline bool Not_Success()const{
-            return (m_status_type != StatusType::SUCCESS );
+        inline bool Not_Success() const {
+            return (m_status_type != StatusType::SUCCESS);
         }
 
 
         /**
          * @brief Check if a success
          */
-        inline bool Is_Success()const{
-            return (m_status_type == StatusType::SUCCESS );
+        inline bool Is_Success() const {
+            return (m_status_type == StatusType::SUCCESS);
         }
 
 
         /**
          * @brief Print to Log String
          */
-        std::string To_Log_String( const int& indent = 0 )const;
+        std::string To_Log_String(const int &indent = 0) const;
 
 
         /**
          * @brief To Pretty String
          */
-        std::string To_Pretty_String( const int& indent = 0 ) const;
+        std::string To_Pretty_String(const int &indent = 0) const;
 
 
         /**
@@ -158,9 +159,9 @@ class Status
          */
         inline static Status SUCCESS()
         {
-            return Status( StatusType::SUCCESS,
-                           StatusReason::NO_ERRORS,
-                           "");
+                return Status(StatusType::SUCCESS,
+                              StatusReason::NO_ERRORS,
+                              "");
         }
 
     private:
@@ -184,5 +185,6 @@ class Status
         bool m_status_appended;
 };
 
+} // End of GEO Namespace
 
 #endif

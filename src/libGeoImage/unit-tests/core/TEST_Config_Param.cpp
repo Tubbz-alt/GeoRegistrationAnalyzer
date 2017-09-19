@@ -178,12 +178,10 @@ TEST( Config_Param, ToJsonString )
     config.Add_KV_Pair("test02.value2.hello", "expect_04");
     config.Add_KV_Pair("test03","expect_05");
 
-    std::cout << config.ToJsonString() << std::endl;
 
     // COnvert to new COnfig Param
     Config_Param new_config = Config_Param::FromJsonString(config.ToJsonString());
 
-    std::cout << new_config.ToJsonString() << std::endl;
 
     ASSERT_EQ( config.ToJsonString(), new_config.ToJsonString());
 }

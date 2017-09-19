@@ -99,6 +99,12 @@ class GeoViewerLocalWindow : public QFrame
 
 
         /**
+         * @brief Update Configuration
+         */
+        void Update_Configuration();
+
+
+        /**
          * @brief Window Bounds have Changed
          */
         void Bounds_Changed();

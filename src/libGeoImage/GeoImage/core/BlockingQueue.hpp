@@ -3,14 +3,16 @@
  * @author  Marvin Smith
  * @date    4/17/2017
 */
-#ifndef BLOCKING_QUEUE_HPP
-#define BLOCKING_QUEUE_HPP
+#ifndef LIB_GEO_IMAGE_CORE_BLOCKING_QUEUE_HPP
+#define LIB_GEO_IMAGE_CORE_BLOCKING_QUEUE_HPP
 
 // C++ Libraries
 #include <mutex>
 #include <queue>
 #include <condition_variable>
 
+
+namespace GEO {
 
 /**
  * @class Blocking_Queue
@@ -25,8 +27,7 @@
  *
  */
 template<class T>
-class Blocking_Queue
-{
+class Blocking_Queue {
 
     public:
 
@@ -34,17 +35,15 @@ class Blocking_Queue
          * @brief Default Constructor
          */
         Blocking_Queue()
-          : m_break(false),
-            m_complete(false)
-        {
+                : m_break(false),
+                  m_complete(false) {
         }
 
 
         /**
          * @brief Clear the Queue
          */
-        void Clear()
-        {
+        void Clear() {
             // Release all waiting queue pops
             {
                 std::unique_lock<std::mutex> lock{m_mutex};
@@ -57,7 +56,7 @@ class Blocking_Queue
             {
                 std::unique_lock<std::mutex> lock{m_mutex};
                 std::queue<T> empty;
-                std::swap( m_queue, empty );
+                std::swap(m_queue, empty);
                 m_break = false;
                 m_complete = false;
             }
@@ -68,8 +67,7 @@ class Blocking_Queue
          * @brief Get the Size of the queue.
          * @return
          */
-        size_t Size()
-        {
+        size_t Size() {
             // Lock the method
             std::unique_lock<std::mutex> lock{m_mutex};
 
@@ -82,15 +80,11 @@ class Blocking_Queue
          *
          * @return True if successful, false if not initialized or full.
          */
-        bool Push(T&& value)
-        {
+        bool Push(T &&value) {
             std::unique_lock<std::mutex> lock{m_mutex};
-            if(m_break || m_complete)
-            {
+            if (m_break || m_complete) {
                 return false;
-            }
-            else
-            {
+            } else {
                 m_queue.push(value);
                 m_cv.notify_one();
                 return true;
@@ -101,15 +95,12 @@ class Blocking_Queue
         /**
          * @brief Push value onto queue.
          */
-        bool Push(const T& value)
+        bool Push(const T &value) 
         {
             std::unique_lock<std::mutex> lock{m_mutex};
-            if(m_break || m_complete)
-            {
+            if (m_break || m_complete) {
                 return false;
-            }
-            else
-            {
+            } else {
                 m_queue.push(value);
                 m_cv.notify_one();
                 return true;
@@ -123,20 +114,14 @@ class Blocking_Queue
          * @param value
          * @return
          */
-        bool Try_Pop(T& value)
-        {
+        bool Try_Pop(T &value) {
             std::unique_lock<std::mutex> lock{m_mutex};
 
-            if(m_break)
-            {
+            if (m_break) {
                 return false;
-            }
-            else if(m_queue.empty())
-            {
+            } else if (m_queue.empty()) {
                 return false;
-            }
-            else
-            {
+            } else {
                 value = m_queue.front();
                 m_queue.pop();
                 return true;
@@ -149,26 +134,20 @@ class Blocking_Queue
          * @param value
          * @return
          */
-        bool Pop(T& value)
+        bool Pop(T &value) 
         {
             std::unique_lock<std::mutex> lock{m_mutex};
-            m_cv.wait( lock, [this]
-                               {
-                                  if( m_complete ) return true;
-                                  else if( m_break ) return true;
-                                  else return (!m_queue.empty() );
-                               });
+            m_cv.wait(lock, [this] {
+                if (m_complete) return true;
+                else if (m_break) return true;
+                else return (!m_queue.empty());
+            });
 
-            if(m_break)
-            {
+            if (m_break) {
                 return false;
-            }
-            else if(m_complete && m_queue.empty() )
-            {
+            } else if (m_complete && m_queue.empty()) {
                 return false;
-            }
-            else
-            {
+            } else {
                 value = m_queue.front();
                 m_queue.pop();
                 return true;
@@ -179,8 +158,7 @@ class Blocking_Queue
         /**
          * @brief Start or Initialize the Blocking Queue
          */
-        void Start()
-        {
+        void Start() {
             Validate();
         }
 
@@ -188,8 +166,7 @@ class Blocking_Queue
         /**
          * @brief Complete actions on the queue
          */
-        void Complete()
-        {
+        void Complete() {
             std::unique_lock<std::mutex> lock{m_mutex};
             m_complete = true;
             m_cv.notify_all();
@@ -200,8 +177,7 @@ class Blocking_Queue
         /**
          * @brief Invalidate the Queue, causing
          */
-        void Invalidate()
-        {
+        void Invalidate() {
             std::unique_lock<std::mutex> lock{m_mutex};
             m_break = true;
             m_complete = false;
@@ -212,8 +188,7 @@ class Blocking_Queue
         /**
          * @brief Validate data on the queue / Re-Initialize
          */
-        void Validate()
-        {
+        void Validate() {
             std::unique_lock<std::mutex> lock{m_mutex};
             m_break = false;
             m_complete = false;
@@ -224,11 +199,10 @@ class Blocking_Queue
          * @brief Check if working / valid.
          * @return
          */
-        bool Is_Valid()
-        {
+        bool Is_Valid() {
             std::unique_lock<std::mutex> lock{m_mutex};
-            if(m_break) return false;
-            if(m_complete) return false;
+            if (m_break) return false;
+            if (m_complete) return false;
             else return true;
         }
 
@@ -237,7 +211,7 @@ class Blocking_Queue
          *
          * @return
          */
-        bool Is_Complete()const{
+        bool Is_Complete() const {
             return m_complete;
         }
 
@@ -245,7 +219,7 @@ class Blocking_Queue
         /**
          * @brief
          */
-        bool Is_Invalid()const{
+        bool Is_Invalid() const {
             return m_break;
         }
 
@@ -260,5 +234,6 @@ class Blocking_Queue
 
 };
 
+} // End of GEO Namespace
 
 #endif

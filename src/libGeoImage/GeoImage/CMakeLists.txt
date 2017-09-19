@@ -4,6 +4,12 @@
 #
 
 
+#-----------------------------------#
+#-        Add Core Library         -#
+#-----------------------------------#
+add_subdirectory(core)
+
+
 #------------------------------------#
 #-      Add Coordinate Library      -#
 #------------------------------------#
@@ -14,3 +20,9 @@ add_subdirectory(coordinate)
 #-        Add Image Library         -#
 #------------------------------------#
 add_subdirectory(image)
+
+
+#------------------------------------#
+#-        Add Utility Library       -#
+#------------------------------------#
+add_subdirectory(utility)

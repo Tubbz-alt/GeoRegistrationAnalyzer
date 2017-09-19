@@ -21,6 +21,8 @@ std::string OpenCV_Depth_Type_To_String( const int& cv_type )
             return "CV_8UC2";
         case CV_8UC3:
             return "CV_8UC3";
+        case CV_8UC4:
+            return "CV_8UC4";
         case CV_16UC1:
             return "CV_16UC1";
         case CV_16UC2:
@@ -51,6 +53,10 @@ std::string OpenCV_ColorConversionCodeToString( const int& cv_type )
             return "COLOR_GRAY2RGBA";
         case cv::COLOR_RGB2RGBA:
             return "COLOR_RGB2RGBA";
+        case cv::COLOR_RGB2BGRA:
+            return "COLOR_RGB2BGRA";
+        case cv::COLOR_RGBA2BGRA:
+            return "COLOR_RGBA2BGRA";
         default:
             return "UNKNOWN";
     }

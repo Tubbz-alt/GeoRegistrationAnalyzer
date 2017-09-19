@@ -71,6 +71,19 @@ find_package( OpenCV REQUIRED core highgui imgproc )
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 
+#----------------------------#
+#-      Configure Qt5       -#
+#----------------------------#
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+
+find_package(Qt5Core        REQUIRED)
+
+include_directories(${Qt5Core_INCLUDE_DIRS})
 
 
 #---------------------------------#
@@ -97,6 +110,8 @@ add_library( GeoImage SHARED
         ${LIB_GEO_IMAGE_SOURCES}
         ${LIB_GEO_IMAGE_HEADERS}
         $<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_OBJ>
+		$<TARGET_OBJECTS:LIB_GEO_IMAGE_CORE_OBJ>
+        $<TARGET_OBJECTS:LIB_GEO_IMAGE_UTIL_OBJ>
         )
 
 
@@ -105,6 +120,7 @@ target_link_libraries( GeoImage
         ${Boost_LIBRARIES}
         ${GDAL_LIBRARY}
         ${OpenCV_LIBS}
+        Qt5::Core
    )
 
 
@@ -123,7 +139,9 @@ if( NOT SKIP_UNIT_TESTS )
 	#--------------------------------------#
 	add_executable(lib-geo-image-unit-tests
 		    unit-tests/lib-geo-image-unit-tests.cpp
-			$<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_TEST_OBJ> )
+			$<TARGET_OBJECTS:LIB_GEO_IMAGE_COORD_TEST_OBJ>
+            $<TARGET_OBJECTS:LIB_GEO_IMAGE_CORE_TEST_OBJ>
+    )
 
 	target_link_libraries(lib-geo-image-unit-tests
 		    GeoImage

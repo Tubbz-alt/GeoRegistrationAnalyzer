@@ -39,6 +39,9 @@ GeoViewerLocalWindow::GeoViewerLocalWindow( const std::string&          base_con
     m_render_worker = std::make_shared<LOCAL::RenderWorker>(base_config_profile,
                                                             sys_config);
 
+    // Update the Configuration
+    Update_Configuration();
+
     // Initialize the Frame
     Initialize_Frame();
 
@@ -321,6 +324,16 @@ void GeoViewerLocalWindow::Bounds_Changed()
 {
     // Notify to Update Scene
     emit Request_Update_Scene();
+}
+
+
+/********************************************/
+/*          Update Configuration            */
+/********************************************/
+void GeoViewerLocalWindow::Update_Configuration()
+{
+    // Set the Default Projection
+    Get_Default_Projection();
 }
 
 

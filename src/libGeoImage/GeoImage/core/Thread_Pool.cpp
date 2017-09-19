@@ -10,30 +10,28 @@
 #include <iostream>
 //#include <unistd.h>
 
+namespace GEO {
 
 
 /***************************************/
 /*             Constructor             */
 /***************************************/
 Worker_Thread::Worker_Thread()
-  : m_class_name("Worker_Thread"),
-    m_is_running(false)
-{
+        : m_class_name("Worker_Thread"),
+          m_is_running(false) {
 }
 
 
 /***************************************/
 /*              Destructor             */
 /***************************************/
-Worker_Thread::~Worker_Thread()
-{
+Worker_Thread::~Worker_Thread() {
 }
 
 /***************************************/
 /*        Worker Thread Execute        */
 /***************************************/
-int Worker_Thread::Execute()
-{
+int Worker_Thread::Execute() {
     return 0;
 }
 
@@ -41,15 +39,13 @@ int Worker_Thread::Execute()
 /***************************************/
 /*          Default Constructor        */
 /***************************************/
-Thread_Pool::Thread_Pool( const int& max_threads )
-  : m_class_name("Thread_Pool"),
-    m_pool_size(max_threads),
-    m_pool_state((int)ThreadPoolStatusType::POOL_STOPPED),
-    m_number_assigned_workers(0)
-{
+Thread_Pool::Thread_Pool(const int &max_threads)
+        : m_class_name("Thread_Pool"),
+          m_pool_size(max_threads),
+          m_pool_state((int) ThreadPoolStatusType::POOL_STOPPED),
+          m_number_assigned_workers(0) {
     // Make sure we have a minimum number
-    if( m_pool_size < 1 )
-    {
+    if (m_pool_size < 1) {
         m_pool_size = 1;
     }
 
@@ -61,13 +57,12 @@ Thread_Pool::Thread_Pool( const int& max_threads )
 /**************************************/
 /*             Destructor             */
 /**************************************/
-Thread_Pool::~Thread_Pool(){
+Thread_Pool::~Thread_Pool() {
 
     // Clear the work queue
-    if( m_pool_state != (int)ThreadPoolStatusType::POOL_STOPPED )
-    {
+    if (m_pool_state != (int) ThreadPoolStatusType::POOL_STOPPED) {
         bool status;
-        Destroy_Pool( status );
+        Destroy_Pool(status);
     }
 }
 
@@ -75,8 +70,7 @@ Thread_Pool::~Thread_Pool(){
 /**************************************/
 /*      Get Remaining Work Jobs       */
 /**************************************/
-uint64_t Thread_Pool::Get_Remaining_Work()
-{
+uint64_t Thread_Pool::Get_Remaining_Work() {
     return m_queue.Size();
 }
 
@@ -84,10 +78,8 @@ uint64_t Thread_Pool::Get_Remaining_Work()
 /****************************************************/
 /*         Check if Thread Pool is Running          */
 /****************************************************/
-bool Thread_Pool::Is_Running()const
-{
-    if( m_pool_state == (int)ThreadPoolStatusType::POOL_STARTED )
-    {
+bool Thread_Pool::Is_Running() const {
+    if (m_pool_state == (int) ThreadPoolStatusType::POOL_STARTED) {
         return true;
     }
     return false;
@@ -97,21 +89,19 @@ bool Thread_Pool::Is_Running()const
 /******************************************/
 /*              Initialize                */
 /******************************************/
-void Thread_Pool::Initialize( bool& status )
-{
+void Thread_Pool::Initialize(bool &status) {
     // Initialize the thread pool
     status = true;
 
     // Set the state
-    m_pool_state = (int)ThreadPoolStatusType::POOL_STARTED;
-    
+    m_pool_state = (int) ThreadPoolStatusType::POOL_STARTED;
+
     // Set the return and create threads
     int ret = -1;
-    for( int i=0; i<m_pool_size; i++ )
-    {
+    for (int i = 0; i < m_pool_size; i++) {
         // Create the thread
         std::cout << "Creating thread " << i << std::endl;
-        m_threads[i] = std::thread( &Thread_Pool::Execute_Thread, this );
+        m_threads[i] = std::thread(&Thread_Pool::Execute_Thread, this);
     }
 
 }
@@ -120,8 +110,7 @@ void Thread_Pool::Initialize( bool& status )
 /****************************************************/
 /*                  Destroy the pool                */
 /****************************************************/
-void Thread_Pool::Destroy_Pool( bool& status )
-{
+void Thread_Pool::Destroy_Pool(bool &status) {
     // Initialize the Status
     status = true;
 
@@ -129,8 +118,8 @@ void Thread_Pool::Destroy_Pool( bool& status )
     m_mutex.lock();
 
     // Set the state
-    m_pool_state = (int)ThreadPoolStatusType::POOL_STOPPED;
-        
+    m_pool_state = (int) ThreadPoolStatusType::POOL_STOPPED;
+
     // Unlock Mutex
     m_mutex.unlock();
 
@@ -139,16 +128,14 @@ void Thread_Pool::Destroy_Pool( bool& status )
 
     // Set our return variable
     int ret = -1;
-    for( int i=0; i< m_pool_size; i++ )
-    {
+    for (int i = 0; i < m_pool_size; i++) {
         // Join the thread
-        if( m_threads[i].joinable() )
-        {
+        if (m_threads[i].joinable()) {
             m_threads[i].join();
         }
         m_condv.notify_all();
     }
-    
+
     // Clear each worker
     m_queue.Clear();
     m_queue.Complete();
@@ -161,8 +148,7 @@ void Thread_Pool::Destroy_Pool( bool& status )
 /***********************************************************************/
 /*          Wait until the Thread Pool has finished all work           */
 /***********************************************************************/
-void Thread_Pool::Wait_Until_Pool_Empty( bool& status )
-{
+void Thread_Pool::Wait_Until_Pool_Empty(bool &status) {
     // Initialize Status
     status = true;
 
@@ -174,13 +160,12 @@ void Thread_Pool::Wait_Until_Pool_Empty( bool& status )
 
     //  Wait for workers to complete
     std::cout << "Waiting for Assigned Workers to Complete" << std::endl;
-    while( m_number_assigned_workers > 0 )
-    {
+    while (m_number_assigned_workers > 0) {
         // Create the lock
         std::unique_lock<std::mutex> lck(m_number_assigned_workers_mutex);
 
         // Wait
-        m_number_assigned_workers_cv.wait(lck, [this]{return m_number_assigned_workers <= 0; });
+        m_number_assigned_workers_cv.wait(lck, [this] { return m_number_assigned_workers <= 0; });
     }
 
     std::cout << "Assigned Workers Completed" << std::endl;
@@ -192,36 +177,31 @@ void Thread_Pool::Wait_Until_Pool_Empty( bool& status )
 /***********************************************/
 /*              Execute the Thread             */
 /***********************************************/
-void Thread_Pool::Execute_Thread()
-{
+void Thread_Pool::Execute_Thread() {
     // Create Task
     Worker_Thread::ptr_t worker_thread = nullptr;
     bool status;
 
     // Work until done
-    while( m_pool_state != (int)ThreadPoolStatusType::POOL_STOPPED )
-    {
+    while (m_pool_state != (int) ThreadPoolStatusType::POOL_STOPPED) {
 
         // Pop an item from the queue
-        status = m_queue.Pop( worker_thread );
+        status = m_queue.Pop(worker_thread);
 
         // Make sure there was not a problem
-        if( !status || worker_thread == nullptr )
-        {
+        if (!status || worker_thread == nullptr) {
             std::cout << "Work Queue Popped item with error." << std::endl;
             continue;
         }
 
-        // Otherwise, if no errors, check run state
-        else if( m_pool_state == (int)ThreadPoolStatusType::POOL_STOPPED )
-        {
+            // Otherwise, if no errors, check run state
+        else if (m_pool_state == (int) ThreadPoolStatusType::POOL_STOPPED) {
             std::cout << "Pool has stopped.  Exiting." << std::endl;
         }
 
 
-        // Otherwise, continue
-        else
-        {
+            // Otherwise, continue
+        else {
             // Execute the Task
             worker_thread->Set_Running_Flag(true);
             m_number_assigned_workers++;
@@ -237,25 +217,22 @@ void Thread_Pool::Execute_Thread()
         }
 
     }
-    
+
 }
 
 
 /***********************************************/
 /*          Assign Work to the Queue           */
 /***********************************************/
-void Thread_Pool::Assign_Work( Worker_Thread::ptr_t new_thread )
-{
-    
+void Thread_Pool::Assign_Work(Worker_Thread::ptr_t new_thread) {
+
     // Make sure the new worker is not null
-    if( new_thread == nullptr )
-    {
+    if (new_thread == nullptr) {
 
     }
 
-    // Otherwise, continue
-    else
-    {
+        // Otherwise, continue
+    else {
         // Add the work
         m_queue.Push(new_thread);
     }
@@ -265,18 +242,16 @@ void Thread_Pool::Assign_Work( Worker_Thread::ptr_t new_thread )
 /********************************************/
 /*      Get the list of running threads     */
 /********************************************/
-uint64_t Thread_Pool::Get_Current_Running_Threads()
-{
+uint64_t Thread_Pool::Get_Current_Running_Threads() {
     return m_threads.size();
 }
-            
+
 
 /***********************************************/
 /*          Count Work in  the Queue           */
 /***********************************************/
-int Thread_Pool::Get_Current_Work_Items()
-{
+int Thread_Pool::Get_Current_Work_Items() {
     return m_number_assigned_workers;
 }
-            
 
+} // End of GEO Namespace
